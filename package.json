@@ -1,0 +1,20 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "A minimal, accessible portfolio built with Eleventy",
+  "main": "index.js",
+  "scripts": {
+    "dev": "eleventy --serve --watch",
+    "build": "NODE_ENV=production eleventy",
+    "check": "echo 'TODO: Add html-validate and pa11y-ci checks' && echo 'For now, manually check with Lighthouse or browser dev tools'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["eleventy", "portfolio", "accessibility", "performance"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.0",
+    "@11ty/eleventy-img": "^4.0.0",
+    "html-minifier-terser": "^7.0.0"
+  }
+}

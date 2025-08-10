@@ -1,0 +1,9 @@
+{
+  "site": {
+    "title": "Portfolio",
+    "description": "A minimal, accessible portfolio built with Eleventy",
+    "url": "https://example.com",
+    "author": "Your Name"
+  },
+  "titleTemplate": "%s | Portfolio"
+}
