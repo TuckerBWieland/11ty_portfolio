@@ -41,7 +41,7 @@ module.exports = {
         '30': '120px',   // 7.5rem - for company buttons
         '32': '128px',   // 8rem
         '36': '143px',   // 8.94rem
-        '69': '275px',   // 17.19rem
+        '69': '275px',   // 17.19rem - for hero text positioning
         '338': '1352px', // 84.5rem
         '360': '1440px', // 90rem
       },
