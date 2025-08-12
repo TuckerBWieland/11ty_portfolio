@@ -4,17 +4,49 @@ title: Home
 description: Welcome to my portfolio - a showcase of my work and skills
 ---
 
-<div class="container">
-  <h1>Welcome to My Portfolio</h1>
+<!-- Hero Section -->
+<section class="hero-section relative min-h-screen flex items-center justify-center overflow-hidden">
+  <!-- Background Image -->
+  <div class="absolute inset-0 z-0">
+    <div class="w-full h-full bg-gradient-to-br from-background-primary to-background-secondary opacity-90"></div>
+  </div>
   
-  <p>This is a minimal, accessible portfolio built with Eleventy. It prioritizes performance, accessibility, and maintainability.</p>
+  <!-- Hero Content -->
+  <div class="container-custom relative z-10">
+    <div class="hero-content max-w-content mx-auto">
+      <!-- Hero Text -->
+      <div class="hero-text-container mb-16">
+        <h1 class="hero-text leading-hero font-helvetica font-bold text-text-primary">
+          <span class="block">LOST</span>
+          <span class="block ml-69">IN</span>
+          <span class="block ml-69">CHAOS?</span>
+        </h1>
+      </div>
+      
+      <!-- Hero Subtitle -->
+      <div class="hero-subtitle max-w-lg">
+        <p class="body-text-lg text-text-primary leading-body-lg font-ibm-mono font-medium">
+          Strategy & Operations Executive. I help companies transform messy ideas into scalable systems that drive growth.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content Sections -->
+<div class="container-custom">
+  <section class="section">
+    <h2 class="section-title">Featured Work</h2>
+    <p class="body-text text-center mb-8">Check out my latest projects in the <a href="/work/" class="text-accent-orange hover:text-accent-blue transition-colors duration-200">work section</a>.</p>
+  </section>
   
-  <h2>Featured Work</h2>
-  <p>Check out my latest projects in the <a href="/work/">work section</a>.</p>
+  <section class="section">
+    <h2 class="section-title">About Me</h2>
+    <p class="body-text text-center mb-8">Learn more <a href="/about/" class="text-accent-orange hover:text-accent-blue transition-colors duration-200">about my background and skills</a>.</p>
+  </section>
   
-  <h2>About Me</h2>
-  <p>Learn more <a href="/about/">about my background and skills</a>.</p>
-  
-  <h2>Get in Touch</h2>
-  <p>Ready to work together? <a href="/contact/">Contact me</a> to discuss your project.</p>
+  <section class="section">
+    <h2 class="section-title">Get in Touch</h2>
+    <p class="body-text text-center mb-8">Ready to work together? <a href="/contact/" class="text-accent-orange hover:text-accent-blue transition-colors duration-200">Contact me</a> to discuss your project.</p>
+  </section>
 </div>

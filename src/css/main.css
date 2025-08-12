@@ -45,6 +45,36 @@
 
 /* Component styles */
 @layer components {
+  /* Hero section styles */
+  .hero-section {
+    @apply relative min-h-screen flex items-center justify-center overflow-hidden;
+    background: linear-gradient(135deg, #242128 0%, #252229 100%);
+  }
+  
+  .hero-content {
+    @apply max-w-content mx-auto;
+  }
+  
+  .hero-text-container {
+    @apply mb-16;
+  }
+  
+  .hero-text {
+    @apply text-text-primary font-helvetica font-bold;
+    font-size: clamp(4rem, 12vw, 200px);
+    line-height: clamp(4.4rem, 12.6vw, 210px);
+  }
+  
+  .hero-subtitle {
+    @apply max-w-lg;
+  }
+  
+  .hero-subtitle p {
+    @apply text-text-primary font-ibm-mono font-medium;
+    font-size: clamp(1.125rem, 2.25vw, 24px);
+    line-height: clamp(1.5rem, 3vw, 32px);
+  }
+  
   /* Custom button styles */
   .btn-custom {
     @apply btn;
@@ -110,16 +140,6 @@
   .nav-link:hover::after,
   .nav-link.active::after {
     width: 100%;
-  }
-  
-  /* Hero section styles */
-  .hero-section {
-    @apply min-h-screen flex items-center justify-center;
-    background: linear-gradient(135deg, #242128 0%, #252229 100%);
-  }
-  
-  .hero-text-container {
-    @apply text-center space-y-8;
   }
   
   /* Project card styles */
@@ -375,8 +395,13 @@
 /* Responsive utilities */
 @media (max-width: 768px) {
   .hero-text {
-    @apply text-6xl;
-    line-height: 1.1;
+    font-size: clamp(3rem, 8vw, 8rem);
+    line-height: clamp(3.3rem, 8.8vw, 8.4rem);
+  }
+  
+  .hero-subtitle p {
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    line-height: clamp(1.3rem, 2.6vw, 2rem);
   }
   
   .display-text {
@@ -403,11 +428,25 @@
   .about-content {
     @apply grid-cols-1 gap-8;
   }
+  
+  .hero-text-container {
+    @apply mb-8;
+  }
+  
+  .hero-subtitle {
+    @apply max-w-md;
+  }
 }
 
 @media (max-width: 480px) {
   .hero-text {
-    @apply text-4xl;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: clamp(2.75rem, 6.6vw, 4.2rem);
+  }
+  
+  .hero-subtitle p {
+    font-size: clamp(0.875rem, 1.75vw, 1.125rem);
+    line-height: clamp(1.125rem, 2.25vw, 1.5rem);
   }
   
   .display-text {
@@ -424,5 +463,13 @@
   
   .contact-grid {
     @apply grid-cols-1;
+  }
+  
+  .hero-text-container {
+    @apply mb-6;
+  }
+  
+  .hero-subtitle {
+    @apply max-w-sm;
   }
 }
