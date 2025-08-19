@@ -17,14 +17,15 @@ module.exports = {
           primary: '#ffffff',
           secondary: 'rgba(255, 255, 255, 0.5)',
         },
-        // Accent colors
-        'accent': {
-          orange: '#f87c46',
-          blue: '#629fde',
-          pink: '#f45cb3',
-          green: '#27ae60',
-          yellow: '#f1c40f', // Added yellow from the design
-        },
+        // Accent colors (from Figma)
+        'orange': '#f87c46',
+        'blue': '#629fde', 
+        'pink': '#f45cb3',
+        'green': '#27ae60',
+        'yellow': '#e6c95d',
+        'red': '#ff3333',
+        'gray': '#808080',
+        'lines': '#6a686c',
         // UI elements
         'ui': {
           border: '#808080',
@@ -46,11 +47,11 @@ module.exports = {
         '360': '1440px', // 90rem
       },
       
-      // Custom font families
-      fontFamily: {
-        'helvetica': ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
-        'ibm-mono': ['IBM Plex Mono', 'monospace'],
-      },
+              // Custom font families
+        fontFamily: {
+          'helvetica': ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+          'mono': ['IBM Plex Mono', 'monospace'],
+        },
       
       // Custom font sizes matching Figma design with responsive scaling
       fontSize: {
@@ -265,7 +266,7 @@ module.exports = {
           borderRadius: theme('borderRadius.none'),
           border: `1px solid ${theme('colors.ui.stroke')}`,
           fontSize: theme('fontSize.button'),
-          fontFamily: theme('fontFamily.ibm-mono'),
+          fontFamily: theme('fontFamily.mono'),
           fontWeight: theme('fontWeight.medium'),
           lineHeight: theme('lineHeight.button'),
           color: theme('colors.text.primary'),
@@ -282,16 +283,16 @@ module.exports = {
         
         // Button variants
         '.btn-primary': {
-          backgroundColor: theme('colors.accent.orange'),
+          backgroundColor: theme('colors.orange'),
         },
         '.btn-secondary': {
-          backgroundColor: theme('colors.accent.blue'),
+          backgroundColor: theme('colors.blue'),
         },
         '.btn-tertiary': {
-          backgroundColor: theme('colors.accent.pink'),
+          backgroundColor: theme('colors.pink'),
         },
         '.btn-success': {
-          backgroundColor: theme('colors.accent.green'),
+          backgroundColor: theme('colors.green'),
         },
         
         // Card component
@@ -348,7 +349,7 @@ module.exports = {
         // Body text component
         '.body-text': {
           fontSize: theme('fontSize.body'),
-          fontFamily: theme('fontFamily.ibm-mono'),
+          fontFamily: theme('fontFamily.mono'),
           fontWeight: theme('fontWeight.medium'),
           lineHeight: theme('lineHeight.body'),
           color: theme('colors.text.primary'),
@@ -357,7 +358,7 @@ module.exports = {
         // Body large text component
         '.body-text-lg': {
           fontSize: theme('fontSize.body-lg'),
-          fontFamily: theme('fontFamily.ibm-mono'),
+          fontFamily: theme('fontFamily.mono'),
           fontWeight: theme('fontWeight.medium'),
           lineHeight: theme('lineHeight.body-lg'),
           color: theme('colors.text.primary'),

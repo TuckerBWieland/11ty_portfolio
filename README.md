@@ -219,7 +219,7 @@ fontSize: {
 
 ## 📚 Documentation
 
-- **DESIGN_GUIDE.md** - Comprehensive design documentation
+- **CODING_GUIDE.md** - Complete development guide with design system, patterns, and contribution guidelines
 - **src/_data/tokens.json** - All design tokens in JSON format
 - **tailwind.config.js** - Tailwind configuration with custom tokens
 
