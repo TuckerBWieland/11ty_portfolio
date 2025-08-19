@@ -1,68 +1,73 @@
 {# Hero Section Component #}
-<section class="relative h-[890px] w-full overflow-hidden bg-background-primary">
+<section class="relative min-h-screen w-full overflow-hidden bg-neutral-800">
   
-  {# Background abstract lines #}
+  {# Background abstract lines - SVG #}
   <div class="absolute inset-0 pointer-events-none">
-    <div class="absolute h-[1152px] w-[1548px] -top-16 left-1/2 -translate-x-1/2">
-      {# This will be replaced with the actual SVG background #}
-      <div class="w-full h-full bg-gradient-to-br from-transparent via-lines/20 to-transparent opacity-30"></div>
-    </div>
+    <img src="/static/Tangled line.svg" alt="Abstract tangled lines background" class="w-full h-full object-cover opacity-40" />
   </div>
 
-  {# Header #}
-  <header class="absolute top-0 left-1/2 -translate-x-1/2 flex items-center justify-between w-full max-w-content px-0 py-6 z-10">
-    <div class="font-mono font-semibold text-big-link text-text-primary tracking-wide uppercase">
-      Tucker Wieland
+  {# Header - Desktop #}
+  <header class="absolute top-0 left-0 right-0 flex items-center justify-between px-11 py-9 z-10 lg:px-11 md:px-6 sm:px-4">
+    <div class="font-['IBM_Plex_Mono'] font-semibold text-2xl text-white tracking-wide uppercase lg:text-2xl md:text-xl sm:text-lg">
+      TUCKER WIELAND
     </div>
     
     {# Mobile menu button #}
     <button class="w-11 h-11 flex items-center justify-center">
       <div class="w-6 h-6 flex flex-col justify-center space-y-1">
-        <div class="w-full h-0.5 bg-text-primary"></div>
-        <div class="w-full h-0.5 bg-text-primary"></div>
-        <div class="w-full h-0.5 bg-text-primary"></div>
+        <div class="w-full h-0.5 bg-white"></div>
+        <div class="w-full h-0.5 bg-white"></div>
+        <div class="w-full h-0.5 bg-white"></div>
       </div>
     </button>
   </header>
 
-  {# Hero content #}
-  <div class="absolute left-30 top-[212px] leading-none text-text-primary">
+  {# Hero content container #}
+  <div class="relative h-full flex items-center justify-center px-11 lg:px-11 md:px-6 sm:px-4 pt-24">
     
-    {# Main headline - "LOST IN CHAOS?" #}
-    <div class="relative font-helvetica font-bold text-h1 text-nowrap">
-      <div class="absolute flex flex-col justify-center top-[64.5px] -translate-y-1/2 left-[-600px]">
+    {# Main headline - "LOST IN CHAOS?" - Desktop Layout #}
+    <div class="relative font-['Helvetica_Neue'] font-bold text-white leading-none hidden lg:block">
+      <div class="text-[200px] leading-[210px] text-left">
         LOST
       </div>
-      <div class="absolute flex flex-col justify-center top-[233.5px] -translate-y-1/2 left-[-148px]">
+      <div class="text-[200px] leading-[210px] text-left ml-[470px]">
         IN
       </div>
-      <div class="absolute flex flex-col justify-center top-[402.5px] -translate-y-1/2 right-[868px] translate-x-full">
+      <div class="text-[200px] leading-[210px] text-left ml-[521px]">
+        CHAOS?
+      </div>
+    </div>
+
+    {# Main headline - "LOST IN CHAOS?" - Mobile Layout #}
+    <div class="relative font-['Helvetica_Neue'] font-bold text-white leading-none lg:hidden">
+      <div class="text-7xl leading-[210px] text-left">
+        LOST
+      </div>
+      <div class="text-7xl leading-[210px] text-left ml-32">
+        IN
+      </div>
+      <div class="text-7xl leading-[210px] text-left ml-7">
         CHAOS?
       </div>
     </div>
     
-    {# Description text #}
-    <div class="absolute flex flex-col justify-center left-0 top-[418px] -translate-y-1/2 w-[386px] font-mono font-medium text-paragraph leading-7">
-      <p class="text-text-primary">
-        Strategy & Operations Executive. 
-        <span class="text-text-secondary">
-          I help companies transform messy ideas into scalable systems 
-          <br>
-          that drive growth.
-        </span>
+    {# Description text - positioned to the left and below LOST #}
+    <div class="absolute left-11 bottom-0 w-[470px] font-['IBM_Plex_Mono'] font-medium text-2xl leading-loose text-white lg:left-11 md:left-6 sm:left-4 lg:w-[470px] md:w-80 sm:w-80 lg:text-2xl md:text-xl sm:text-base">
+      <p class="leading-loose">
+        <span class="text-white">Strategy & Operations Executive. </span>
+        <span class="text-white/70">I help companies transform messy ideas into scalable systems that drive growth.</span>
       </p>
     </div>
   </div>
 
-  {# Right side navigation indicator #}
-  <div class="absolute right-[120px] top-[401px] w-[41px] h-[90px] rounded-[51px] overflow-hidden">
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-[60px]">
-      <div class="flex flex-col gap-1 items-center justify-start ml-[3px] w-[7px]">
-        <div class="w-full h-[55px] bg-text-primary rounded-[11px]"></div>
-        <div class="w-full h-[11px] bg-text-primary rounded-[11px]"></div>
-        <div class="w-full h-[11px] bg-text-primary rounded-[11px]"></div>
-        <div class="w-[5px] h-1 bg-text-primary rounded-[11px]"></div>
-      </div>
+  {# Right side navigation indicator - dots and exclamation mark #}
+  <div class="absolute right-11 top-1/2 -translate-y-1/2 flex flex-col items-center space-y-3 lg:right-11 md:right-6 sm:right-4">
+    <div class="text-white text-3xl">!</div>
+    <div class="flex flex-col space-y-3">
+      <div class="w-2.5 h-2.5 bg-white rounded-xl"></div>
+      <div class="w-2.5 h-2.5 bg-white rounded-xl"></div>
+      <div class="w-2.5 h-2.5 bg-white rounded-xl"></div>
+      <div class="w-2.5 h-2.5 bg-white rounded-xl"></div>
     </div>
   </div>
 
