@@ -11,7 +11,7 @@ module.exports = {
         // Primary colors
         'background': {
           primary: '#242128',
-          secondary: '#252229',
+          secondary: '#2C2931',
         },
         'text': {
           primary: '#ffffff',
@@ -22,7 +22,7 @@ module.exports = {
         'blue': '#629fde', 
         'pink': '#f45cb3',
         'green': '#27ae60',
-        'yellow': '#e6c95d',
+        'yellow': '#E6C95D',
         'red': '#ff3333',
         'gray': '#808080',
         'lines': '#6a686c',
@@ -33,18 +33,12 @@ module.exports = {
         }
       },
       
-      // Custom spacing based on 4px base unit
+      // Essential spacing for current design
       spacing: {
-        '11': '44px',    // 2.75rem
-        '13': '52px',    // 3.25rem
-        '15': '60px',    // 3.75rem - for project year width
-        '25': '100px',   // 6.25rem
-        '30': '120px',   // 7.5rem - for company buttons
-        '32': '128px',   // 8rem
-        '36': '143px',   // 8.94rem
-        '69': '275px',   // 17.19rem - for hero text positioning
-        '338': '1352px', // 84.5rem
-        '360': '1440px', // 90rem
+        '11': '44px',    // Container padding
+        '15': '60px',    // Section spacing
+        '30': '120px',   // Component heights (buttons, logos)
+        '32': '128px',   // Large section spacing
       },
       
               // Custom font families
@@ -53,54 +47,42 @@ module.exports = {
           'mono': ['IBM Plex Mono', 'monospace'],
         },
       
-      // Custom font sizes matching Figma design with responsive scaling
+      // Font sizes matching Figma design exactly
       fontSize: {
-        'hero': ['clamp(4rem, 12vw, 200px)', {
-          lineHeight: 'clamp(4.4rem, 12.6vw, 210px)',
+        // Desktop/H1: 180px, line-height: 210px
+        'h1': ['180px', {
+          lineHeight: '210px',
           fontWeight: '700',
         }],
-        'display': ['clamp(3rem, 8vw, 140px)', {
-          lineHeight: 'clamp(3.6rem, 9.6vw, 170.94px)',
+        // Desktop/H2: 120px, line-height: 100% (120px)
+        'h2': ['120px', {
+          lineHeight: '1',
           fontWeight: '700',
         }],
-        'title': ['clamp(1.5rem, 3vw, 32px)', {
-          lineHeight: 'clamp(1.8rem, 3.6vw, 39.07px)',
-          fontWeight: '500',
-        }],
-        'body-lg': ['clamp(1.125rem, 2.25vw, 24px)', {
-          lineHeight: 'clamp(1.5rem, 3vw, 32px)',
-          fontWeight: '500',
-        }],
-        'body': ['clamp(0.875rem, 1.75vw, 16px)', {
-          lineHeight: 'clamp(1.125rem, 2.25vw, 20.8px)',
-          fontWeight: '500',
-        }],
-        'body-sm': ['clamp(0.75rem, 1.5vw, 14px)', {
-          lineHeight: 'clamp(1rem, 2vw, 18.2px)',
-          fontWeight: '500',
-        }],
-        'button': ['clamp(1.125rem, 2.25vw, 24px)', {
-          lineHeight: 'clamp(1.5rem, 3vw, 32px)',
-          fontWeight: '500',
-        }],
-        'nav': ['clamp(0.875rem, 1.75vw, 16px)', {
-          lineHeight: 'clamp(1.125rem, 2.25vw, 20.8px)',
-          fontWeight: '500',
-        }],
-        'caption': ['clamp(0.75rem, 1.5vw, 14px)', {
-          lineHeight: 'clamp(1rem, 2vw, 18.2px)',
-          fontWeight: '500',
-        }],
-        'project-year': ['16px', {
-          lineHeight: '20.8px',
-          fontWeight: '500',
-        }],
-        'project-company': ['18px', {
-          lineHeight: '24px',
+        // Desktop/Big link: 24px, line-height: 100%
+        'big-link': ['24px', {
+          lineHeight: '1',
           fontWeight: '600',
         }],
-        'project-description': ['16px', {
-          lineHeight: '20.8px',
+        // Desktop/paragraph: 20px, line-height: 28px
+        'paragraph': ['20px', {
+          lineHeight: '28px',
+          fontWeight: '500',
+        }],
+        // Desktop/Button: 16px, line-height: 100%
+        'button': ['16px', {
+          lineHeight: '1',
+          fontWeight: '500',
+        }],
+        // Desktop/Big link: 24px, line-height: 100%, tracking: 0.48px
+        'button-big': ['24px', {
+          lineHeight: '1',
+          fontWeight: '600',
+          letterSpacing: '0.48px',
+        }],
+        // Desktop/caption: 16px, line-height: 100%
+        'caption': ['16px', {
+          lineHeight: '1',
           fontWeight: '500',
         }],
       },
@@ -117,53 +99,15 @@ module.exports = {
       // Custom letter spacing
       letterSpacing: {
         'wide': '0.96px',
+        'button': '0.48px',
       },
       
-      // Custom line heights
-      lineHeight: {
-        'hero': 'clamp(4.4rem, 12.6vw, 210px)',
-        'display': 'clamp(3.6rem, 9.6vw, 170.94px)',
-        'title': 'clamp(1.8rem, 3.6vw, 39.07px)',
-        'body-lg': 'clamp(1.5rem, 3vw, 32px)',
-        'body': 'clamp(1.125rem, 2.25vw, 20.8px)',
-        'body-sm': 'clamp(1rem, 2vw, 18.2px)',
-        'button': 'clamp(1.5rem, 3vw, 32px)',
-        'nav': 'clamp(1.125rem, 2.25vw, 20.8px)',
-        'caption': 'clamp(1rem, 2vw, 18.2px)',
-        'project-year': '20.8px',
-        'project-company': '24px',
-        'project-description': '20.8px',
-      },
+
       
-      // Custom container sizes
+      // Essential container and component sizes
       maxWidth: {
-        'container': '1440px',
-        'content': '1352px',
-        'project-grid': '800px',
-        'worked-with': '600px',
-        'contact': '400px',
-      },
-      
-      // Custom padding
-      padding: {
-        'container': '44px',
-        'section': '128px',
-        'component': '24px',
-      },
-      
-      // Custom heights
-      height: {
-        'header': '100px',
-        'button': '52px',
-        'company-button': '120px',
-        'social-button': '120px',
-        'color-divider': '16px',
-      },
-      
-      // Custom widths
-      width: {
-        'button': '275px',
-        'project-year': '60px',
+        'container': '1440px',  // Main container from Figma
+        'content': '1200px',    // Content width from Figma
       },
       
       // Custom border radius
@@ -176,101 +120,30 @@ module.exports = {
         'none': 'none',
       },
       
-      // Custom transitions
-      transitionDuration: {
-        '200': '200ms',
-        '300': '300ms',
-      },
-      
-      // Custom animation
-      animation: {
-        'fade-in': 'fadeIn 0.3s ease-in-out',
-        'slide-up': 'slideUp 0.3s ease-in-out',
-        'slide-left': 'slideLeft 0.3s ease-in-out',
-        'fade-in-up': 'fadeInUp 0.6s ease-out',
-        'slide-in-left': 'slideInLeft 0.6s ease-out',
-        'slide-in-right': 'slideInRight 0.6s ease-out',
-      },
-      
-      // Custom keyframes
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        slideUp: {
-          '0%': { transform: 'translateY(20px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        },
-        slideLeft: {
-          '0%': { transform: 'translateX(-20px)', opacity: '0' },
-          '100%': { transform: 'translateX(0)', opacity: '1' },
-        },
-        fadeInUp: {
-          '0%': { opacity: '0', transform: 'translateY(30px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        slideInLeft: {
-          '0%': { opacity: '0', transform: 'translateX(-30px)' },
-          '100%': { opacity: '1', transform: 'translateX(0)' },
-        },
-        slideInRight: {
-          '0%': { opacity: '0', transform: 'translateX(30px)' },
-          '100%': { opacity: '1', transform: 'translateX(0)' },
-        },
-      },
-      
-      // Custom backdrop filters
-      backdropBlur: {
-        'xs': '2px',
-        'sm': '4px',
-        'md': '8px',
-        'lg': '12px',
-        'xl': '16px',
-      },
-      
-      // Custom opacity values
-      opacity: {
-        '15': '0.15',
-        '30': '0.3',
-        '50': '0.5',
-        '95': '0.95',
-      },
-      
-      // Custom grid templates
-      gridTemplateColumns: {
-        'worked-with': 'repeat(3, minmax(0, 1fr))',
-        'about': 'repeat(2, minmax(0, 1fr))',
-        'contact': 'repeat(2, minmax(0, 1fr))',
-      },
-      
-      // Custom gaps
-      gap: {
-        'section': '128px',
-        'component': '24px',
-        'project': '24px',
-        'worked-with': '24px',
-        'about': '64px',
-        'contact': '32px',
-      },
+
     },
   },
   plugins: [
     // Custom component classes
     function({ addComponents, theme }) {
       addComponents({
-        // Button component
+        // Button component (for main CTA buttons)
         '.btn': {
-          height: theme('height.button'),
-          padding: '10px 20px',
+          padding: '12px',
           borderRadius: theme('borderRadius.none'),
-          border: `1px solid ${theme('colors.ui.stroke')}`,
-          fontSize: theme('fontSize.button'),
+          border: '2px solid transparent',
+          fontSize: theme('fontSize.button-big[0]'),
           fontFamily: theme('fontFamily.mono'),
-          fontWeight: theme('fontWeight.medium'),
-          lineHeight: theme('lineHeight.button'),
+          fontWeight: theme('fontWeight.semibold'),
+          lineHeight: theme('fontSize.button-big[1].lineHeight'),
+          letterSpacing: theme('fontSize.button-big[1].letterSpacing'),
           color: theme('colors.text.primary'),
+          textTransform: 'uppercase',
           transition: 'all 0.2s ease-in-out',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          gap: '12px',
           '&:hover': {
             opacity: '0.8',
           },
@@ -293,91 +166,6 @@ module.exports = {
         },
         '.btn-success': {
           backgroundColor: theme('colors.green'),
-        },
-        
-        // Card component
-        '.card': {
-          backgroundColor: theme('colors.background.secondary'),
-          border: `1px solid ${theme('colors.ui.border')}`,
-          padding: theme('padding.container'),
-        },
-        
-        // Container component
-        '.container-custom': {
-          maxWidth: theme('maxWidth.container'),
-          margin: '0 auto',
-          padding: `0 ${theme('padding.container')}`,
-        },
-        
-        // Header component
-        '.header': {
-          height: theme('height.header'),
-          backgroundColor: theme('colors.background.primary'),
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: `0 ${theme('padding.container')}`,
-        },
-        
-        // Hero text component
-        '.hero-text': {
-          fontSize: theme('fontSize.hero'),
-          fontFamily: theme('fontFamily.helvetica'),
-          fontWeight: theme('fontWeight.bold'),
-          lineHeight: theme('lineHeight.hero'),
-          color: theme('colors.text.primary'),
-        },
-        
-        // Display text component
-        '.display-text': {
-          fontSize: theme('fontSize.display'),
-          fontFamily: theme('fontFamily.helvetica'),
-          fontWeight: theme('fontWeight.bold'),
-          lineHeight: theme('lineHeight.display'),
-          color: theme('colors.text.primary'),
-        },
-        
-        // Title text component
-        '.title-text': {
-          fontSize: theme('fontSize.title'),
-          fontFamily: theme('fontFamily.helvetica'),
-          fontWeight: theme('fontWeight.medium'),
-          lineHeight: theme('lineHeight.title'),
-          color: theme('colors.text.primary'),
-        },
-        
-        // Body text component
-        '.body-text': {
-          fontSize: theme('fontSize.body'),
-          fontFamily: theme('fontFamily.mono'),
-          fontWeight: theme('fontWeight.medium'),
-          lineHeight: theme('lineHeight.body'),
-          color: theme('colors.text.primary'),
-        },
-        
-        // Body large text component
-        '.body-text-lg': {
-          fontSize: theme('fontSize.body-lg'),
-          fontFamily: theme('fontFamily.mono'),
-          fontWeight: theme('fontWeight.medium'),
-          lineHeight: theme('lineHeight.body-lg'),
-          color: theme('colors.text.primary'),
-        },
-        
-        // Project showcase components
-        '.project-showcase': {
-          maxWidth: theme('maxWidth.project-grid'),
-          margin: '0 auto',
-        },
-        
-        '.worked-with-section': {
-          maxWidth: theme('maxWidth.worked-with'),
-          margin: '0 auto',
-        },
-        
-        '.contact-section': {
-          maxWidth: theme('maxWidth.contact'),
-          margin: '0 auto',
         },
       })
     }
