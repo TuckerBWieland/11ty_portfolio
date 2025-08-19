@@ -5,7 +5,9 @@ const path = require("path");
 module.exports = function(eleventyConfig) {
   // Passthrough copy for static assets
   eleventyConfig.addPassthroughCopy("src/static");
-  eleventyConfig.addPassthroughCopy("src/css");
+  
+  // Don't copy CSS files directly - they should be processed by PostCSS
+  // eleventyConfig.addPassthroughCopy("src/css");
 
   // Responsive image shortcode
   eleventyConfig.addAsyncShortcode("img", async function(src, alt, sizes) {
