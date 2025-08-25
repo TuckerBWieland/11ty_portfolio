@@ -1,74 +1,218 @@
-{# Hero Section Component #}
-<section class="relative min-h-screen w-full overflow-hidden bg-neutral-800">
-  
-  {# Background abstract lines - SVG #}
-  <div class="absolute inset-0 pointer-events-none">
-    <img src="/static/Tangled line.svg" alt="Abstract tangled lines background" class="w-full h-full object-cover opacity-40" />
+<head>
+    <style>
+        
+        /* Mobile menu styles */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        
+        /* Hamburger animation */
+        .hamburger-line {
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .hamburger.open .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+        
+        .hamburger.open .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.open .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+        
+        body.menu-open {
+            overflow: hidden;
+        }
+        
+        .menu-overlay {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        
+        .menu-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Animated shapes */
+        .animated-shape {
+            position: absolute;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        /* Hide shapes initially */
+        .shape-container {
+            opacity: 0;
+        }
+    </style>
+</head>
+ 
+<section class="relative min-h-screen w-full overflow-hidden">
+
+  <!-- Background abstract lines -->
+  <div class="absolute inset-0 pointer-events-none z-5">
+    <img src="static/Tangled line.svg" class="w-full h-full object-fit">
   </div>
 
-  {# Header - Desktop #}
-  <header class="absolute top-0 left-0 right-0 flex items-center justify-between px-11 py-9 z-10 lg:px-11 md:px-6 sm:px-4">
-    <div class="font-['IBM_Plex_Mono'] font-semibold text-2xl text-white tracking-wide uppercase lg:text-2xl md:text-xl sm:text-lg">
+  <!-- Header -->
+  <header class="absolute top-0 left-0 right-0 flex items-center justify-between px-4 py-6 z-30 xs:px-5 md:px-11 md:py-9">
+    <div class="font-ibm-plex-mono font-semibold text-sm text-white tracking-wide uppercase xs:text-base md:text-xl lg:text-2xl">
       TUCKER WIELAND
     </div>
     
-    {# Mobile menu button #}
-    <button class="w-11 h-11 flex items-center justify-center">
-      <div class="w-6 h-6 flex flex-col justify-center space-y-1">
-        <div class="w-full h-0.5 bg-white"></div>
-        <div class="w-full h-0.5 bg-white"></div>
-        <div class="w-full h-0.5 bg-white"></div>
+    <!-- Mobile menu button -->
+    <button id="mobile-menu-button" class="w-8 h-8 flex items-center justify-center xs:w-9 xs:h-9 md:w-11 md:h-11 z-40 relative">
+      <div class="hamburger w-5 h-5 flex flex-col justify-center space-y-1 xs:w-5.5 xs:h-5.5 md:w-6 md:h-6">
+        <div class="hamburger-line w-full h-0.5 bg-white"></div>
+        <div class="hamburger-line w-full h-0.5 bg-white"></div>
+        <div class="hamburger-line w-full h-0.5 bg-white"></div>
       </div>
     </button>
   </header>
 
-  {# Hero content container #}
-  <div class="relative h-full flex items-center justify-center px-11 lg:px-11 md:px-6 sm:px-4 pt-24">
-    
-    {# Main headline - "LOST IN CHAOS?" - Desktop Layout #}
-    <div class="relative font-['Helvetica_Neue'] font-bold text-white leading-none hidden lg:block">
-      <div class="text-[200px] leading-[210px] text-left">
-        LOST
-      </div>
-      <div class="text-[200px] leading-[210px] text-left ml-[470px]">
-        IN
-      </div>
-      <div class="text-[200px] leading-[210px] text-left ml-[521px]">
-        CHAOS?
-      </div>
-    </div>
+  <!-- Mobile Menu Overlay -->
+  <div id="menu-overlay" class="menu-overlay fixed inset-0 bg-black bg-opacity-50 z-20"></div>
 
-    {# Main headline - "LOST IN CHAOS?" - Mobile Layout #}
-    <div class="relative font-['Helvetica_Neue'] font-bold text-white leading-none lg:hidden">
-      <div class="text-7xl leading-[210px] text-left">
-        LOST
+  <!-- Mobile Menu Sidebar -->
+  <nav id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-80 h-full bg-[#2C2931] z-30 flex flex-col">
+    <div class="flex justify-end p-6">
+      <button id="close-menu" class="w-8 h-8 flex items-center justify-center text-white">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="flex-1 flex flex-col justify-start px-6 pt-8">
+      <ul class="space-y-8 font-ibm-plex-mono text-white uppercase tracking-wider">
+        <li><a href="#" class="text-lg font-medium hover:text-gray-300 transition-colors duration-200">PROJECT SHOWCASE</a></li>
+        <li><a href="#" class="text-lg font-medium hover:text-gray-300 transition-colors duration-200">WORKED WITH</a></li>
+        <li><a href="#" class="text-lg font-medium hover:text-gray-300 transition-colors duration-200">ABOUT ME</a></li>
+        <li><a href="#" class="text-lg font-medium hover:text-gray-300 transition-colors duration-200">CONTACT ME</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero content container -->
+  <div class="relative min-h-screen flex items-center justify-center px-4 pt-20 xs:px-5 md:px-11 md:pt-24 z-20">
+    
+    <!-- Main headline - "LOST IN CHAOS?" -->
+    <div class="relative font-helvetica-neue font-bold text-white leading-none w-full">
+      
+      <!-- Mobile Layout -->
+      <div class="block xs:hidden">
+        <div class="text-[80px] leading-none text-left mb-1">LOST</div>
+        <div class="text-[80px] leading-none text-center mb-1">IN</div>
+        <div class="text-[80px] leading-none text-left">CHAOS?</div>
       </div>
-      <div class="text-7xl leading-[210px] text-left ml-32">
-        IN
+      
+      <!-- Tablet Layout -->
+      <div class="hidden xs:block md:hidden">
+        <div class="text-[80px] sm:text-[130px] text-left mb-2">LOST</div>
+        <div class="text-[80px] sm:text-[130px] text-center mb-2">IN</div>
+        <div class="text-[80px] sm:text-[130px] text-right">CHAOS?</div>
       </div>
-      <div class="text-7xl leading-[210px] text-left ml-7">
-        CHAOS?
+      
+      <!-- Desktop Layout -->
+      <div class="hidden md:block">
+        <div class="grid grid-cols-2">
+          <div class="grid-span-1 text-right leading-none mb-2 text-[130px] mmd:text-[180px]">LOST</div>
+          <div class="grid-span-1"></div>
+        </div>
+        <div class="grid grid-cols-2">
+          <div></div>
+          <div class="leading-none mb-2 text-[130px] mmd:text-[180px]">IN</div>
+        </div>
+        <div class="grid grid-cols-2">
+          <div></div>
+          <div class="leading-none text-[130px] mmd:text-[180px]">CHAOS?</div>
+        </div>
       </div>
     </div>
     
-    {# Description text - positioned to the left and below LOST #}
-    <div class="absolute left-11 bottom-0 w-[470px] font-['IBM_Plex_Mono'] font-medium text-2xl leading-loose text-white lg:left-11 md:left-6 sm:left-4 lg:w-[470px] md:w-80 sm:w-80 lg:text-2xl md:text-xl sm:text-base">
-      <p class="leading-loose">
-        <span class="text-white">Strategy & Operations Executive. </span>
+    <!-- Description text -->
+    <div class="absolute left-4 bottom-8 right-4 font-ibm-plex-mono font-medium text-white xs:left-5 xs:bottom-10 md:left-11 md:bottom-16 md:right-auto md:w-96 xl:w-[470px]">
+      <p class="text-xs leading-relaxed xs:text-sm xs:leading-relaxed md:text-base md:leading-relaxed lg:text-lg lg:leading-relaxed xl:text-xl xl:leading-relaxed">
+        <span class="text-white">Strategy & Operations Executive.</span><br class="xs:hidden md:inline" />
         <span class="text-white/70">I help companies transform messy ideas into scalable systems that drive growth.</span>
       </p>
     </div>
   </div>
 
-  {# Right side navigation indicator - dots and exclamation mark #}
-  <div class="absolute right-11 top-1/2 -translate-y-1/2 flex flex-col items-center space-y-3 lg:right-11 md:right-6 sm:right-4">
-    <div class="text-white text-3xl">!</div>
-    <div class="flex flex-col space-y-3">
-      <div class="w-2.5 h-2.5 bg-white rounded-xl"></div>
-      <div class="w-2.5 h-2.5 bg-white rounded-xl"></div>
-      <div class="w-2.5 h-2.5 bg-white rounded-xl"></div>
-      <div class="w-2.5 h-2.5 bg-white rounded-xl"></div>
+  <!-- Right side navigation indicator -->
+  <div class="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col items-center space-y-2 xs:right-5 xs:space-y-2.5 md:right-11 md:space-y-3 z-20">
+    <div class="text-white text-lg xs:text-xl md:text-2xl lg:text-3xl">!</div>
+    <div class="flex flex-col space-y-2 xs:space-y-2.5 md:space-y-3">
+      <div class="w-1.5 h-1.5 bg-white rounded-full xs:w-2 xs:h-2 md:w-2.5 md:h-2.5"></div>
+      <div class="w-1.5 h-1.5 bg-white rounded-full xs:w-2 xs:h-2 md:w-2.5 md:h-2.5"></div>
+      <div class="w-1.5 h-1.5 bg-white rounded-full xs:w-2 xs:h-2 md:w-2.5 md:h-2.5"></div>
+      <div class="w-1.5 h-1.5 bg-white rounded-full xs:w-2 xs:h-2 md:w-2.5 md:h-2.5"></div>
     </div>
   </div>
 
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Menu functionality (keeping your existing code)
+    const menuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuOverlay = document.getElementById('menu-overlay');
+    const closeMenuButton = document.getElementById('close-menu');
+    const hamburger = menuButton.querySelector('.hamburger');
+    
+    function openMenu() {
+        mobileMenu.classList.add('open');
+        menuOverlay.classList.add('open');
+        hamburger.classList.add('open');
+        document.body.classList.add('menu-open');
+    }
+    
+    function closeMenu() {
+        mobileMenu.classList.remove('open');
+        menuOverlay.classList.remove('open');
+        hamburger.classList.remove('open');
+        document.body.classList.remove('menu-open');
+    }
+    
+    menuButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (mobileMenu.classList.contains('open')) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    });
+    
+    closeMenuButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeMenu();
+    });
+    
+    menuOverlay.addEventListener('click', function() {
+        closeMenu();
+    });
+    
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+            closeMenu();
+        }
+    });
+    
+    window.addEventListener('resize', function() {
+        if (window.innerWidth >= 768) {
+            closeMenu();
+        }
+    });
+});
+</script>

@@ -1,84 +1,503 @@
-{# Worked With Component #}
-<section class="bg-background-primary py-32">
-  <div class="max-w-content mx-auto px-30">
-    
-    {# Section title #}
-    <div class="mb-15">
-      <h2 class="font-helvetica font-bold text-h2 text-text-primary uppercase leading-none">
-        <div>WORKED</div>
-        <div class="ml-[52px]">WITH</div>
-      </h2>
+<!-- Mobile Layout (under 640px) -->
+<div class="sm:hidden bg-background-primary py-20" id="mobile-section">
+    <div class="px-4">
+        <!-- Section title centered -->
+        <div class="mb-16 text-center">
+            <h2 class="text-white uppercase font-bold leading-none tracking-normal align-middle" style="font-family: 'Helvetica Neue', sans-serif; font-weight: 700; font-size: 48px; line-height: 100%; letter-spacing: 0%;">
+                <div>WORKED</div>
+                <div>WITH</div>
+            </h2>
+        </div>
+        
+        <!-- Mobile Carousel -->
+        <div class="relative max-w-2xl mx-auto">
+            <!-- Swiper container -->
+            <div class="swiper logo-carousel px-12">
+                <div class="swiper-wrapper py-4">
+                    <!-- Original set -->
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-56 h-40 flex items-center justify-center">
+                            <img src="/static/image1.png" alt="L'Oreal" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-56 h-40 flex items-center justify-center">
+                            <img src="/static/image2.png" alt="Billion Oyster Project" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-56 h-40 flex items-center justify-center">
+                            <img src="/static/image3.png" alt="General Assembly" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-56 h-40 flex items-center justify-center">
+                            <img src="/static/image4.png" alt="Justworks" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-56 h-40 flex items-center justify-center">
+                            <img src="/static/image5.png" alt="UPS" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-56 h-40 flex items-center justify-center">
+                            <img src="/static/image6.png" alt="Shopify" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <!-- Duplicate set for smooth looping -->
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-56 h-40 flex items-center justify-center">
+                            <img src="/static/image1.png" alt="L'Oreal" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-56 h-40 flex items-center justify-center">
+                            <img src="/static/image2.png" alt="Billion Oyster Project" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-56 h-40 flex items-center justify-center">
+                            <img src="/static/image3.png" alt="General Assembly" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-56 h-40 flex items-center justify-center">
+                            <img src="/static/image4.png" alt="Justworks" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation buttons -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+            
+            <!-- Simple indicator text -->
+            <div class="text-center mt-4">
+                <div class="inline-flex items-center space-x-1">
+                    <div class="w-1 h-1 bg-white rounded-full animate-pulse"></div>
+                    <div class="w-1 h-1 bg-white bg-opacity-50 rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
+                    <div class="w-1 h-1 bg-white bg-opacity-30 rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- "and more :)" text -->
+        <div class="text-center mt-8">
+            <p class="font-mono text-white text-sm">
+                and more :)
+            </p>
+        </div>
     </div>
+</div>
 
-    {# Company logos grid #}
-    <div class="grid grid-cols-3 gap-6 max-w-[699px] mx-auto">
-      
-      {# Top row #}
-      <div class="relative w-[198px] h-[198px] bg-yellow border-2 border-lines flex flex-col items-center justify-center">
-        <div class="w-9 h-9 mb-[13px]">
-          {# Company icon placeholder #}
-          <div class="w-full h-full bg-text-primary/20 rounded"></div>
+<!-- Remove the spacer div since we don't need it anymore -->
+<div id="scroll-spacer" class="sm:hidden" style="height: 0px;"></div>
+
+<!-- Tablet Layout (640px - 1024px) -->
+<div class="hidden sm:block lg:hidden bg-background-primary py-20" id="tablet-section">
+    <div class="px-5">
+        <!-- Section title centered -->
+        <div class="mb-16 text-center">
+            <h2 class="text-white uppercase font-bold leading-none tracking-normal align-middle" style="font-family: 'Helvetica Neue', sans-serif; font-weight: 700; font-size: 80px; line-height: 100%; letter-spacing: 0%;">
+                <div>WORKED</div>
+                <div>WITH</div>
+            </h2>
         </div>
-        <div class="w-[116px] h-4">
-          {# Company name placeholder #}
-          <div class="w-full h-full bg-text-primary/20 rounded"></div>
+        
+        <!-- Tablet Carousel -->
+        <div class="relative max-w-4xl mx-auto">
+            <!-- Swiper container -->
+            <div class="swiper logo-carousel px-16">
+                <div class="swiper-wrapper py-6">
+                    <!-- Original set -->
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-64 h-44 flex items-center justify-center">
+                            <img src="/static/image1.png" alt="L'Oreal" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-64 h-44 flex items-center justify-center">
+                            <img src="/static/image2.png" alt="Billion Oyster Project" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-64 h-44 flex items-center justify-center">
+                            <img src="/static/image3.png" alt="General Assembly" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-64 h-44 flex items-center justify-center">
+                            <img src="/static/image4.png" alt="Justworks" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-64 h-44 flex items-center justify-center">
+                            <img src="/static/image5.png" alt="UPS" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-64 h-44 flex items-center justify-center">
+                            <img src="/static/image6.png" alt="Shopify" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <!-- Duplicate set for smooth looping -->
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-64 h-44 flex items-center justify-center">
+                            <img src="/static/image1.png" alt="L'Oreal" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-64 h-44 flex items-center justify-center">
+                            <img src="/static/image2.png" alt="Billion Oyster Project" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-64 h-44 flex items-center justify-center">
+                            <img src="/static/image3.png" alt="General Assembly" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-64 h-44 flex items-center justify-center">
+                            <img src="/static/image4.png" alt="Justworks" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation buttons -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
         </div>
-      </div>
-      
-      <div class="relative w-[198px] h-[198px] bg-blue border-2 border-lines flex flex-col items-center justify-center">
-        <div class="w-9 h-9 mb-[13px]">
-          <div class="w-full h-full bg-text-primary/20 rounded"></div>
+            
+            <!-- Simple indicator text -->
+            <div class="text-center mt-4">
+                <div class="inline-flex items-center space-x-1">
+                    <div class="w-1 h-1 bg-white rounded-full animate-pulse"></div>
+                    <div class="w-1 h-1 bg-white bg-opacity-50 rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
+                    <div class="w-1 h-1 bg-white bg-opacity-30 rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
+                </div>
+            </div>
         </div>
-        <div class="w-[116px] h-4">
-          <div class="w-full h-full bg-text-primary/20 rounded"></div>
+        
+        <!-- "and more :)" text -->
+        <div class="text-right mt-8 max-w-2xl mx-auto">
+            <p class="font-mono text-white text-sm">
+                and more :)
+            </p>
         </div>
-      </div>
-      
-      <div class="relative w-[198px] h-[198px] bg-green border-2 border-lines flex flex-col items-center justify-center">
-        <div class="w-9 h-9 mb-[13px]">
-          <div class="w-full h-full bg-text-primary/20 rounded"></div>
-        </div>
-        <div class="w-[116px] h-4">
-          <div class="w-full h-full bg-text-primary/20 rounded"></div>
-        </div>
-      </div>
-      
-      {# Bottom row #}
-      <div class="relative w-[198px] h-[198px] bg-red border-2 border-lines flex flex-col items-center justify-center">
-        <div class="w-9 h-9 mb-[13px]">
-          <div class="w-full h-full bg-text-primary/20 rounded"></div>
-        </div>
-        <div class="w-[116px] h-4">
-          <div class="w-full h-full bg-text-primary/20 rounded"></div>
-        </div>
-      </div>
-      
-      <div class="relative w-[198px] h-[198px] bg-pink border-2 border-lines flex flex-col items-center justify-center">
-        <div class="w-9 h-9 mb-[13px]">
-          <div class="w-full h-full bg-text-primary/20 rounded"></div>
-        </div>
-        <div class="w-[116px] h-4">
-          <div class="w-full h-full bg-text-primary/20 rounded"></div>
-        </div>
-      </div>
-      
-      <div class="relative w-[198px] h-[198px] bg-orange border-2 border-lines flex flex-col items-center justify-center">
-        <div class="w-9 h-9 mb-[13px]">
-          <div class="w-full h-full bg-text-primary/20 rounded"></div>
-        </div>
-        <div class="w-[116px] h-4">
-          <div class="w-full h-full bg-text-primary/20 rounded"></div>
-        </div>
-      </div>
-      
     </div>
-    
-    {# "and more :)" text #}
-    <div class="text-right mt-8">
-      <p class="font-mono font-medium text-paragraph text-text-primary leading-7">
-        and more :)
-      </p>
+</div>
+
+<!-- Desktop Layout (1024px+) -->
+<div class="hidden lg:block bg-background-primary py-32" id="desktop-section">
+    <div class="max-w-container mx-auto">
+        <!-- Section title -->
+        <div class="grid grid-cols-5 gap-6 max-w-6xl mx-auto mb-8" id="logo-container">
+            <div></div>
+            <div class="opacity-0 translate-y-12 transition-all duration-2000 ease-out desktop-card">
+                <h2 class="text-white uppercase font-bold leading-none tracking-normal align-middle" style="font-family: 'Helvetica Neue', sans-serif; font-weight: 700; font-size: 120px; line-height: 100%; letter-spacing: 0%;">
+                    Worked
+                </h2>
+            </div>
+            <!-- Empty columns 4 and 5 for first row -->
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="grid grid-cols-5 gap-6 max-w-6xl mx-auto mb-8" id="logo-container">
+            <!-- Second row: empty columns 1 and 2, then columns 3, 4, 5 -->
+            <div></div>
+            <div></div>
+            <h2 class="text-white uppercase font-bold leading-none tracking-normal align-middle" style="font-family: 'Helvetica Neue', sans-serif; font-weight: 700; font-size: 120px; line-height: 100%; letter-spacing: 0%;">
+                With
+            </h2>
+            <div></div>
+            <div></div>
+        </div>
+        
+        <!-- Desktop Carousel -->
+        <div class="relative max-w-6xl mx-auto">
+            <!-- Swiper container -->
+            <div class="swiper logo-carousel px-20">
+                <div class="swiper-wrapper py-8">
+                    <!-- Original set -->
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-72 h-48 flex items-center justify-center">
+                            <img src="/static/image1.png" alt="L'Oreal" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-72 h-48 flex items-center justify-center">
+                            <img src="/static/image2.png" alt="Billion Oyster Project" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-72 h-48 flex items-center justify-center">
+                            <img src="/static/image3.png" alt="General Assembly" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-72 h-48 flex items-center justify-center">
+                            <img src="/static/image4.png" alt="Justworks" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-72 h-48 flex items-center justify-center">
+                            <img src="/static/image5.png" alt="UPS" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-72 h-48 flex items-center justify-center">
+                            <img src="/static/image6.png" alt="Shopify" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <!-- Duplicate set for smooth looping -->
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-72 h-48 flex items-center justify-center">
+                            <img src="/static/image1.png" alt="L'Oreal" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-72 h-48 flex items-center justify-center">
+                            <img src="/static/image2.png" alt="Billion Oyster Project" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-72 h-48 flex items-center justify-center">
+                            <img src="/static/image3.png" alt="General Assembly" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="flex-shrink-0 w-72 h-48 flex items-center justify-center">
+                            <img src="/static/image4.png" alt="Justworks" class="w-full h-full object-contain"/>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation buttons -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+            
+            <!-- Simple indicator text -->
+            <div class="text-center mt-4">
+                <div class="inline-flex items-center space-x-1">
+                    <div class="w-1 h-1 bg-white rounded-full animate-pulse"></div>
+                    <div class="w-1 h-1 bg-white bg-opacity-50 rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
+                    <div class="w-1 h-1 bg-white bg-opacity-30 rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- "and more :)" text -->
+        <div class="text-right mt-12 max-w-6xl mx-auto">
+            <p class="font-mono text-white text-lg">
+                and more :)
+            </p>
+        </div>
     </div>
+</div>
+
+<!-- Swiper CSS from unpkg CDN (more reliable) -->
+<link rel="stylesheet" href="https://unpkg.com/swiper@11/swiper-bundle.min.css">
+
+<!-- Custom Navigation Button Styles -->
+<style>
+/* Custom Navigation Buttons */
+.swiper-button-next,
+.swiper-button-prev {
+    width: 44px !important;
+    height: 44px !important;
+    margin-top: -22px !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 50% !important;
+    color: #ffffff !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    transform: scale(1.1) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+    font-size: 16px !important;
+    font-weight: bold !important;
+}
+
+/* Position adjustments for better spacing */
+.swiper-button-next {
+    right: -20px !important;
+}
+
+.swiper-button-prev {
+    left: -20px !important;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 640px) {
+    .swiper-button-next,
+    .swiper-button-prev {
+        width: 36px !important;
+        height: 36px !important;
+        margin-top: -18px !important;
+    }
     
-  </div>
-</section>
+    .swiper-button-next:after,
+    .swiper-button-prev:after {
+        font-size: 14px !important;
+    }
+    
+    .swiper-button-next {
+        right: -15px !important;
+    }
+    
+    .swiper-button-prev {
+        left: -15px !important;
+    }
+}
+</style>
+
+<!-- Swiper JS from unpkg with fallback -->
+<script>
+// Load Swiper with fallback
+(function() {
+    function loadSwiper() {
+        // Try unpkg first
+        const script = document.createElement('script');
+        script.src = 'https://unpkg.com/swiper@11/swiper-bundle.min.js';
+        script.onload = function() {
+            console.log('Swiper loaded from unpkg');
+            initializeCarousel();
+        };
+        script.onerror = function() {
+            // Fallback to jsdelivr
+            console.log('unpkg failed, trying jsdelivr');
+            const fallbackScript = document.createElement('script');
+            fallbackScript.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
+            fallbackScript.onload = function() {
+                console.log('Swiper loaded from jsdelivr');
+                initializeCarousel();
+            };
+            fallbackScript.onerror = function() {
+                console.error('All Swiper CDNs failed');
+                // Fallback to basic CSS animation
+                initBasicCarousel();
+            };
+            document.head.appendChild(fallbackScript);
+        };
+        document.head.appendChild(script);
+    }
+
+    function initializeCarousel() {
+        // Initialize Swiper carousels
+        const carousels = document.querySelectorAll('.logo-carousel');
+        
+        carousels.forEach(carousel => {
+            new Swiper(carousel, {
+                slidesPerView: 3,
+                spaceBetween: 0,
+                centeredSlides: false,
+                loop: true,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+                speed: 600,
+                effect: 'slide',
+                slidesPerGroup: 1,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    0: {
+                        slidesPerView: 2,
+                        spaceBetween: 0,
+                        slidesPerGroup: 1,
+                    },
+                    640: {
+                        slidesPerView: 3.5,
+                        spaceBetween: 0,
+                        slidesPerGroup: 1,
+                    },
+                    1024: {
+                        slidesPerView: 4.2,
+                        spaceBetween: 0,
+                        slidesPerGroup: 1,
+                    },
+                    1440: {
+                        slidesPerView: 5,
+                        spaceBetween: 0,
+                        slidesPerGroup: 1,
+                    }
+                }
+            });
+        });
+
+        // Simple fade-in animation for desktop cards
+        initDesktopAnimation();
+    }
+
+    function initBasicCarousel() {
+        console.log('Using basic carousel fallback');
+        // Basic CSS-only carousel as fallback
+        const carousels = document.querySelectorAll('.logo-carousel');
+        carousels.forEach(carousel => {
+            const wrapper = carousel.querySelector('.swiper-wrapper');
+            if (wrapper) {
+                wrapper.style.display = 'flex';
+                wrapper.style.animation = 'scroll 20s linear infinite';
+                wrapper.style.width = 'max-content';
+            }
+        });
+        
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes scroll {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-50%); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        initDesktopAnimation();
+    }
+
+    function initDesktopAnimation() {
+        const desktopCards = document.querySelectorAll('.desktop-card');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        desktopCards.forEach(card => {
+            observer.observe(card);
+        });
+    }
+
+    // Start loading when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadSwiper);
+    } else {
+        loadSwiper();
+    }
+})();
+</script>

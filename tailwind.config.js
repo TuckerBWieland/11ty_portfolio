@@ -5,6 +5,13 @@ module.exports = {
     "./_site/**/*.html"
   ],
   theme: {
+    screens: {
+      'xs': '360px',
+      'sm': '640px',
+      'md': '768px',
+      'mmd': '1280px',
+      'lg': '1440px',
+    },
     extend: {
       // Custom colors from Figma design
       colors: {
