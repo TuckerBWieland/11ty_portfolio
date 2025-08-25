@@ -20,4 +20,16 @@
     font-weight: 700;
     line-height: 1.2;
   }
+
+  .gradient-bar {
+    background: linear-gradient(90deg, 
+        #E4C555 0%,     /* Yellow */
+        #629FDE 16.66%, /* Blue */
+        #27AE60 33.32%, /* Green */
+        #FF3333 49.98%, /* Red */
+        #F45CB3 66.64%, /* Pink */
+        #F87C46 83.3%,  /* Orange */
+        #FF6B35 100%    /* Orange variant */
+    );
+}
 }
