@@ -18,7 +18,8 @@
                  data-project-result="{{ project.result }}"
                  data-project-role="{{ project.role }}"
                  data-project-image="{{ project.image }}"
-                 data-project-narrative="{{ project.narrative }}">
+                 data-project-narrative="{{ project.narrative }}"
+                 data-project-media="{{ project.media | dump }}">
                 
                 <!-- Mobile Layout (below 360px) -->
                 <div class="block xs:hidden">
@@ -100,7 +101,8 @@
                 result: projectElement.dataset.projectResult,
                 role: projectElement.dataset.projectRole,
                 image: projectElement.dataset.projectImage,
-                narrative: projectElement.dataset.projectNarrative
+                narrative: projectElement.dataset.projectNarrative,
+                media: JSON.parse(projectElement.dataset.projectMedia || '[]')
             };
             
             const modal = document.getElementById('project-modal');
@@ -145,9 +147,9 @@
                             </div>
 
                             <!-- Right column -->
-                            <div class="flex flex-col md:flex-row items-center justify-center gap-4">
-                                <img src="${project.image}" alt="${project.title}" class="w-full h-64 object-cover mb-6 rounded-lg">
-                                <div class="text-sm leading-relaxed">
+                            <div class="flex flex-col md:flex-row items-start justify-center gap-6">
+                                ${this.renderMediaGallery(project.media)}
+                                <div class="text-sm leading-relaxed flex-1">
                                     <p>${project.narrative}</p>
                                 </div>
                             </div>
@@ -162,7 +164,7 @@
                             ${this.renderContentSection('RESULT', project.result, true)}
                             ${this.renderContentSection('MY ROLE', project.role, true)}
 
-                            <img src="${project.image}" alt="${project.title}" class="w-full h-48 object-cover rounded-lg">
+                            ${this.renderMediaGallery(project.media, true)}
                             
                             <div class="text-sm leading-relaxed">
                                 <p>${project.narrative}</p>
@@ -199,6 +201,246 @@
             `;
         },
 
+        // Render media gallery
+        renderMediaGallery(mediaArray, isMobile = false) {
+            if (!mediaArray || mediaArray.length === 0) {
+                return '';
+            }
+
+            const gridClass = isMobile ? 'grid-cols-1' : 'grid-cols-2';
+            const mediaItems = mediaArray.map((media, index) => {
+                if (media.type === 'video') {
+                    return `
+                        <div class="relative rounded-lg overflow-hidden cursor-pointer group" onclick="ProjectShowcase.openVideoPlayer('${media.src}')">
+                            <video class="w-full h-48 object-cover" preload="metadata" muted>
+                                <source src="${media.src}" type="video/mp4">
+                            </video>
+                            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center group-hover:bg-opacity-60 transition-all">
+                                <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    return `
+                        <img src="${media.src}" alt="${media.alt}" 
+                             class="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+                             onclick="ProjectShowcase.openLightbox('${media.src}', '${media.alt}')">
+                    `;
+                }
+            }).join('');
+
+            return `
+                <div class="flex-1">
+                    <div class="grid ${gridClass} gap-4 mb-6">
+                        ${mediaItems}
+                    </div>
+                </div>
+            `;
+        },
+
+        // Open lightbox for images
+        openLightbox(src, alt) {
+            const lightbox = document.getElementById('lightbox') || this.createLightbox();
+            const img = lightbox.querySelector('img');
+            
+            // Find current image index and store media array
+            const currentProjectElement = document.querySelector('.project-item[data-project-media]');
+            if (currentProjectElement) {
+                const mediaArray = JSON.parse(currentProjectElement.dataset.projectMedia || '[]');
+                const images = mediaArray.filter(media => media.type === 'image');
+                const currentIndex = images.findIndex(image => image.src === src);
+                
+                lightbox.dataset.currentIndex = currentIndex;
+                lightbox.dataset.imagesData = JSON.stringify(images);
+                
+                // Show/hide navigation arrows
+                const prevBtn = lightbox.querySelector('.lightbox-prev');
+                const nextBtn = lightbox.querySelector('.lightbox-next');
+                
+                if (prevBtn && nextBtn) {
+                    prevBtn.style.display = images.length > 1 ? 'block' : 'none';
+                    nextBtn.style.display = images.length > 1 ? 'block' : 'none';
+                }
+            }
+            
+            img.src = src;
+            img.alt = alt;
+            
+            lightbox.classList.remove('opacity-0', 'invisible');
+            document.body.style.overflow = 'hidden';
+        },
+
+        // Open video player
+        openVideoPlayer(src) {
+            const videoPlayer = document.getElementById('video-player') || this.createVideoPlayer();
+            
+            // Check if it's a YouTube video
+            if (src.includes('youtube.com/embed/')) {
+                const iframe = videoPlayer.querySelector('iframe');
+                const video = videoPlayer.querySelector('video');
+                
+                // Hide video element and show iframe
+                if (video) video.style.display = 'none';
+                if (iframe) {
+                    iframe.style.display = 'block';
+                    iframe.src = src + '?autoplay=1';
+                }
+            } else {
+                const video = videoPlayer.querySelector('video');
+                const iframe = videoPlayer.querySelector('iframe');
+                
+                // Hide iframe and show video
+                if (iframe) iframe.style.display = 'none';
+                if (video) {
+                    video.style.display = 'block';
+                    video.src = src;
+                    video.load();
+                    video.play().catch(e => console.log('Auto-play prevented:', e));
+                }
+            }
+            
+            videoPlayer.classList.remove('opacity-0', 'invisible');
+            document.body.style.overflow = 'hidden';
+        },
+
+        // Create lightbox
+        createLightbox() {
+            const lightbox = document.createElement('div');
+            lightbox.id = 'lightbox';
+            lightbox.className = 'fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-4 opacity-0 invisible transition-all duration-300 z-50';
+            lightbox.innerHTML = `
+                <div class="relative max-w-4xl max-h-full">
+                    <img class="max-w-full max-h-full object-contain" />
+                    
+                    <!-- Close button -->
+                    <button onclick="ProjectShowcase.closeLightbox()" class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- Previous button -->
+                    <button onclick="ProjectShowcase.navigateLightbox(-1)" class="lightbox-prev absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 transition-colors bg-black bg-opacity-50 rounded-full p-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- Next button -->
+                    <button onclick="ProjectShowcase.navigateLightbox(1)" class="lightbox-next absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 transition-colors bg-black bg-opacity-50 rounded-full p-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+            `;
+            
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    this.closeLightbox();
+                }
+            });
+            
+            document.body.appendChild(lightbox);
+            return lightbox;
+        },
+
+        // Create video player
+        createVideoPlayer() {
+            const videoPlayer = document.createElement('div');
+            videoPlayer.id = 'video-player';
+            videoPlayer.className = 'fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-4 opacity-0 invisible transition-all duration-300 z-50';
+            videoPlayer.innerHTML = `
+                <div class="relative max-w-4xl max-h-full">
+                    <video class="max-w-full max-h-full" controls autoplay>
+                        <source type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <iframe class="w-full h-full min-h-[400px] md:min-h-[500px] lg:min-h-[600px]" style="display: none; aspect-ratio: 16/9;" 
+                            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen></iframe>
+                    <button onclick="ProjectShowcase.closeVideoPlayer()" class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors z-10">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            `;
+            
+            videoPlayer.addEventListener('click', (e) => {
+                if (e.target === videoPlayer) {
+                    this.closeVideoPlayer();
+                }
+            });
+            
+            document.body.appendChild(videoPlayer);
+            return videoPlayer;
+        },
+
+        // Navigate lightbox (previous/next images)
+        navigateLightbox(direction) {
+            const lightbox = document.getElementById('lightbox');
+            if (!lightbox) return;
+            
+            const currentIndex = parseInt(lightbox.dataset.currentIndex);
+            const imagesData = JSON.parse(lightbox.dataset.imagesData || '[]');
+            
+            if (imagesData.length <= 1) return;
+            
+            let newIndex = currentIndex + direction;
+            
+            // Loop around if at beginning/end
+            if (newIndex < 0) {
+                newIndex = imagesData.length - 1;
+            } else if (newIndex >= imagesData.length) {
+                newIndex = 0;
+            }
+            
+            // Update image
+            const img = lightbox.querySelector('img');
+            const newImage = imagesData[newIndex];
+            
+            img.src = newImage.src;
+            img.alt = newImage.alt;
+            
+            // Update current index
+            lightbox.dataset.currentIndex = newIndex;
+        },
+
+        // Close lightbox
+        closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox) {
+                lightbox.classList.add('opacity-0', 'invisible');
+                document.body.style.overflow = 'auto';
+            }
+        },
+
+        // Close video player
+        closeVideoPlayer() {
+            const videoPlayer = document.getElementById('video-player');
+            if (videoPlayer) {
+                const video = videoPlayer.querySelector('video');
+                const iframe = videoPlayer.querySelector('iframe');
+                
+                // Stop video playback
+                if (video && video.style.display !== 'none') {
+                    video.pause();
+                    video.currentTime = 0;
+                }
+                
+                // Stop iframe playback by clearing src
+                if (iframe && iframe.style.display !== 'none') {
+                    iframe.src = '';
+                }
+                
+                videoPlayer.classList.add('opacity-0', 'invisible');
+                document.body.style.overflow = 'auto';
+            }
+        },
+
         // Close project modal
         closeProjectModal() {
             const modal = document.getElementById('project-modal');
@@ -226,10 +468,28 @@
                 }
             });
 
-            // Close modal with Escape key
+            // Handle keyboard navigation
             document.addEventListener('keydown', (e) => {
+                const lightbox = document.getElementById('lightbox');
+                const videoPlayer = document.getElementById('video-player');
+                const projectModal = document.getElementById('project-modal');
+                
                 if (e.key === 'Escape') {
-                    this.closeProjectModal();
+                    // Check what's currently open and close it
+                    if (lightbox && !lightbox.classList.contains('invisible')) {
+                        this.closeLightbox();
+                    } else if (videoPlayer && !videoPlayer.classList.contains('invisible')) {
+                        this.closeVideoPlayer();
+                    } else if (projectModal && !projectModal.classList.contains('invisible')) {
+                        this.closeProjectModal();
+                    }
+                } else if (lightbox && !lightbox.classList.contains('invisible')) {
+                    // Navigate lightbox with arrow keys
+                    if (e.key === 'ArrowLeft') {
+                        this.navigateLightbox(-1);
+                    } else if (e.key === 'ArrowRight') {
+                        this.navigateLightbox(1);
+                    }
                 }
             });
         }
