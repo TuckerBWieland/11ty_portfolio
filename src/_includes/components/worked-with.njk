@@ -11,7 +11,7 @@
     <!-- Companies Grid -->
     <div class="company-grid mb-12">
       {% for company in companies.companies %}
-      <div class="company-item" data-company="{{ company.name }}" data-company-id="{{ company.id }}">
+      <div class="company-item" data-company="{{ company.name }}" data-company-id="{{ company.id }}" style="--logo-url: url('{{ company.logo }}');">
         <!-- Single logo with CSS-based color change -->
         <img 
           src="{{ company.logo }}" 
@@ -120,66 +120,57 @@
   filter: brightness(0) invert(1);
 }
 
-/* Accent color cycling - each company gets a different color on hover */
-.company-item:nth-child(1):hover .company-logo {
-  /* Orange #f87c46 */
-  filter: brightness(0) saturate(100%) invert(64%) sepia(77%) saturate(2647%) hue-rotate(342deg) brightness(101%) contrast(95%);
+/* Gradient overlay on hover - applies rainbow gradient to logo shape */
+.company-item::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 80px;
+  max-width: 200px;
+  background: linear-gradient(90deg, 
+      #E4C555 0%,     /* Yellow */
+      #629FDE 16.66%, /* Blue */
+      #27AE60 33.32%, /* Green */
+      #FF3333 49.98%, /* Red */
+      #F45CB3 66.64%, /* Pink */
+      #F87C46 83.3%,  /* Orange */
+      #FF6B35 100%    /* Orange variant */
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 2;
+  /* Use the company logo as a mask for the gradient */
+  -webkit-mask-image: var(--logo-url);
+  mask-image: var(--logo-url);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
 }
 
-.company-item:nth-child(2):hover .company-logo {
-  /* Blue #629fde */
-  filter: brightness(0) saturate(100%) invert(60%) sepia(65%) saturate(4049%) hue-rotate(200deg) brightness(94%) contrast(86%);
+.company-item:hover::before {
+  opacity: 1;
 }
 
-.company-item:nth-child(3):hover .company-logo {
-  /* Pink #f45cb3 */
-  filter: brightness(0) saturate(100%) invert(58%) sepia(88%) saturate(5084%) hue-rotate(295deg) brightness(96%) contrast(89%);
+.company-item:hover .company-logo {
+  /* Hide the white logo when showing gradient version */
+  opacity: 0;
 }
 
-.company-item:nth-child(4):hover .company-logo {
-  /* Green #27ae60 */
-  filter: brightness(0) saturate(100%) invert(52%) sepia(98%) saturate(1417%) hue-rotate(108deg) brightness(97%) contrast(86%);
+/* Force hover state for click-opened tooltips - use gradient effect */
+.company-item.force-hover::before {
+  opacity: 1;
 }
 
-.company-item:nth-child(5):hover .company-logo {
-  /* Orange #f87c46 - cycle back to start */
-  filter: brightness(0) saturate(100%) invert(64%) sepia(77%) saturate(2647%) hue-rotate(342deg) brightness(101%) contrast(95%);
-}
-
-.company-item:nth-child(6):hover .company-logo {
-  /* Blue #629fde */
-  filter: brightness(0) saturate(100%) invert(60%) sepia(65%) saturate(4049%) hue-rotate(200deg) brightness(94%) contrast(86%);
-}
-
-/* Force hover state for click-opened tooltips */
-.company-item.force-hover:nth-child(1) .company-logo {
-  /* Orange #f87c46 */
-  filter: brightness(0) saturate(100%) invert(64%) sepia(77%) saturate(2647%) hue-rotate(342deg) brightness(101%) contrast(95%);
-}
-
-.company-item.force-hover:nth-child(2) .company-logo {
-  /* Blue #629fde */
-  filter: brightness(0) saturate(100%) invert(60%) sepia(65%) saturate(4049%) hue-rotate(200deg) brightness(94%) contrast(86%);
-}
-
-.company-item.force-hover:nth-child(3) .company-logo {
-  /* Pink #f45cb3 */
-  filter: brightness(0) saturate(100%) invert(58%) sepia(88%) saturate(5084%) hue-rotate(295deg) brightness(96%) contrast(89%);
-}
-
-.company-item.force-hover:nth-child(4) .company-logo {
-  /* Green #27ae60 */
-  filter: brightness(0) saturate(100%) invert(52%) sepia(98%) saturate(1417%) hue-rotate(108deg) brightness(97%) contrast(86%);
-}
-
-.company-item.force-hover:nth-child(5) .company-logo {
-  /* Orange #f87c46 - cycle back to start */
-  filter: brightness(0) saturate(100%) invert(64%) sepia(77%) saturate(2647%) hue-rotate(342deg) brightness(101%) contrast(95%);
-}
-
-.company-item.force-hover:nth-child(6) .company-logo {
-  /* Blue #629fde */
-  filter: brightness(0) saturate(100%) invert(60%) sepia(65%) saturate(4049%) hue-rotate(200deg) brightness(94%) contrast(86%);
+.company-item.force-hover .company-logo {
+  /* Hide the white logo when showing gradient version */
+  opacity: 0;
 }
 
 @media (max-width: 768px) {
@@ -193,6 +184,11 @@
     height: 70px;
     max-width: 180px;
   }
+  
+  .company-item::before {
+    height: 70px;
+    max-width: 180px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -203,6 +199,11 @@
   }
   
   .company-logo {
+    height: 60px;
+    max-width: 140px;
+  }
+  
+  .company-item::before {
     height: 60px;
     max-width: 140px;
   }
