@@ -58,4 +58,12 @@ document.addEventListener('DOMContentLoaded', function() {
             closeMenu();
         }
     });
+    
+    // Close menu when clicking on navigation links
+    const navLinks = mobileMenu.querySelectorAll('a[href^="#"]');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            closeMenu();
+        });
+    });
 });
