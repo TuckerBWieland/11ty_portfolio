@@ -6,6 +6,7 @@ module.exports = function(eleventyConfig) {
   // Passthrough copy for static assets
   eleventyConfig.addPassthroughCopy("src/static");
   eleventyConfig.addPassthroughCopy("src/css/components");
+  eleventyConfig.addPassthroughCopy("src/js");
   
   // Don't copy main CSS files directly - they should be processed by PostCSS
   // eleventyConfig.addPassthroughCopy("src/css");
