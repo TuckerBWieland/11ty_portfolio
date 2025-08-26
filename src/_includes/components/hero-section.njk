@@ -66,18 +66,22 @@
       </div>
       
       <!-- Desktop Layout (1024px+) -->
-      <div class="hidden md:block">
-        <div class="grid grid-cols-2">
-          <div class="text-right leading-none mb-2 text-[130px] mmd:text-[180px]">LOST</div>
+      <div class="hidden md:block centerline">
+        <div class="center-grid">
+          <!-- LOST snaps to the line on the left side -->
+          <div class="snap-left leading-none mb-2 text-[130px] mmd:text-[180px]">LOST</div>
           <div></div>
         </div>
-        <div class="grid grid-cols-2">
-          <div></div>
-          <div class="leading-none mb-2 text-[130px] mmd:text-[180px]">IN</div>
+
+        <div class="center-grid">
+          <!-- IN sits centered across both columns -->
+          <div class="col-span-full text-center leading-none mb-2 text-[130px] mmd:text-[180px]" style="grid-column: 1 / -1;">IN</div>
         </div>
-        <div class="grid grid-cols-2">
+
+        <div class="center-grid">
           <div></div>
-          <div class="leading-none text-[130px] mmd:text-[180px]">CHAOS?</div>
+          <!-- CHAOS? snaps to the line on the right side -->
+          <div class="snap-right leading-none text-[130px] mmd:text-[180px]">CHAOS?</div>
         </div>
       </div>
     </div>
