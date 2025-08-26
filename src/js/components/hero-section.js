@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         menuOverlay.classList.add('open');
         hamburger.classList.add('open');
         document.body.classList.add('menu-open');
+        menuButton.setAttribute('aria-expanded', 'true');
     }
     
     function closeMenu() {
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
         menuOverlay.classList.remove('open');
         hamburger.classList.remove('open');
         document.body.classList.remove('menu-open');
+        menuButton.setAttribute('aria-expanded', 'false');
     }
     
     menuButton.addEventListener('click', function(e) {
