@@ -36,3 +36,43 @@
     );
 }
 }
+
+@layer utilities {
+  /* vertical center guide for headings */
+  .centerline {
+    @apply relative;
+  }
+  .centerline::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    /* use your existing lines/ui stroke colors */
+    background-color: theme(colors.ui.stroke);
+    pointer-events: none;
+    opacity: 0;
+  }
+  /* snap containers to either side of the centerline */
+  .center-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+  .snap-left {
+    justify-self: end;   /* right edge kisses the line */
+    text-align: right;
+  }
+  .snap-right {
+    justify-self: start; /* left edge kisses the line */
+    text-align: left;
+  }
+  /* line is hidden on all screen sizes */
+  @screen xs {
+    .centerline::before { opacity: 0; }
+  }
+  @screen md {
+    .centerline::before { opacity: 0; }
+  }
+}

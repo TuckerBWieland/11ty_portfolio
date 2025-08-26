@@ -2,12 +2,10 @@
 <section class="bg-background-primary py-32" id="worked-with">
   <div class="max-w-content mx-auto px-4 xs:px-5 md:px-11">
     
+    {% from "macros/split-title.njk" import SplitTitle %}
     <!-- Section Title -->
     <div class="mb-16 lg:mb-24">
-      <h2 class="font-helvetica font-bold text-text-primary uppercase leading-none">
-        <div class="text-[48px] md:text-[80px] lg:text-[120px] text-center lg:text-left">WORKED</div>
-        <div class="text-[48px] md:text-[80px] lg:text-[120px] text-center lg:text-right lg:mr-24">WITH</div>
-      </h2>
+      {{ SplitTitle('WORKED', 'WITH') }}
     </div>
 
     <!-- Companies Grid -->

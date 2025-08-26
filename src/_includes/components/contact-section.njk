@@ -1,16 +1,10 @@
 <section class="bg-background-primary py-8 w-max-2xl">
-    <div class="max-w-container mx-auto px-2 lg:pr-24 lg:pl-80">
+    <div class="max-w-content mx-auto px-4 xs:px-5 md:px-11">
         
+        {% from "macros/split-title.njk" import SplitTitle %}
         <!-- Section title - Single responsive version -->
         <div class="mb-12 xs:mb-16 md:mb-20 ">
-            <h2 class="font-helvetica font-bold text-text-primary uppercase leading-none">
-                <div class="text-[48px] sm:text-[80px] lg:text-[120px] text-left">CONTACT</div>
-                <div class="grid grid-cols-3">
-                    <div></div>
-                    <div class="text-[48px] sm:text-[80px] lg:text-[120px] text-left">ME</div>
-                    <div></div>
-                </div>
-            </h2>
+            {{ SplitTitle('CONTACT', 'ME') }}
         </div>
 
         <!-- Contact cards - Single responsive version -->
