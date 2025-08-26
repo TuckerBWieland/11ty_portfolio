@@ -1,4 +1,4 @@
-<section class="bg-background-primary py-15">
+<section class="bg-background-primary pt-32 pb-15">
     <div class="max-w-content mx-auto px-4 xs:px-5 md:px-11">
         
         <div class="mb-12">
@@ -9,221 +9,27 @@
         </div>
 
         <div class="space-y-0" id="project-list">
-            <!-- Loading state -->
-            <div id="loading-state" class="flex items-center justify-center py-12">
-                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-text-primary"></div>
-                <span class="ml-3 text-text-primary font-mono">Loading projects...</span>
-            </div>
-            
-            <!-- Error state (hidden by default) -->
-            <div id="error-state" class="hidden text-center py-12">
-                <div class="text-red-400 mb-4">
-                    <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
-                    </svg>
-                </div>
-                <h3 class="text-lg font-semibold text-text-primary mb-2">Failed to load projects</h3>
-                <p class="text-gray-400 mb-4">There was an error loading the project showcase.</p>
-                <button onclick="ProjectShowcase.loadProjects()" class="bg-[#F87C46] text-white px-4 py-2 rounded font-mono text-sm hover:bg-orange-600 transition-colors">
-                    Try Again
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Project Detail Modal -->
-<div id="project-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 opacity-0 invisible transition-all duration-300 z-50">
-    <div class="bg-black text-white max-w-4xl w-full max-h-[90vh] overflow-y-auto rounded-lg shadow-xl transform scale-95 transition-transform duration-300 relative">
-        <!-- Modal content will be inserted here -->
-    </div>
-</div>
-
-<script>
-    // Project Showcase Component
-    const ProjectShowcase = {
-        projects: [],
-        
-        // Load projects from external data file
-        async loadProjects() {
-            try {
-                this.showLoadingState();
+            {% for project in projects.projects %}
+            <div class="project-item border-t border-[#6A686C] py-6 cursor-pointer transition-colors duration-200 hover:bg-white hover:bg-opacity-5" 
+                 data-project-id="{{ project.id }}"
+                 data-project-company="{{ project.company }}"
+                 data-project-title="{{ project.title }}"
+                 data-project-description="{{ project.description }}"
+                 data-project-problem="{{ project.problem }}"
+                 data-project-solution="{{ project.solution }}"
+                 data-project-result="{{ project.result }}"
+                 data-project-role="{{ project.role }}"
+                 data-project-image="{{ project.image }}"
+                 data-project-narrative="{{ project.narrative }}">
                 
-                // In a real implementation, you'd fetch from the JSON file
-                // For now, we'll use the embedded data as fallback
-                const response = await fetch('/_data/projects.json');
-                if (response.ok) {
-                    const data = await response.json();
-                    this.projects = data.projects;
-                } else {
-                    throw new Error('Failed to fetch projects');
-                }
-            } catch (error) {
-                console.warn('Using fallback project data:', error);
-                // Fallback to embedded data if external file fails
-                this.projects = this.getFallbackProjects();
-            }
-            
-            this.hideLoadingState();
-            this.renderProjects();
-        },
-
-        // Fallback project data (embedded in component)
-        getFallbackProjects() {
-            return [
-                {
-                    id: "maersk-2024",
-                    year: "2024",
-                    company: "MAERSK",
-                    title: "AI-Powered Logistics Optimization",
-                    description: "AI-powered logistics optimization system",
-                    problem: "Complex supply chain inefficiencies causing 30% delays and increased operational costs across global shipping routes.",
-                    solution: "Developed machine learning algorithms to predict and optimize shipping routes, integrated with real-time weather and port data.",
-                    result: "Reduced shipping delays by 45%, decreased fuel consumption by 25%, and improved customer satisfaction scores by 60%.",
-                    role: "Lead UX Designer and Frontend Developer, collaborated with data scientists and logistics experts.",
-                    image: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=400&h=300&fit=crop",
-                    tags: ["AI/ML", "Logistics", "Supply Chain"],
-                    technologies: ["React", "Python", "TensorFlow", "AWS"],
-                    duration: "6 months",
-                    teamSize: "8 people"
-                },
-                {
-                    id: "spotify-2023",
-                    year: "2023",
-                    company: "SPOTIFY",
-                    title: "Personalized Music Discovery",
-                    description: "Personalized playlist generation feature",
-                    problem: "Users struggled to discover new music that matched their taste, leading to decreased engagement and retention.",
-                    solution: "Created an AI-driven recommendation engine with intuitive user interface for seamless music discovery.",
-                    result: "Increased user engagement by 35%, boosted premium subscriptions by 20%, and improved user retention by 28%.",
-                    role: "Product Designer and User Research Lead, conducted 50+ user interviews and A/B tests.",
-                    image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop",
-                    tags: ["AI/ML", "Music", "Personalization"],
-                    technologies: ["React Native", "Node.js", "Python", "Redis"],
-                    duration: "4 months",
-                    teamSize: "6 people"
-                },
-                {
-                    id: "airbnb-2023",
-                    year: "2023",
-                    company: "AIRBNB",
-                    title: "Enhanced Booking Experience",
-                    description: "Enhanced booking experience redesign",
-                    problem: "High abandonment rate during booking process, with 65% of users leaving before completing their reservation.",
-                    solution: "Redesigned the entire booking flow with progressive disclosure, simplified forms, and real-time price transparency.",
-                    result: "Reduced booking abandonment by 40%, increased conversion rate by 32%, and improved mobile bookings by 55%.",
-                    role: "Senior UX/UI Designer, led design system implementation and cross-functional collaboration.",
-                    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop",
-                    tags: ["UX Design", "Booking", "Mobile"],
-                    technologies: ["React", "TypeScript", "Figma", "A/B Testing"],
-                    duration: "5 months",
-                    teamSize: "12 people"
-                },
-                {
-                    id: "tesla-2022",
-                    year: "2022",
-                    company: "TESLA",
-                    title: "Autonomous Vehicle Interface",
-                    description: "Autonomous vehicle interface design",
-                    problem: "Complex vehicle controls creating safety concerns and user confusion during autonomous driving mode transitions.",
-                    solution: "Designed intuitive voice-controlled interface with haptic feedback and simplified visual indicators.",
-                    result: "Improved safety ratings by 30%, reduced user errors by 50%, and achieved 95% user satisfaction in beta testing.",
-                    role: "Principal Interaction Designer, specialized in automotive UX and safety-critical interfaces.",
-                    image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=400&h=300&fit=crop",
-                    tags: ["Automotive", "Safety", "Voice Control"],
-                    technologies: ["Qt", "C++", "Voice Recognition", "Haptics"],
-                    duration: "8 months",
-                    teamSize: "15 people"
-                },
-                {
-                    id: "netflix-2022",
-                    year: "2022",
-                    company: "NETFLIX",
-                    title: "Content Recommendation Engine",
-                    description: "Content recommendation algorithm optimization",
-                    problem: "Users spending too much time browsing without finding content, leading to subscription cancellations.",
-                    solution: "Developed context-aware recommendations based on viewing time, device, and social viewing patterns.",
-                    result: "Increased watch time by 42%, reduced browsing time by 35%, and improved content discovery by 60%.",
-                    role: "UX Researcher and Data Analyst, conducted longitudinal user studies and behavioral analysis.",
-                    image: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=400&h=300&fit=crop",
-                    tags: ["AI/ML", "Content", "Analytics"],
-                    technologies: ["Python", "TensorFlow", "BigQuery", "A/B Testing"],
-                    duration: "7 months",
-                    teamSize: "10 people"
-                },
-                {
-                    id: "google-2021",
-                    year: "2021",
-                    company: "GOOGLE",
-                    title: "Accessibility-First Search",
-                    description: "Accessibility-first search interface",
-                    problem: "Search interface barriers preventing users with disabilities from effectively accessing information.",
-                    solution: "Implemented comprehensive accessibility features including screen reader optimization and voice navigation.",
-                    result: "Increased accessibility compliance to 100%, improved user satisfaction by 45% among disabled users.",
-                    role: "Accessibility Design Lead, partnered with disability advocacy groups and conducted inclusive design research.",
-                    image: "https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=400&h=300&fit=crop",
-                    tags: ["Accessibility", "Inclusive Design", "Search"],
-                    technologies: ["React", "Web Accessibility", "Voice Navigation", "Screen Readers"],
-                    duration: "6 months",
-                    teamSize: "8 people"
-                }
-            ];
-        },
-
-        // Show/hide loading states
-        showLoadingState() {
-            document.getElementById('loading-state').classList.remove('hidden');
-            document.getElementById('error-state').classList.add('hidden');
-        },
-
-        hideLoadingState() {
-            document.getElementById('loading-state').classList.add('hidden');
-        },
-
-        showErrorState() {
-            document.getElementById('loading-state').classList.add('hidden');
-            document.getElementById('error-state').classList.remove('hidden');
-        },
-
-        // Render project list
-        renderProjects() {
-            const projectList = document.getElementById('project-list');
-            
-            // Clear loading and error states
-            this.hideLoadingState();
-            document.getElementById('error-state').classList.add('hidden');
-            
-            // Clear existing projects
-            const existingProjects = projectList.querySelectorAll('.project-item');
-            existingProjects.forEach(item => item.remove());
-            
-            // Render each project
-            this.projects.forEach((project) => {
-                const projectDiv = document.createElement('div');
-                projectDiv.className = 'project-item border-t border-[#6A686C] py-6 cursor-pointer transition-colors duration-200 hover:bg-white hover:bg-opacity-5';
-                projectDiv.onclick = () => this.openProjectModal(project);
-                
-                projectDiv.innerHTML = this.renderProjectRow(project);
-                projectList.appendChild(projectDiv);
-            });
-            
-            // Add final border
-            const finalBorder = document.createElement('div');
-            finalBorder.className = 'border-t border-[#6A686C]';
-            projectList.appendChild(finalBorder);
-        },
-
-        // Render individual project row
-        renderProjectRow(project) {
-            return `
                 <!-- Mobile Layout (below 360px) -->
                 <div class="block xs:hidden">
                     <div class="flex items-center mb-4">
-                        <div class="font-mono text-[14px] text-text-primary font-semibold">${project.company}</div>
+                        <div class="font-mono text-[14px] text-text-primary font-semibold">{{ project.company }}</div>
                     </div>
                     <div class="mb-6">
                         <div class="font-mono text-[16px] text-text-primary leading-relaxed">
-                            ${project.description}
+                            {{ project.description }}
                         </div>
                     </div>
                     <div class="flex items-center justify-end text-text-primary">
@@ -238,9 +44,9 @@
                 <div class="hidden xs:block md:hidden">
                     <div class="mb-4">
                         <div class="flex items-center space-x-8">
-                            <div class="font-mono text-[16px] text-text-primary font-semibold">${project.company}</div>
+                            <div class="font-mono text-[16px] text-text-primary font-semibold">{{ project.company }}</div>
                             <div class="font-mono text-[18px] text-text-primary leading-relaxed">
-                                ${project.description}
+                                {{ project.description }}
                             </div>
                         </div>
                     </div>
@@ -254,10 +60,10 @@
 
                 <!-- Desktop Layout (768px and above) -->
                 <div class="hidden md:flex md:items-center">
-                    <div class="font-mono w-30 text-[16px] text-text-primary font-semibold text-center">${project.company}</div>
+                    <div class="font-mono w-30 text-[16px] text-text-primary font-semibold text-center">{{ project.company }}</div>
                     <div class="flex-1 px-11">
                         <div class="font-mono text-[20px] text-text-primary leading-relaxed">
-                            ${project.description}
+                            {{ project.description }}
                         </div>
                     </div>
                     <div class="flex items-center text-text-primary">
@@ -265,11 +71,40 @@
                         <img src="static/arrow.svg" class="w-3 h-3" alt="Learn more">
                     </div>
                 </div>
-            `;
-        },
+            </div>
+            {% endfor %}
+            
+            <!-- Final border -->
+            <div class="border-t border-[#6A686C]"></div>
+        </div>
+    </div>
+</section>
 
+<!-- Project Detail Modal -->
+<div id="project-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 opacity-0 invisible transition-all duration-300 z-50">
+    <div class="bg-black text-white max-w-4xl w-full max-h-[90vh] overflow-y-auto rounded-lg shadow-xl transform scale-95 transition-transform duration-300 relative">
+        <!-- Modal content will be inserted here -->
+    </div>
+</div>
+
+<script>
+    // Project Showcase Component
+    const ProjectShowcase = {
         // Open project modal
-        openProjectModal(project) {
+        openProjectModal(projectElement) {
+            const project = {
+                id: projectElement.dataset.projectId,
+                company: projectElement.dataset.projectCompany,
+                title: projectElement.dataset.projectTitle,
+                description: projectElement.dataset.projectDescription,
+                problem: projectElement.dataset.projectProblem,
+                solution: projectElement.dataset.projectSolution,
+                result: projectElement.dataset.projectResult,
+                role: projectElement.dataset.projectRole,
+                image: projectElement.dataset.projectImage,
+                narrative: projectElement.dataset.projectNarrative
+            };
+            
             const modal = document.getElementById('project-modal');
             const modalContent = modal.querySelector('.bg-black');
             
@@ -297,7 +132,6 @@
                         <h2 class="text-[24px] sm:text-[32px] md:text-[40px] font-bold font-helvetica uppercase">${project.title}</h2>
                         <div class="text-right">
                             <div class="text-sm font-mono">${project.company}</div>
-                            <div class="text-xs text-gray-400">${project.year}</div>
                         </div>
                     </div>
 
@@ -315,10 +149,8 @@
                             <!-- Right column -->
                             <div class="flex flex-col md:flex-row items-center justify-center gap-4">
                                 <img src="${project.image}" alt="${project.title}" class="w-full h-64 object-cover mb-6 rounded-lg">
-                                <div class="text-sm">
-                                    <p>This project represents a comprehensive strategic initiative aimed at optimizing operational efficiency while ensuring alignment with broader business objectives. The work involved a deep dive into existing workflows, structures, and resource allocation models to uncover bottlenecks, eliminate redundancies, and design more streamlined, adaptive processes.</p>
-                                    
-                                    <p class="mt-4">Through rigorous analysis, stakeholder interviews, and collaborative workshops, we identified critical gaps between strategic intent and day-to-day execution. We then developed and implemented a suite of scalable, data-informed solutions that not only improved internal performance metrics but also created a foundation for long-term resilience and sustainable growth.</p>
+                                <div class="text-sm leading-relaxed">
+                                    <p>${project.narrative}</p>
                                 </div>
                             </div>
                         </div>
@@ -335,30 +167,20 @@
                             <img src="${project.image}" alt="${project.title}" class="w-full h-48 object-cover rounded-lg">
                             
                             <div class="text-sm leading-relaxed">
-                                <p>This project represents a comprehensive strategic initiative aimed at optimizing operational efficiency while ensuring alignment with broader business objectives.</p>
+                                <p>${project.narrative}</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Action buttons -->
-                    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                        <button class="bg-[#F87C46] text-white px-6 py-2 font-mono text-sm uppercase hover:bg-orange-600 transition-colors rounded">
-                            ${project.company} PROJECT →
-                        </button>
-                        <button class="bg-[#629FDE] text-white px-6 py-2 font-mono text-sm uppercase hover:bg-blue-600 transition-colors rounded">
-                            ${project.company} PROJECT →
-                        </button>
-                        <button class="bg-[#F45CB3] text-white px-6 py-2 font-mono text-sm uppercase hover:bg-pink-600 transition-colors rounded">
-                            ${project.company} PROJECT →
-                        </button>
-                        <button class="bg-[#27AE60] text-white px-6 py-2 font-mono text-sm uppercase hover:bg-green-600 transition-colors rounded">
-                            ${project.company} PROJECT →
+                    <!-- Close button -->
+                    <div class="mt-8 flex justify-center">
+                        <button onclick="ProjectShowcase.closeProjectModal()" class="bg-[#629FDE] text-white px-6 py-2 font-mono text-sm uppercase hover:bg-blue-600 transition-colors rounded">
+                            CLOSE
                         </button>
                     </div>
                 </div>
             `;
         },
-
 
         // Render content section
         renderContentSection(title, content, isMobile = false) {
@@ -389,14 +211,16 @@
             document.body.style.overflow = 'auto';
         },
 
-        // Initialize component
-        async init() {
-            await this.loadProjects();
-            this.setupEventListeners();
-        },
-
         // Setup event listeners
         setupEventListeners() {
+            // Add click handlers to project items
+            document.addEventListener('click', (e) => {
+                const projectItem = e.target.closest('.project-item');
+                if (projectItem) {
+                    this.openProjectModal(projectItem);
+                }
+            });
+
             // Close modal when clicking outside
             document.getElementById('project-modal').addEventListener('click', (e) => {
                 if (e.target === e.currentTarget) {
@@ -415,6 +239,6 @@
 
     // Initialize when DOM is ready
     document.addEventListener('DOMContentLoaded', () => {
-        ProjectShowcase.init();
+        ProjectShowcase.setupEventListeners();
     });
 </script>
