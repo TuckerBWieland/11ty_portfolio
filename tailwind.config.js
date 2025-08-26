@@ -50,8 +50,8 @@ module.exports = {
       
               // Custom font families
         fontFamily: {
-          'helvetica': ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
-          'mono': ['IBM Plex Mono', 'monospace'],
+          'helvetica': ['IBM Plex Mono', 'monospace'],
+          'mono': ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
         },
       
       // Font sizes matching Figma design exactly
