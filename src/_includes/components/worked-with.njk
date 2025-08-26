@@ -1,503 +1,527 @@
-<!-- Mobile Layout (under 640px) -->
-<div class="sm:hidden bg-background-primary py-20" id="mobile-section">
-    <div class="px-4">
-        <!-- Section title centered -->
-        <div class="mb-16 text-center">
-            <h2 class="text-white uppercase font-bold leading-none tracking-normal align-middle" style="font-family: 'Helvetica Neue', sans-serif; font-weight: 700; font-size: 48px; line-height: 100%; letter-spacing: 0%;">
-                <div>WORKED</div>
-                <div>WITH</div>
-            </h2>
-        </div>
-        
-        <!-- Mobile Carousel -->
-        <div class="relative max-w-2xl mx-auto">
-            <!-- Swiper container -->
-            <div class="swiper logo-carousel px-12">
-                <div class="swiper-wrapper py-4">
-                    <!-- Original set -->
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-56 h-40 flex items-center justify-center">
-                            <img src="/static/image1.png" alt="L'Oreal" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-56 h-40 flex items-center justify-center">
-                            <img src="/static/image2.png" alt="Billion Oyster Project" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-56 h-40 flex items-center justify-center">
-                            <img src="/static/image3.png" alt="General Assembly" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-56 h-40 flex items-center justify-center">
-                            <img src="/static/image4.png" alt="Justworks" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-56 h-40 flex items-center justify-center">
-                            <img src="/static/image5.png" alt="UPS" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-56 h-40 flex items-center justify-center">
-                            <img src="/static/image6.png" alt="Shopify" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <!-- Duplicate set for smooth looping -->
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-56 h-40 flex items-center justify-center">
-                            <img src="/static/image1.png" alt="L'Oreal" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-56 h-40 flex items-center justify-center">
-                            <img src="/static/image2.png" alt="Billion Oyster Project" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-56 h-40 flex items-center justify-center">
-                            <img src="/static/image3.png" alt="General Assembly" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-56 h-40 flex items-center justify-center">
-                            <img src="/static/image4.png" alt="Justworks" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Navigation buttons -->
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
-            </div>
-        </div>
-            
-            <!-- Simple indicator text -->
-            <div class="text-center mt-4">
-                <div class="inline-flex items-center space-x-1">
-                    <div class="w-1 h-1 bg-white rounded-full animate-pulse"></div>
-                    <div class="w-1 h-1 bg-white bg-opacity-50 rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
-                    <div class="w-1 h-1 bg-white bg-opacity-30 rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- "and more :)" text -->
-        <div class="text-center mt-8">
-            <p class="font-mono text-white text-sm">
-                and more :)
-            </p>
-        </div>
+<!-- Worked With Section - Clean, Modern Implementation -->
+<section class="bg-background-primary py-32" id="worked-with">
+  <div class="max-w-content mx-auto px-4 xs:px-5 md:px-11">
+    
+    <!-- Section Title -->
+    <div class="mb-16 lg:mb-24">
+      <h2 class="font-helvetica font-bold text-text-primary uppercase leading-none">
+        <div class="text-[48px] md:text-[80px] lg:text-[120px] text-center lg:text-left">WORKED</div>
+        <div class="text-[48px] md:text-[80px] lg:text-[120px] text-center lg:text-right lg:mr-24">WITH</div>
+      </h2>
     </div>
-</div>
 
-<!-- Remove the spacer div since we don't need it anymore -->
-<div id="scroll-spacer" class="sm:hidden" style="height: 0px;"></div>
-
-<!-- Tablet Layout (640px - 1024px) -->
-<div class="hidden sm:block lg:hidden bg-background-primary py-20" id="tablet-section">
-    <div class="px-5">
-        <!-- Section title centered -->
-        <div class="mb-16 text-center">
-            <h2 class="text-white uppercase font-bold leading-none tracking-normal align-middle" style="font-family: 'Helvetica Neue', sans-serif; font-weight: 700; font-size: 80px; line-height: 100%; letter-spacing: 0%;">
-                <div>WORKED</div>
-                <div>WITH</div>
-            </h2>
-        </div>
-        
-        <!-- Tablet Carousel -->
-        <div class="relative max-w-4xl mx-auto">
-            <!-- Swiper container -->
-            <div class="swiper logo-carousel px-16">
-                <div class="swiper-wrapper py-6">
-                    <!-- Original set -->
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-64 h-44 flex items-center justify-center">
-                            <img src="/static/image1.png" alt="L'Oreal" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-64 h-44 flex items-center justify-center">
-                            <img src="/static/image2.png" alt="Billion Oyster Project" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-64 h-44 flex items-center justify-center">
-                            <img src="/static/image3.png" alt="General Assembly" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-64 h-44 flex items-center justify-center">
-                            <img src="/static/image4.png" alt="Justworks" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-64 h-44 flex items-center justify-center">
-                            <img src="/static/image5.png" alt="UPS" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-64 h-44 flex items-center justify-center">
-                            <img src="/static/image6.png" alt="Shopify" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <!-- Duplicate set for smooth looping -->
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-64 h-44 flex items-center justify-center">
-                            <img src="/static/image1.png" alt="L'Oreal" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-64 h-44 flex items-center justify-center">
-                            <img src="/static/image2.png" alt="Billion Oyster Project" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-64 h-44 flex items-center justify-center">
-                            <img src="/static/image3.png" alt="General Assembly" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-64 h-44 flex items-center justify-center">
-                            <img src="/static/image4.png" alt="Justworks" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Navigation buttons -->
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
-            </div>
-        </div>
-            
-            <!-- Simple indicator text -->
-            <div class="text-center mt-4">
-                <div class="inline-flex items-center space-x-1">
-                    <div class="w-1 h-1 bg-white rounded-full animate-pulse"></div>
-                    <div class="w-1 h-1 bg-white bg-opacity-50 rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
-                    <div class="w-1 h-1 bg-white bg-opacity-30 rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- "and more :)" text -->
-        <div class="text-right mt-8 max-w-2xl mx-auto">
-            <p class="font-mono text-white text-sm">
-                and more :)
-            </p>
-        </div>
+    <!-- Companies Grid -->
+    <div class="company-grid mb-12">
+      {% for company in companies.companies %}
+      <div class="company-item" data-company="{{ company.name }}" data-company-id="{{ company.id }}">
+        <!-- Single logo with CSS-based color change -->
+        <img 
+          src="{{ company.logo }}" 
+          alt="{{ company.name }} logo"
+          class="company-logo"
+          loading="lazy"
+        />
+      </div>
+      {% endfor %}
     </div>
-</div>
 
-<!-- Desktop Layout (1024px+) -->
-<div class="hidden lg:block bg-background-primary py-32" id="desktop-section">
-    <div class="max-w-container mx-auto">
-        <!-- Section title -->
-        <div class="grid grid-cols-5 gap-6 max-w-6xl mx-auto mb-8" id="logo-container">
-            <div></div>
-            <div class="opacity-0 translate-y-12 transition-all duration-2000 ease-out desktop-card">
-                <h2 class="text-white uppercase font-bold leading-none tracking-normal align-middle" style="font-family: 'Helvetica Neue', sans-serif; font-weight: 700; font-size: 120px; line-height: 100%; letter-spacing: 0%;">
-                    Worked
-                </h2>
-            </div>
-            <!-- Empty columns 4 and 5 for first row -->
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-        <div class="grid grid-cols-5 gap-6 max-w-6xl mx-auto mb-8" id="logo-container">
-            <!-- Second row: empty columns 1 and 2, then columns 3, 4, 5 -->
-            <div></div>
-            <div></div>
-            <h2 class="text-white uppercase font-bold leading-none tracking-normal align-middle" style="font-family: 'Helvetica Neue', sans-serif; font-weight: 700; font-size: 120px; line-height: 100%; letter-spacing: 0%;">
-                With
-            </h2>
-            <div></div>
-            <div></div>
-        </div>
-        
-        <!-- Desktop Carousel -->
-        <div class="relative max-w-6xl mx-auto">
-            <!-- Swiper container -->
-            <div class="swiper logo-carousel px-20">
-                <div class="swiper-wrapper py-8">
-                    <!-- Original set -->
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-72 h-48 flex items-center justify-center">
-                            <img src="/static/image1.png" alt="L'Oreal" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-72 h-48 flex items-center justify-center">
-                            <img src="/static/image2.png" alt="Billion Oyster Project" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-72 h-48 flex items-center justify-center">
-                            <img src="/static/image3.png" alt="General Assembly" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-72 h-48 flex items-center justify-center">
-                            <img src="/static/image4.png" alt="Justworks" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-72 h-48 flex items-center justify-center">
-                            <img src="/static/image5.png" alt="UPS" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-72 h-48 flex items-center justify-center">
-                            <img src="/static/image6.png" alt="Shopify" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <!-- Duplicate set for smooth looping -->
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-72 h-48 flex items-center justify-center">
-                            <img src="/static/image1.png" alt="L'Oreal" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-72 h-48 flex items-center justify-center">
-                            <img src="/static/image2.png" alt="Billion Oyster Project" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-72 h-48 flex items-center justify-center">
-                            <img src="/static/image3.png" alt="General Assembly" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex-shrink-0 w-72 h-48 flex items-center justify-center">
-                            <img src="/static/image4.png" alt="Justworks" class="w-full h-full object-contain"/>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Navigation buttons -->
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
-            </div>
-        </div>
-            
-            <!-- Simple indicator text -->
-            <div class="text-center mt-4">
-                <div class="inline-flex items-center space-x-1">
-                    <div class="w-1 h-1 bg-white rounded-full animate-pulse"></div>
-                    <div class="w-1 h-1 bg-white bg-opacity-50 rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
-                    <div class="w-1 h-1 bg-white bg-opacity-30 rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- "and more :)" text -->
-        <div class="text-right mt-12 max-w-6xl mx-auto">
-            <p class="font-mono text-white text-lg">
-                and more :)
-            </p>
-        </div>
+    <!-- Tooltip for company details -->
+    <div id="company-tooltip" class="company-tooltip">
+      <div class="tooltip-arrow"></div>
+      <div class="tooltip-content">
+        <h3 id="tooltip-company-name" class="tooltip-company-name"></h3>
+        <p id="tooltip-company-description" class="tooltip-company-description"></p>
+      </div>
     </div>
-</div>
 
-<!-- Swiper CSS from unpkg CDN (more reliable) -->
-<link rel="stylesheet" href="https://unpkg.com/swiper@11/swiper-bundle.min.css">
 
-<!-- Custom Navigation Button Styles -->
+
+  </div>
+</section>
+
+<!-- Scoped CSS for the component -->
 <style>
-/* Custom Navigation Buttons */
-.swiper-button-next,
-.swiper-button-prev {
-    width: 44px !important;
-    height: 44px !important;
-    margin-top: -22px !important;
-    background: rgba(255, 255, 255, 0.1) !important;
-    backdrop-filter: blur(10px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    border-radius: 50% !important;
-    color: #ffffff !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+/* Company Grid Layout */
+.company-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
+  align-items: center;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.swiper-button-next:hover,
-.swiper-button-prev:hover {
-    background: rgba(255, 255, 255, 0.2) !important;
-    border-color: rgba(255, 255, 255, 0.4) !important;
-    transform: scale(1.1) !important;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
+/* Desktop: 4 columns with centered incomplete rows */
+/* First 4 items fill first row normally */
+/* Items 5-6 center themselves in the second row */
+.company-item:nth-child(5) { 
+  grid-column: 2; /* Second column */
 }
 
-.swiper-button-next:after,
-.swiper-button-prev:after {
-    font-size: 16px !important;
-    font-weight: bold !important;
+.company-item:nth-child(6) { 
+  grid-column: 3; /* Third column */
 }
 
-/* Position adjustments for better spacing */
-.swiper-button-next {
-    right: -20px !important;
+/* Mobile: 2 columns with centered incomplete rows */
+@media (max-width: 768px) {
+  .company-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    max-width: 400px;
+  }
+  
+  /* Reset desktop positioning */
+  .company-item:nth-child(5),
+  .company-item:nth-child(6) { 
+    grid-column: auto;
+  }
+  
+  /* Center odd item (if any) in the last row */
+  .company-item:nth-last-child(1):nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
 }
 
-.swiper-button-prev {
-    left: -20px !important;
+@media (max-width: 480px) {
+  .company-grid {
+    gap: 1rem;
+    max-width: 320px;
+  }
 }
 
-/* Mobile responsive adjustments */
+/* Company Item Styling */
+.company-item {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 80px;
+  width: 100%;
+  max-width: 200px;
+}
+
+.company-item:hover {
+  transform: translateY(-4px) scale(1.05);
+}
+
+.company-logo {
+  height: 80px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+  transition: all 0.3s ease;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* Default white SVG fill */
+  filter: brightness(0) invert(1);
+}
+
+/* Accent color cycling - each company gets a different color on hover */
+.company-item:nth-child(1):hover .company-logo {
+  /* Orange #f87c46 */
+  filter: brightness(0) saturate(100%) invert(64%) sepia(77%) saturate(2647%) hue-rotate(342deg) brightness(101%) contrast(95%);
+}
+
+.company-item:nth-child(2):hover .company-logo {
+  /* Blue #629fde */
+  filter: brightness(0) saturate(100%) invert(60%) sepia(65%) saturate(4049%) hue-rotate(200deg) brightness(94%) contrast(86%);
+}
+
+.company-item:nth-child(3):hover .company-logo {
+  /* Pink #f45cb3 */
+  filter: brightness(0) saturate(100%) invert(58%) sepia(88%) saturate(5084%) hue-rotate(295deg) brightness(96%) contrast(89%);
+}
+
+.company-item:nth-child(4):hover .company-logo {
+  /* Green #27ae60 */
+  filter: brightness(0) saturate(100%) invert(52%) sepia(98%) saturate(1417%) hue-rotate(108deg) brightness(97%) contrast(86%);
+}
+
+.company-item:nth-child(5):hover .company-logo {
+  /* Orange #f87c46 - cycle back to start */
+  filter: brightness(0) saturate(100%) invert(64%) sepia(77%) saturate(2647%) hue-rotate(342deg) brightness(101%) contrast(95%);
+}
+
+.company-item:nth-child(6):hover .company-logo {
+  /* Blue #629fde */
+  filter: brightness(0) saturate(100%) invert(60%) sepia(65%) saturate(4049%) hue-rotate(200deg) brightness(94%) contrast(86%);
+}
+
+/* Force hover state for click-opened tooltips */
+.company-item.force-hover:nth-child(1) .company-logo {
+  /* Orange #f87c46 */
+  filter: brightness(0) saturate(100%) invert(64%) sepia(77%) saturate(2647%) hue-rotate(342deg) brightness(101%) contrast(95%);
+}
+
+.company-item.force-hover:nth-child(2) .company-logo {
+  /* Blue #629fde */
+  filter: brightness(0) saturate(100%) invert(60%) sepia(65%) saturate(4049%) hue-rotate(200deg) brightness(94%) contrast(86%);
+}
+
+.company-item.force-hover:nth-child(3) .company-logo {
+  /* Pink #f45cb3 */
+  filter: brightness(0) saturate(100%) invert(58%) sepia(88%) saturate(5084%) hue-rotate(295deg) brightness(96%) contrast(89%);
+}
+
+.company-item.force-hover:nth-child(4) .company-logo {
+  /* Green #27ae60 */
+  filter: brightness(0) saturate(100%) invert(52%) sepia(98%) saturate(1417%) hue-rotate(108deg) brightness(97%) contrast(86%);
+}
+
+.company-item.force-hover:nth-child(5) .company-logo {
+  /* Orange #f87c46 - cycle back to start */
+  filter: brightness(0) saturate(100%) invert(64%) sepia(77%) saturate(2647%) hue-rotate(342deg) brightness(101%) contrast(95%);
+}
+
+.company-item.force-hover:nth-child(6) .company-logo {
+  /* Blue #629fde */
+  filter: brightness(0) saturate(100%) invert(60%) sepia(65%) saturate(4049%) hue-rotate(200deg) brightness(94%) contrast(86%);
+}
+
+@media (max-width: 768px) {
+  .company-item {
+    height: 70px;
+    width: 100%;
+    max-width: 180px;
+  }
+  
+  .company-logo {
+    height: 70px;
+    max-width: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .company-item {
+    height: 60px;
+    width: 100%;
+    max-width: 140px;
+  }
+  
+  .company-logo {
+    height: 60px;
+    max-width: 140px;
+  }
+}
+
+/* Tooltip Styling */
+.company-tooltip {
+  position: fixed;
+  z-index: 9999;
+  background-color: #629fde; /* Blue accent color */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  padding: 0;
+  max-width: 320px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.company-tooltip.show {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) !important;
+  pointer-events: auto;
+}
+
+.tooltip-arrow {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  background-color: #2C2931;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: none;
+  border-right: none;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.tooltip-content {
+  padding: 16px 20px;
+}
+
+.tooltip-company-name {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+
+.tooltip-company-description {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.4;
+  margin: 0;
+}
+
 @media (max-width: 640px) {
-    .swiper-button-next,
-    .swiper-button-prev {
-        width: 36px !important;
-        height: 36px !important;
-        margin-top: -18px !important;
-    }
-    
-    .swiper-button-next:after,
-    .swiper-button-prev:after {
-        font-size: 14px !important;
-    }
-    
-    .swiper-button-next {
-        right: -15px !important;
-    }
-    
-    .swiper-button-prev {
-        left: -15px !important;
-    }
+  .company-tooltip {
+    max-width: 280px;
+  }
+  
+  .tooltip-content {
+    padding: 12px 16px;
+  }
+  
+  .tooltip-company-name {
+    font-size: 0.75rem;
+  }
+  
+  .tooltip-company-description {
+    font-size: 0.6875rem;
+    line-height: 1.3;
+  }
+}
+
+/* Animation for scroll-in effect */
+.company-item {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.company-item:nth-child(1) { animation-delay: 0.1s; }
+.company-item:nth-child(2) { animation-delay: 0.2s; }
+.company-item:nth-child(3) { animation-delay: 0.3s; }
+.company-item:nth-child(4) { animation-delay: 0.4s; }
+.company-item:nth-child(5) { animation-delay: 0.5s; }
+.company-item:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .company-item {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  
+  .company-item,
+  .company-logo {
+    transition: none;
+  }
 }
 </style>
 
-<!-- Swiper JS from unpkg with fallback -->
+<!-- JavaScript for tooltip functionality -->
 <script>
-// Load Swiper with fallback
 (function() {
-    function loadSwiper() {
-        // Try unpkg first
-        const script = document.createElement('script');
-        script.src = 'https://unpkg.com/swiper@11/swiper-bundle.min.js';
-        script.onload = function() {
-            console.log('Swiper loaded from unpkg');
-            initializeCarousel();
-        };
-        script.onerror = function() {
-            // Fallback to jsdelivr
-            console.log('unpkg failed, trying jsdelivr');
-            const fallbackScript = document.createElement('script');
-            fallbackScript.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
-            fallbackScript.onload = function() {
-                console.log('Swiper loaded from jsdelivr');
-                initializeCarousel();
-            };
-            fallbackScript.onerror = function() {
-                console.error('All Swiper CDNs failed');
-                // Fallback to basic CSS animation
-                initBasicCarousel();
-            };
-            document.head.appendChild(fallbackScript);
-        };
-        document.head.appendChild(script);
-    }
+  'use strict';
+  
+  // Company descriptions
+  const companyDescriptions = {
+    'shopify': "Lead marketer and operations focused on building trust and engagement with global developer audiences.",
+    'justworks': "Directed marketing strategy and operations, with emphasis on corporate and go-to-market operations.",
+    'loreal': "Crafted marketing assessments and training to identify skill gaps and implement initiatives across a large organization.",
+    'ups': "Completed 170 go-to-market assessments for small- and medium-sized businesses nationwide.",
+    'general-assembly': "Product Manager for enterprise learning products sold to Fortune 500 companies to reskill employee workforces.",
+    'billion-oyster': "Volunteer as a community scientist—collecting water samples and building data visualizations to make environmental data more accessible."
+  };
 
-    function initializeCarousel() {
-        // Initialize Swiper carousels
-        const carousels = document.querySelectorAll('.logo-carousel');
-        
-        carousels.forEach(carousel => {
-            new Swiper(carousel, {
-                slidesPerView: 3,
-                spaceBetween: 0,
-                centeredSlides: false,
-                loop: true,
-                autoplay: {
-                    delay: 3000,
-                    disableOnInteraction: false,
-                },
-                speed: 600,
-                effect: 'slide',
-                slidesPerGroup: 1,
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-                breakpoints: {
-                    0: {
-                        slidesPerView: 2,
-                        spaceBetween: 0,
-                        slidesPerGroup: 1,
-                    },
-                    640: {
-                        slidesPerView: 3.5,
-                        spaceBetween: 0,
-                        slidesPerGroup: 1,
-                    },
-                    1024: {
-                        slidesPerView: 4.2,
-                        spaceBetween: 0,
-                        slidesPerGroup: 1,
-                    },
-                    1440: {
-                        slidesPerView: 5,
-                        spaceBetween: 0,
-                        slidesPerGroup: 1,
-                    }
-                }
-            });
-        });
-
-        // Simple fade-in animation for desktop cards
-        initDesktopAnimation();
+  // Tooltip elements
+  const tooltip = document.getElementById('company-tooltip');
+  const tooltipName = document.getElementById('tooltip-company-name');
+  const tooltipDescription = document.getElementById('tooltip-company-description');
+  
+  // Company items
+  const companyItems = document.querySelectorAll('.company-item');
+  
+  // Early exit if essential elements are missing
+  if (!tooltip || !tooltipName || !tooltipDescription || companyItems.length === 0) {
+    console.error('Essential tooltip elements not found, aborting script');
+    return;
+  }
+  
+  let tooltipTimeout;
+  let isClickOpen = false;
+  let currentClickedItem = null;
+  
+  // Function to position tooltip relative to the hovered element
+  function positionTooltip(element) {
+    const rect = element.getBoundingClientRect();
+    
+    // Calculate position relative to the viewport
+    let left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2);
+    let top = rect.bottom + 12; // 12px gap below the logo
+    
+    // Ensure tooltip doesn't go off-screen horizontally
+    const padding = 16;
+    if (left < padding) {
+      left = padding;
+    } else if (left + tooltip.offsetWidth > window.innerWidth - padding) {
+      left = window.innerWidth - tooltip.offsetWidth - padding;
     }
-
-    function initBasicCarousel() {
-        console.log('Using basic carousel fallback');
-        // Basic CSS-only carousel as fallback
-        const carousels = document.querySelectorAll('.logo-carousel');
-        carousels.forEach(carousel => {
-            const wrapper = carousel.querySelector('.swiper-wrapper');
-            if (wrapper) {
-                wrapper.style.display = 'flex';
-                wrapper.style.animation = 'scroll 20s linear infinite';
-                wrapper.style.width = 'max-content';
-            }
-        });
-        
-        // Add CSS animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes scroll {
-                0% { transform: translateX(0); }
-                100% { transform: translateX(-50%); }
-            }
-        `;
-        document.head.appendChild(style);
-        
-        initDesktopAnimation();
+    
+    // Ensure tooltip doesn't go off-screen vertically
+    if (top + tooltip.offsetHeight > window.innerHeight - padding) {
+      top = rect.top - tooltip.offsetHeight - 12; // Show above instead
     }
-
-    function initDesktopAnimation() {
-        const desktopCards = document.querySelectorAll('.desktop-card');
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, { threshold: 0.1 });
-        
-        desktopCards.forEach(card => {
-            observer.observe(card);
-        });
+    
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top + 'px';
+  }
+  
+  // Function to show tooltip
+  function showTooltip(item) {
+    const companyName = item.getAttribute('data-company');
+    const companyId = item.getAttribute('data-company-id');
+    
+    tooltipName.textContent = companyName;
+    tooltipDescription.textContent = companyDescriptions[companyId] || 'Information not available.';
+    
+    positionTooltip(item);
+    tooltip.classList.add('show');
+  }
+  
+  // Function to hide tooltip
+  function hideTooltip() {
+    tooltip.classList.remove('show');
+    
+    // Reset hover state on the currently clicked item when tooltip transition ends
+    if (currentClickedItem) {
+      const itemToReset = currentClickedItem;
+      
+      // Listen for the tooltip's transition to complete, then reset logo color
+      const handleTransitionEnd = (e) => {
+        if (e.target === tooltip && e.propertyName === 'opacity') {
+          itemToReset.classList.remove('force-hover');
+          tooltip.removeEventListener('transitionend', handleTransitionEnd);
+        }
+      };
+      
+      tooltip.addEventListener('transitionend', handleTransitionEnd);
     }
-
-    // Start loading when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', loadSwiper);
-    } else {
-        loadSwiper();
+    
+    isClickOpen = false;
+    currentClickedItem = null;
+  }
+  
+  // Show tooltip on hover and click
+  companyItems.forEach(item => {
+    // Click functionality
+    item.addEventListener('click', function(e) {
+      e.preventDefault();
+      clearTimeout(tooltipTimeout);
+      
+      // If clicking the same item that's already open, close it
+      if (isClickOpen && currentClickedItem === this) {
+        hideTooltip();
+        return;
+      }
+      
+      // Otherwise show tooltip and mark as click-opened
+      
+      // Remove force-hover from any previous item
+      if (currentClickedItem) {
+        currentClickedItem.classList.remove('force-hover');
+      }
+      
+      isClickOpen = true;
+      currentClickedItem = this;
+      this.classList.add('force-hover');
+      showTooltip(this);
+    });
+    
+    // Hover functionality (only if not click-opened)
+    item.addEventListener('mouseenter', function() {
+      if (!isClickOpen) {
+        clearTimeout(tooltipTimeout);
+        showTooltip(this);
+      }
+    });
+    
+    item.addEventListener('mouseleave', function() {
+      if (!isClickOpen) {
+        tooltipTimeout = setTimeout(() => {
+          tooltip.classList.remove('show');
+        }, 150); // Small delay to prevent flickering
+      }
+    });
+  });
+  
+  // Hide tooltip when mouse leaves tooltip area (only for hover-opened tooltips)
+  tooltip.addEventListener('mouseenter', function() {
+    if (!isClickOpen) {
+      clearTimeout(tooltipTimeout);
     }
+  });
+  
+  tooltip.addEventListener('mouseleave', function() {
+    if (!isClickOpen) {
+      tooltip.classList.remove('show');
+    }
+  });
+  
+  // Click outside to dismiss (only for click-opened tooltips)
+  document.addEventListener('click', function(e) {
+    if (isClickOpen && 
+        !tooltip.contains(e.target) && 
+        !e.target.closest('.company-item')) {
+      hideTooltip();
+    }
+  });
+  
+  // Hide tooltip on scroll
+  window.addEventListener('scroll', function() {
+    hideTooltip();
+  });
+  
+  // Hide tooltip on window resize
+  window.addEventListener('resize', function() {
+    hideTooltip();
+  });
+  
+  // Hide tooltip with Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && isClickOpen) {
+      hideTooltip();
+    }
+  });
+
+  // Intersection Observer for scroll-triggered animations
+  if ('IntersectionObserver' in window) {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '-50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+        }
+      });
+    }, observerOptions);
+
+    // Observe the grid container
+    const grid = document.querySelector('.company-grid');
+    if (grid) {
+      observer.observe(grid);
+    }
+  }
 })();
 </script>
