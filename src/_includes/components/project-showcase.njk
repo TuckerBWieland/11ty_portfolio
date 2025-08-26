@@ -1,4 +1,4 @@
-<section class="bg-background-primary pt-32 pb-15">
+<section class="relative z-10 pt-16 pb-15">
     <div class="max-w-content mx-auto px-4 xs:px-5 md:px-11">
         
         {% from "macros/split-title.njk" import SplitTitle %}
@@ -81,7 +81,7 @@
 
 <!-- Project Detail Modal -->
 <div id="project-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 opacity-0 invisible transition-all duration-300 z-50">
-    <div class="bg-black text-white max-w-4xl w-full max-h-[90vh] overflow-y-auto rounded-lg shadow-xl transform scale-95 transition-transform duration-300 relative">
+    <div class="bg-background-primary text-white max-w-4xl w-full max-h-[90vh] overflow-y-auto rounded-lg shadow-xl transform scale-95 transition-transform duration-300 relative">
         <!-- Modal content will be inserted here -->
     </div>
 </div>
@@ -89,6 +89,11 @@
 <script>
     // Project Showcase Component
     const ProjectShowcase = {
+        // Store current project data
+        currentProject: null,
+        currentProjectIndex: -1,
+        allProjects: [],
+        
         // Open project modal
         openProjectModal(projectElement) {
             const project = {
@@ -105,8 +110,19 @@
                 media: JSON.parse(projectElement.dataset.projectMedia || '[]')
             };
             
+            // Initialize all projects array if not done yet
+            if (this.allProjects.length === 0) {
+                this.initializeProjects();
+            }
+            
+            // Find current project index
+            this.currentProjectIndex = this.allProjects.findIndex(p => p.id === project.id);
+            
+            // Store current project for lightbox navigation
+            this.currentProject = project;
+            
             const modal = document.getElementById('project-modal');
-            const modalContent = modal.querySelector('.bg-black');
+            const modalContent = modal.querySelector('.bg-background-primary');
             
             modalContent.innerHTML = this.renderModalContent(project);
             
@@ -114,6 +130,9 @@
             modal.classList.remove('opacity-0', 'invisible');
             modalContent.classList.remove('scale-95');
             document.body.style.overflow = 'hidden';
+            
+            // Show sticky navigation arrows
+            this.showStickyNavigation();
         },
 
         // Render modal content
@@ -125,6 +144,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
+
+
 
                 <div class="px-2 py-10 md:p-16">
                     <!-- Header -->
@@ -245,11 +266,9 @@
             const lightbox = document.getElementById('lightbox') || this.createLightbox();
             const img = lightbox.querySelector('img');
             
-            // Find current image index and store media array
-            const currentProjectElement = document.querySelector('.project-item[data-project-media]');
-            if (currentProjectElement) {
-                const mediaArray = JSON.parse(currentProjectElement.dataset.projectMedia || '[]');
-                const images = mediaArray.filter(media => media.type === 'image');
+            // Use current project's media data
+            if (this.currentProject && this.currentProject.media) {
+                const images = this.currentProject.media.filter(media => media.type === 'image');
                 const currentIndex = images.findIndex(image => image.src === src);
                 
                 lightbox.dataset.currentIndex = currentIndex;
@@ -270,6 +289,9 @@
             
             lightbox.classList.remove('opacity-0', 'invisible');
             document.body.style.overflow = 'hidden';
+            
+            // Hide sticky navigation while lightbox is open
+            this.hideStickyNavigation();
         },
 
         // Open video player
@@ -303,13 +325,16 @@
             
             videoPlayer.classList.remove('opacity-0', 'invisible');
             document.body.style.overflow = 'hidden';
+            
+            // Hide sticky navigation while video player is open
+            this.hideStickyNavigation();
         },
 
         // Create lightbox
         createLightbox() {
             const lightbox = document.createElement('div');
             lightbox.id = 'lightbox';
-            lightbox.className = 'fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-4 opacity-0 invisible transition-all duration-300 z-50';
+            lightbox.className = 'fixed inset-0 bg-background-primary bg-opacity-90 flex items-center justify-center p-4 opacity-0 invisible transition-all duration-300 z-50';
             lightbox.innerHTML = `
                 <div class="relative max-w-4xl max-h-full">
                     <img class="max-w-full max-h-full object-contain" />
@@ -322,14 +347,14 @@
                     </button>
                     
                     <!-- Previous button -->
-                    <button onclick="ProjectShowcase.navigateLightbox(-1)" class="lightbox-prev absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 transition-colors bg-black bg-opacity-50 rounded-full p-2">
+                    <button onclick="ProjectShowcase.navigateLightbox(-1)" class="lightbox-prev absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 transition-colors bg-background-primary bg-opacity-50 rounded-full p-2">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                         </svg>
                     </button>
                     
                     <!-- Next button -->
-                    <button onclick="ProjectShowcase.navigateLightbox(1)" class="lightbox-next absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 transition-colors bg-black bg-opacity-50 rounded-full p-2">
+                    <button onclick="ProjectShowcase.navigateLightbox(1)" class="lightbox-next absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 transition-colors bg-background-primary bg-opacity-50 rounded-full p-2">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
@@ -351,7 +376,7 @@
         createVideoPlayer() {
             const videoPlayer = document.createElement('div');
             videoPlayer.id = 'video-player';
-            videoPlayer.className = 'fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-4 opacity-0 invisible transition-all duration-300 z-50';
+            videoPlayer.className = 'fixed inset-0 bg-background-primary bg-opacity-90 flex items-center justify-center p-4 opacity-0 invisible transition-all duration-300 z-50';
             videoPlayer.innerHTML = `
                 <div class="relative max-w-4xl max-h-full">
                     <video class="max-w-full max-h-full" controls autoplay>
@@ -415,6 +440,9 @@
             if (lightbox) {
                 lightbox.classList.add('opacity-0', 'invisible');
                 document.body.style.overflow = 'auto';
+                
+                // Restore sticky navigation when lightbox closes
+                this.showStickyNavigation();
             }
         },
 
@@ -438,17 +466,143 @@
                 
                 videoPlayer.classList.add('opacity-0', 'invisible');
                 document.body.style.overflow = 'auto';
+                
+                // Restore sticky navigation when video player closes
+                this.showStickyNavigation();
             }
         },
 
         // Close project modal
         closeProjectModal() {
             const modal = document.getElementById('project-modal');
-            const modalContent = modal.querySelector('.bg-black');
+            const modalContent = modal.querySelector('.bg-background-primary');
             
             modal.classList.add('opacity-0', 'invisible');
             modalContent.classList.add('scale-95');
             document.body.style.overflow = 'auto';
+            
+            // Hide sticky navigation arrows
+            this.hideStickyNavigation();
+            
+            // Clear current project data
+            this.currentProject = null;
+            this.currentProjectIndex = -1;
+        },
+
+        // Initialize projects array from DOM
+        initializeProjects() {
+            const projectElements = document.querySelectorAll('.project-item[data-project-id]');
+            this.allProjects = Array.from(projectElements).map(element => ({
+                id: element.dataset.projectId,
+                company: element.dataset.projectCompany,
+                title: element.dataset.projectTitle,
+                description: element.dataset.projectDescription,
+                problem: element.dataset.projectProblem,
+                solution: element.dataset.projectSolution,
+                result: element.dataset.projectResult,
+                role: element.dataset.projectRole,
+                image: element.dataset.projectImage,
+                narrative: element.dataset.projectNarrative,
+                media: JSON.parse(element.dataset.projectMedia || '[]'),
+                element: element
+            }));
+        },
+
+        // Navigate to previous project
+        navigateToPreviousProject() {
+            if (this.allProjects.length <= 1) return;
+            
+            let newIndex = this.currentProjectIndex - 1;
+            if (newIndex < 0) {
+                newIndex = this.allProjects.length - 1;
+            }
+            
+            this.switchToProject(newIndex);
+        },
+
+        // Navigate to next project
+        navigateToNextProject() {
+            if (this.allProjects.length <= 1) return;
+            
+            let newIndex = this.currentProjectIndex + 1;
+            if (newIndex >= this.allProjects.length) {
+                newIndex = 0;
+            }
+            
+            this.switchToProject(newIndex);
+        },
+
+        // Switch to project by index
+        switchToProject(newIndex) {
+            if (newIndex < 0 || newIndex >= this.allProjects.length) return;
+            
+            const newProject = this.allProjects[newIndex];
+            this.currentProject = newProject;
+            this.currentProjectIndex = newIndex;
+            
+            // Update modal content
+            const modal = document.getElementById('project-modal');
+            const modalContent = modal.querySelector('.bg-background-primary');
+            modalContent.innerHTML = this.renderModalContent(newProject);
+            
+            // Scroll modal content to top with smooth animation
+            modalContent.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            
+            // Update sticky navigation visibility
+            this.updateStickyNavigation();
+        },
+
+        // Show sticky navigation arrows
+        showStickyNavigation() {
+            this.hideStickyNavigation(); // Remove any existing arrows first
+            
+            if (this.allProjects.length > 1) {
+                // Create previous arrow
+                const prevArrow = document.createElement('button');
+                prevArrow.id = 'sticky-prev-arrow';
+                prevArrow.className = 'fixed left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 transition-colors bg-background-primary bg-opacity-70 hover:bg-opacity-90 rounded-full p-3 z-50 shadow-lg';
+                prevArrow.innerHTML = `
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                `;
+                prevArrow.onclick = () => this.navigateToPreviousProject();
+                
+                // Create next arrow
+                const nextArrow = document.createElement('button');
+                nextArrow.id = 'sticky-next-arrow';
+                nextArrow.className = 'fixed right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 transition-colors bg-background-primary bg-opacity-70 hover:bg-opacity-90 rounded-full p-3 z-50 shadow-lg';
+                nextArrow.innerHTML = `
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                `;
+                nextArrow.onclick = () => this.navigateToNextProject();
+                
+                document.body.appendChild(prevArrow);
+                document.body.appendChild(nextArrow);
+            }
+        },
+
+        // Hide sticky navigation arrows
+        hideStickyNavigation() {
+            const prevArrow = document.getElementById('sticky-prev-arrow');
+            const nextArrow = document.getElementById('sticky-next-arrow');
+            
+            if (prevArrow) prevArrow.remove();
+            if (nextArrow) nextArrow.remove();
+        },
+
+        // Update sticky navigation visibility
+        updateStickyNavigation() {
+            if (this.allProjects.length > 1) {
+                this.showStickyNavigation();
+            } else {
+                this.hideStickyNavigation();
+            }
         },
 
         // Setup event listeners
@@ -489,6 +643,14 @@
                         this.navigateLightbox(-1);
                     } else if (e.key === 'ArrowRight') {
                         this.navigateLightbox(1);
+                    }
+                } else if (projectModal && !projectModal.classList.contains('invisible') && 
+                          (!videoPlayer || videoPlayer.classList.contains('invisible'))) {
+                    // Navigate between projects with arrow keys when modal is open but lightbox/video is not
+                    if (e.key === 'ArrowLeft') {
+                        this.navigateToPreviousProject();
+                    } else if (e.key === 'ArrowRight') {
+                        this.navigateToNextProject();
                     }
                 }
             });

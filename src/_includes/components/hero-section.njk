@@ -1,9 +1,10 @@
 <!-- Hero Section Component -->
-<section class="relative min-h-screen w-full overflow-hidden bg-background-primary">
+<!-- Background lines clip fixed: overflow-hidden → overflow-visible + isolate z-10 with -z-10 background layer -->
+<section class="relative isolate z-10 min-h-screen w-full overflow-visible bg-background-primary pb-16 md:pb-24">
 
   <!-- Background abstract lines -->
-  <div class="absolute inset-0 pointer-events-none z-5">
-    <img src="/static/Tangled line.svg" alt="Abstract background lines" class="w-full h-full object-cover">
+  <div class="absolute inset-0 pointer-events-none -z-10 h-[150vh]">
+    <img src="/static/Tangled line.svg" alt="Abstract background lines" class="w-full h-full object-cover" decoding="async">
   </div>
 
   <!-- Header -->
@@ -13,20 +14,20 @@
     </div>
     
     <!-- Mobile menu button -->
-    <button id="mobile-menu-button" class="w-8 h-8 flex items-center justify-center xs:w-9 xs:h-9 md:w-11 md:h-11 z-40 relative">
+    <button id="mobile-menu-button" class="w-8 h-8 flex items-center justify-center xs:w-9 xs:h-9 md:w-11 md:h-11 z-40 relative" aria-controls="mobile-menu" aria-expanded="false">
       <div class="hamburger w-5 h-5 flex flex-col justify-center space-y-1 xs:w-5.5 xs:h-5.5 md:w-6 md:h-6">
-        <div class="hamburger-line w-full h-0.5 bg-text-primary"></div>
-        <div class="hamburger-line w-full h-0.5 bg-text-primary"></div>
-        <div class="hamburger-line w-full h-0.5 bg-text-primary"></div>
+        <div class="hamburger-line w-full h-0.5 bg-text-primary transition-all duration-300 ease-in-out"></div>
+        <div class="hamburger-line w-full h-0.5 bg-text-primary transition-all duration-300 ease-in-out"></div>
+        <div class="hamburger-line w-full h-0.5 bg-text-primary transition-all duration-300 ease-in-out"></div>
       </div>
     </button>
   </header>
 
   <!-- Mobile Menu Overlay -->
-  <div id="menu-overlay" class="menu-overlay fixed inset-0 bg-black bg-opacity-50 z-20"></div>
+  <div id="menu-overlay" class="menu-overlay fixed inset-0 bg-black bg-opacity-50 z-20 opacity-0 invisible transition-all duration-300 ease-in-out"></div>
 
   <!-- Mobile Menu Sidebar -->
-  <nav id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-80 h-full bg-background-secondary z-30 flex flex-col">
+  <nav id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-80 h-full bg-background-secondary z-30 flex flex-col transform translate-x-full transition-transform duration-300 ease-in-out"
     <div class="flex justify-end p-6">
       <button id="close-menu" class="w-8 h-8 flex items-center justify-center text-text-primary">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
