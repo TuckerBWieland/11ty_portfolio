@@ -1,0 +1,40 @@
+{
+  "companies": [
+    {
+      "id": "loreal",
+      "name": "L'Oréal",
+      "logo": "/static/company-logos/L'Oreal logo.svg?v=2",
+      "description": "Crafted marketing assessments and training to identify skill gaps and implement initiatives across a large organization."
+    },
+    {
+      "id": "billion-oyster",
+      "name": "Billion Oyster Project",
+      "logo": "/static/company-logos/BOP Logo.svg?v=2", 
+      "description": "Volunteer as a community scientist—collecting water samples and building data visualizations to make environmental data more accessible."
+    },
+    {
+      "id": "general-assembly",
+      "name": "General Assembly",
+      "logo": "/static/company-logos/GA logo.svg?v=2",
+      "description": "Product Manager for enterprise learning products sold to Fortune 500 companies to reskill employee workforces."
+    },
+    {
+      "id": "justworks",
+      "name": "Justworks",
+      "logo": "/static/company-logos/Justworks Logo.svg?v=2",
+      "description": "Directed marketing strategy and operations, with emphasis on corporate and go-to-market operations."
+    },
+    {
+      "id": "ups",
+      "name": "UPS",
+      "logo": "/static/company-logos/UPS logo.svg?v=2",
+      "description": "Completed 170 go-to-market assessments for small- and medium-sized businesses nationwide."
+    },
+    {
+      "id": "shopify",
+      "name": "Shopify", 
+      "logo": "/static/company-logos/Shopify Logo.svg?v=2",
+      "description": "Lead marketer and operations focused on building trust and engagement with global developer audiences."
+    }
+  ]
+}
