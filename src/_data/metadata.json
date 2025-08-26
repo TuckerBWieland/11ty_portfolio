@@ -3,6 +3,7 @@
     "title": "Tucker Wieland - Strategy & Operations Executive.",
     "description": "I help companies transform messy ideas into scalable systems that drive growth.",
     "url": "https://tuckerwieland.com",
-    "author": "Tucker Wieland"
+    "author": "Tucker Wieland",
+    "favicon": "/static/me.png"
   }
 }

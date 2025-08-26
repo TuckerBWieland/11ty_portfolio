@@ -7,6 +7,10 @@
   
   <title>{% if title %}{{ title }}{% else %}{{ metadata.site.title }}{% endif %}</title>
   
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="{{ metadata.site.favicon }}">
+  <link rel="apple-touch-icon" href="{{ metadata.site.favicon }}">
+  
   <!-- Main CSS -->
   <link rel="stylesheet" href="/css/main.css">
   <!-- Preload hero art for above-the-fold optimization -->
