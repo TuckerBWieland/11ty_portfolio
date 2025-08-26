@@ -1,243 +1,273 @@
 # Tucker Wieland Portfolio
 
-A sophisticated, professional portfolio website built with a comprehensive design system based on Figma designs. This project demonstrates strategic thinking, operational excellence, and modern web development practices.
+A professional portfolio website showcasing strategy & operations expertise. Built with Eleventy static site generator, Tailwind CSS, and a systematic design approach based on Figma designs.
+
+## 🎯 Overview
+
+This portfolio demonstrates modern web development practices while maintaining focus on content and user experience. The site features:
+
+- **Single Page Application**: Hero section, project showcase, company experience, about, and contact
+- **Component-Based Architecture**: Modular Nunjucks components for maintainability
+- **Responsive Design**: Mobile-first approach with tablet and desktop breakpoints
+- **Performance Optimized**: Static site generation with image optimization
 
 ## 🎨 Design System
 
-This portfolio is built using a carefully crafted design system extracted from Figma designs, featuring:
+Built with a carefully crafted design system extracted from Figma:
 
-- **Dark Theme**: Professional charcoal backgrounds with high contrast
-- **Typography**: Helvetica Neue for headings, IBM Plex Mono for body text
-- **Color Palette**: Strategic use of accent colors (orange, blue, pink, green)
-- **Spacing System**: 4px base unit for consistent layouts
-- **Component Library**: Reusable UI components with consistent patterns
-
-### Design Philosophy
-- **Professional & Strategic**: Reflects operational strategist expertise
-- **Clean & Modern**: Minimalist approach with intentional use of space
-- **Accessible**: High contrast ratios exceeding WCAG AAA standards
-- **Consistent**: Systematic design tokens for maintainable code
+- **Dark Theme**: Professional dark backgrounds (#242128) with high contrast
+- **Typography**: Helvetica Neue for headings (bold, large scale), IBM Plex Mono for body text
+- **Color Palette**: Strategic accent colors (orange #f87c46, blue #629fde, pink #f45cb3, green #27ae60)
+- **Spacing System**: 4px base unit with systematic scaling
+- **Component Patterns**: Consistent button styles, cards, and layout containers
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 - Node.js 18.0.0 or higher
-- npm or yarn package manager
+- npm package manager
 
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd portfolio
-   ```
+### Installation & Development
+```bash
+# Clone and setup
+git clone <repository-url>
+cd portfolio
+npm install
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+# Development workflow
+npm run dev              # Build CSS + start dev server with hot reload
+```
 
-3. Build the CSS:
-   ```bash
-   npm run build:css
-   ```
+### Build Commands
+```bash
+npm run build:css       # Build Tailwind CSS only
+npm run build           # Build static site with Eleventy
+npm run build:prod      # Build optimized production version
+npm start              # Alias for npm run dev
+```
 
-4. Start development:
-   ```bash
-   npm run dev
-   ```
+The development server runs at `http://localhost:8080` with automatic reload on file changes.
 
-## 🛠️ Development
+## 🏗️ Project Architecture
 
-### Available Scripts
-- `npm run build:css` - Build CSS once
-- `npm run build` - Build CSS and watch for changes
-- `npm run build:prod` - Build optimized CSS for production
-- `npm run dev` - Build CSS and start development server
-
-### Project Structure
+### File Structure
 ```
 portfolio/
-├── src/
-│   ├── _data/
-│   │   └── tokens.json          # Design tokens
-│   ├── _includes/
+├── src/                          # Source files
+│   ├── _data/                    # Data files (JSON)
+│   │   ├── metadata.json         # Site metadata
+│   │   ├── projects.json         # Project data
+│   │   ├── companies.json        # Company experience data
+│   │   └── tokens.json           # Design tokens
+│   ├── _includes/                # Templates and components
 │   │   ├── layouts/
-│   │   └── partials/
+│   │   │   └── base.njk          # Base HTML layout
+│   │   └── components/           # Reusable components
+│   │       ├── hero-section.njk  # Hero with navigation
+│   │       ├── project-showcase.njk
+│   │       ├── worked-with.njk   # Company logos
+│   │       ├── about-section.njk
+│   │       ├── contact-section.njk
+│   │       └── site-footer.njk
 │   ├── css/
-│   │   └── main.css            # Main stylesheet with Tailwind
-│   └── *.njk                   # Page templates
-├── _site/                      # Built site
-├── tailwind.config.js          # Tailwind configuration
-├── postcss.config.js           # PostCSS configuration
-├── DESIGN_GUIDE.md             # Comprehensive design documentation
-└── package.json
+│   │   ├── main.css              # Main Tailwind imports
+│   │   └── components/           # Component-specific CSS
+│   │       └── hero-section.css  # Hero animations/transitions
+│   ├── js/
+│   │   └── components/           # Component JavaScript
+│   │       └── hero-section.js   # Mobile menu + GSAP animations
+│   ├── static/                   # Static assets
+│   │   ├── company-logos/        # SVG company logos
+│   │   ├── *.png                 # Images
+│   │   └── *.svg                 # Icons and graphics
+│   └── index.njk                 # Home page template
+├── _site/                        # Generated output (git ignored)
+├── .eleventy.js                  # Eleventy configuration
+├── tailwind.config.js            # Tailwind configuration
+├── postcss.config.js             # PostCSS configuration
+├── CODING_GUIDE.md               # Development guide
+└── package.json                  # Dependencies and scripts
 ```
+
+## 🎨 Technical Stack
+
+### Core Technologies
+- **Static Site Generator**: Eleventy 3.1.2
+- **CSS Framework**: Tailwind CSS 3.4.0 with custom design tokens
+- **Template Engine**: Nunjucks (.njk files)
+- **Build Tools**: PostCSS, Autoprefixer
+- **Image Processing**: @11ty/eleventy-img for responsive images
+- **Animations**: GSAP 3.12.2 with ScrollTrigger
+
+### Data Management
+The site uses Eleventy's data cascade system:
+- **projects.json**: Project portfolio data with descriptions, outcomes, and narratives
+- **companies.json**: Company logos and descriptions for "worked with" section
+- **metadata.json**: Site metadata and configuration
+
+### Component Architecture
+All UI components are built as Nunjucks partials in `src/_includes/components/`:
+- Modular, reusable components
+- Consistent design token usage
+- Responsive mobile-first approach
+- Accessibility-first implementation
 
 ## 🎯 Design Tokens
 
-### Colors
+The design system is implemented through Tailwind's configuration:
+
+### Colors (Tailwind Classes)
 ```css
-/* Primary Colors */
---background-primary: #242128
---background-secondary: #252229
---text-primary: #ffffff
---text-secondary: rgba(255, 255, 255, 0.5)
+/* Backgrounds */
+bg-background-primary     /* #242128 - Main dark background */
+bg-background-secondary   /* #2C2931 - Card/section backgrounds */
+
+/* Text */
+text-text-primary        /* #ffffff - Primary text */
+text-text-secondary      /* rgba(255,255,255,0.5) - Secondary text */
 
 /* Accent Colors */
---accent-orange: #f87c46
---accent-blue: #629fde
---accent-pink: #f45cb3
---accent-green: #27ae60
+bg-orange                /* #f87c46 - Primary CTA */
+bg-blue                  /* #629fde - Secondary accent */
+bg-pink                  /* #f45cb3 - Tertiary accent */
+bg-green                 /* #27ae60 - Success/positive */
+bg-yellow                /* #E6C95D - Highlight */
+bg-red                   /* #ff3333 - Alert/error */
 ```
 
-### Typography
+### Typography Scale
 ```css
 /* Font Families */
---font-helvetica: 'Helvetica Neue', Helvetica, Arial, sans-serif
---font-ibm-mono: 'IBM Plex Mono', monospace
+font-helvetica           /* Helvetica Neue - headings */
+font-mono                /* IBM Plex Mono - body text */
 
-/* Font Sizes */
---font-hero: 200px
---font-display: 140px
---font-title: 32px
---font-body-lg: 24px
---font-body: 16px
+/* Responsive Font Sizes */
+text-h1                  /* 180px desktop, 130px tablet, 80px mobile */
+text-h2                  /* 120px desktop, 80px tablet, 48px mobile */
+text-big-link            /* 24px - navigation links */
+text-paragraph           /* 20px - body text */
+text-button              /* 16px - button text */
+text-caption             /* 16px - captions/meta */
 ```
 
-### Spacing
+### Spacing System (4px base)
 ```css
-/* Base Unit: 4px */
---spacing-1: 4px
---spacing-2: 8px
---spacing-6: 24px
---spacing-8: 32px
---spacing-11: 44px
---spacing-13: 52px
---spacing-25: 100px
---spacing-32: 128px
+/* Custom Spacing */
+px-11                    /* 44px - Container padding */
+py-15                    /* 60px - Section spacing */
+h-30                     /* 120px - Component heights */
+py-32                    /* 128px - Large section spacing */
 ```
 
-## 🎨 Using Tailwind CSS
+## 📱 Responsive Breakpoints
 
-This project uses Tailwind CSS with custom design tokens. The configuration includes:
+```css
+/* Tailwind Custom Breakpoints */
+xs: '360px'              /* Small mobile */
+sm: '640px'              /* Standard mobile */
+md: '768px'              /* Tablet */
+mmd: '1280px'            /* Large tablet */
+lg: '1440px'             /* Desktop */
+```
 
-### Custom Classes
-- `.btn` - Base button styles
-- `.btn-primary`, `.btn-secondary`, etc. - Button variants
-- `.card` - Card component
-- `.container-custom` - Custom container
-- `.header` - Header component
+## 🔧 Adding New Features
 
-### Custom Utilities
-- `.hero-text` - Hero typography
-- `.display-text` - Display typography
-- `.body-text` - Body typography
-- `.text-gradient` - Gradient text effect
+### Adding New Sections to Home Page
+1. **Create Component**: Add new .njk file in `src/_includes/components/`
+2. **Include in Template**: Add include statement to `src/index.njk`
+3. **Add Styles**: Create component CSS in `src/css/components/` if needed
+4. **Update Navigation**: Add anchor link to mobile menu in hero section
 
-### Example Usage
-```html
-<!-- Hero Section -->
-<section class="hero-section">
-  <div class="container-main">
-    <div class="hero-text-container">
-      <h1 class="hero-text">LOST IN CHAOS?</h1>
-      <p class="body-text-lg">Strategy & Operations Executive</p>
-    </div>
+### Adding New Projects
+1. **Update Data**: Add project object to `src/_data/projects.json` with:
+   - `id`: Unique identifier
+   - `company`: Company name
+   - `title`: Project title
+   - `description`: Brief description
+   - `problem`, `solution`, `result`: Key details
+   - `narrative`: Full story
+   - `image`: Project image URL
+
+2. **Component Updates**: The project-showcase component automatically displays new projects
+
+### Adding New Companies
+1. **Update Data**: Add company to `src/_data/companies.json` with:
+   - `id`: Unique identifier
+   - `name`: Company name
+   - `logo`: Path to SVG logo in `/static/company-logos/`
+   - `description`: Brief description
+
+2. **Add Logo**: Place SVG logo in `src/static/company-logos/`
+
+### Component Development Patterns
+```njk
+<!-- Example new component structure -->
+<section class="py-32 bg-background-primary">
+  <div class="max-w-container mx-auto px-11">
+    <!-- Component content using design tokens -->
   </div>
 </section>
-
-<!-- Button -->
-<button class="btn btn-primary">
-  View Projects
-</button>
-
-<!-- Card -->
-<div class="card-custom">
-  <h3 class="title-text">Project Title</h3>
-  <p class="body-text">Project description...</p>
-</div>
 ```
 
-## 📱 Responsive Design
+## 🚀 Deployment
 
-The design system includes responsive breakpoints:
-- **Mobile**: 320px - 767px
-- **Tablet**: 768px - 1439px
-- **Desktop**: 1440px+
-
-Typography and spacing automatically scale across devices for optimal readability.
-
-## ♿ Accessibility
-
-- **High Contrast**: Exceeds WCAG AAA standards
-- **Typography**: Optimized for readability
-- **Focus States**: Clear visual indicators
-- **Semantic HTML**: Proper heading structure
-- **Screen Reader**: Full compatibility
-
-## 🎭 Animations
-
-Custom animations and transitions:
-- `.animate-fade-in-up` - Fade in from bottom
-- `.animate-slide-in-left` - Slide in from left
-- `.animate-slide-in-right` - Slide in from right
-- `.hover-lift` - Subtle lift on hover
-- `.hover-scale` - Scale effect on hover
-
-## 🔧 Customization
-
-### Adding New Colors
-```javascript
-// tailwind.config.js
-colors: {
-  'custom': {
-    'new-color': '#123456',
-  }
-}
+### Production Build
+```bash
+npm run build:prod       # Builds optimized CSS + static site
 ```
 
-### Adding New Components
-```javascript
-// tailwind.config.js
-addComponents({
-  '.custom-component': {
-    // Your styles here
-  }
-})
-```
+### Build Output
+- Generated files go to `_site/` directory
+- CSS is processed and optimized
+- Images are optimized and responsive variants generated
+- HTML is minified in production
 
-### Modifying Typography
-```javascript
-// tailwind.config.js
-fontSize: {
-  'custom': ['18px', {
-    lineHeight: '24px',
-    fontWeight: '600',
-  }],
-}
-```
+## 🔍 Performance & SEO
 
-## 📚 Documentation
+### Built-in Optimizations
+- **Static Site Generation**: Fast loading with no runtime JavaScript requirements
+- **Responsive Images**: Automatic WebP conversion and multiple sizes
+- **CSS Optimization**: Tailwind CSS purging removes unused styles
+- **HTML Minification**: Compressed HTML in production
+- **Lazy Loading**: Images load as needed
 
-- **CODING_GUIDE.md** - Complete development guide with design system, patterns, and contribution guidelines
-- **src/_data/tokens.json** - All design tokens in JSON format
-- **tailwind.config.js** - Tailwind configuration with custom tokens
+### SEO Features
+- Semantic HTML structure
+- Meta description support
+- Alt text requirements for images
+- Proper heading hierarchy
+
+## 📚 References & Documentation
+
+- **CODING_GUIDE.md**: Comprehensive development guide with component patterns
+- **Eleventy Documentation**: [11ty.dev](https://www.11ty.dev/docs/)
+- **Tailwind CSS**: [tailwindcss.com](https://tailwindcss.com/docs)
+- **GSAP Animation**: [greensock.com](https://greensock.com/docs/)
 
 ## 🤝 Contributing
 
-1. Follow the established design system
-2. Use the provided design tokens
-3. Maintain accessibility standards
-4. Test across different devices and browsers
+### Development Standards
+1. Follow established design system and component patterns
+2. Use design tokens from Tailwind configuration
+3. Maintain mobile-first responsive approach
+4. Ensure accessibility standards (WCAG guidelines)
+5. Test across multiple devices and browsers
+
+### Code Review Checklist
+- [ ] Uses design system colors and typography
+- [ ] Responsive on mobile, tablet, and desktop
+- [ ] Accessible (proper semantics, alt text, keyboard navigation)
+- [ ] Performance optimized (images, CSS)
+- [ ] Follows established component patterns
 
 ## 📄 License
 
-MIT License - see LICENSE file for details
+MIT License
 
 ## 👤 About
 
-**Tucker Wieland** is a Strategy & Operations Executive who helps companies transform messy ideas into scalable systems that drive growth. This portfolio showcases strategic thinking, operational excellence, and modern web development practices.
+**Tucker Wieland** is a Strategy & Operations Executive who helps companies transform messy ideas into scalable systems that drive growth. This portfolio demonstrates strategic thinking, operational excellence, and modern web development practices through a clean, performance-focused website.
 
 ---
 
-Built with ❤️ using modern web technologies and a systematic design approach.
+Built with Eleventy, Tailwind CSS, and systematic design principles.
