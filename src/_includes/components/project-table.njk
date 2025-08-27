@@ -24,7 +24,15 @@
                 <!-- Mobile Layout (below 360px) -->
                 <div class="block xs:hidden">
                     <div class="flex">
-                        <div class="w-24 font-mono text-[14px] text-text-primary font-semibold">{{ project.company }}</div>
+                        <div class="w-24 flex items-center justify-center">
+                            {% if tokens.companyLogos[project.company] %}
+                                <img src="{{ tokens.companyLogos[project.company].src }}" 
+                                     alt="{{ tokens.companyLogos[project.company].alt }}"
+                                     class="{{ tokens.companyLogos[project.company].mobileClasses }}">
+                            {% else %}
+                                <div class="font-mono text-[14px] text-text-primary font-semibold">{{ project.company }}</div>
+                            {% endif %}
+                        </div>
                         <div class="flex-1 font-mono text-[16px] text-text-primary leading-relaxed">
                             {{ project.description }}
                         </div>
@@ -41,7 +49,15 @@
                 <div class="hidden xs:block md:hidden">
                     <div class="mb-4">
                         <div class="flex items-center space-x-8">
-                            <div class="font-mono text-[16px] text-text-primary font-semibold">{{ project.company }}</div>
+                            {% if tokens.companyLogos[project.company] %}
+                                <div class="flex items-center justify-center w-32">
+                                    <img src="{{ tokens.companyLogos[project.company].src }}" 
+                                         alt="{{ tokens.companyLogos[project.company].alt }}"
+                                         class="{{ tokens.companyLogos[project.company].tabletClasses }}">
+                                </div>
+                            {% else %}
+                                <div class="font-mono text-[16px] text-text-primary font-semibold">{{ project.company }}</div>
+                            {% endif %}
                             <div class="font-mono text-[18px] text-text-primary leading-relaxed">
                                 {{ project.description }}
                             </div>
@@ -57,7 +73,15 @@
 
                 <!-- Desktop Layout (768px and above) -->
                 <div class="hidden md:flex md:items-center">
-                    <div class="font-mono w-30 text-[16px] text-text-primary font-semibold text-center">{{ project.company }}</div>
+                    {% if tokens.companyLogos[project.company] %}
+                        <div class="w-30 flex items-center justify-center">
+                            <img src="{{ tokens.companyLogos[project.company].src }}" 
+                                 alt="{{ tokens.companyLogos[project.company].alt }}"
+                                 class="{{ tokens.companyLogos[project.company].desktopClasses }}">
+                        </div>
+                    {% else %}
+                        <div class="font-mono w-30 text-[16px] text-text-primary font-semibold text-center">{{ project.company }}</div>
+                    {% endif %}
                     <div class="flex-1 px-11">
                         <div class="font-mono text-[20px] text-text-primary leading-relaxed">
                             {{ project.description }}

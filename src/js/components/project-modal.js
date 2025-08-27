@@ -1,3 +1,27 @@
+// Company logo mapping - mirrors the tokens.json companyLogos structure
+const companyLogos = {
+    "JUSTWORKS": {
+        src: "static/company-logos/Justworks Logo.svg",
+        alt: "Justworks Logo",
+        modalClasses: "h-10 w-auto object-contain max-w-48"
+    },
+    "SHOPIFY": {
+        src: "static/company-logos/Shopify Logo.svg", 
+        alt: "Shopify Logo",
+        modalClasses: "h-10 w-auto object-contain max-w-48"
+    },
+    "GENERAL ASSEMBLY": {
+        src: "static/company-logos/GA logo.svg",
+        alt: "General Assembly Logo", 
+        modalClasses: "h-10 w-auto object-contain max-w-48"
+    },
+    "BILLION OYSTER PROJECT": {
+        src: "static/company-logos/BOP Logo.svg",
+        alt: "Billion Oyster Project Logo",
+        modalClasses: "h-16 w-auto object-contain max-w-48"
+    }
+};
+
 // Project Modal Component - Handles the modal popup and all its interactions
 const ProjectModal = {
     // Store current project data
@@ -45,9 +69,9 @@ const ProjectModal = {
             <div class="px-2 py-10 md:p-16 flex-1">
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-4 md:mb-16">
-                    <h2 class="text-[24px] sm:text-[32px] md:text-[40px] font-bold font-helvetica uppercase">${project.title}</h2>
-                    <div class="text-right">
-                        <div class="text-sm font-mono">${project.company}</div>
+                    <h2 class="text-[16px] sm:text-[20px] md:text-[24px] font-bold font-helvetica uppercase leading-tight pr-8">${project.title}</h2>
+                    <div class="flex items-center justify-center pl-8 py-4">
+                        ${this.renderCompanyLogo(project.company)}
                     </div>
                 </div>
 
@@ -228,6 +252,16 @@ const ProjectModal = {
                 </div>
             </div>
         `;
+    },
+
+    // Render company logo or fallback to company name
+    renderCompanyLogo(companyName) {
+        const logoConfig = companyLogos[companyName];
+        if (logoConfig) {
+            return `<img src="${logoConfig.src}" alt="${logoConfig.alt}" class="${logoConfig.modalClasses}">`;
+        } else {
+            return `<div class="text-sm font-mono">${companyName}</div>`;
+        }
     },
 
     // Render content section
