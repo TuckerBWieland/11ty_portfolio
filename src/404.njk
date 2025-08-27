@@ -1,0 +1,37 @@
+---
+title: Page Not Found
+description: The requested page could not be found.
+permalink: /404.html
+eleventyExcludeFromCollections: true
+---
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>404 - Page Not Found | Tucker Wieland</title>
+        <link rel="stylesheet" href="/css/main.css" />
+    </head>
+    <body class="bg-gray-50 min-h-screen flex items-center justify-center">
+        <div class="text-center">
+            <h1 class="text-6xl font-bold text-gray-800 mb-4">404</h1>
+            <h2 class="text-2xl font-semibold text-gray-600 mb-4">Page Not Found</h2>
+            <p class="text-gray-500 mb-8">The requested resource could not be found.</p>
+            <a href="/" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                Go Home
+            </a>
+
+            <!-- Debug info for development -->
+            <div class="mt-8 p-4 bg-gray-100 rounded-lg text-left text-sm text-gray-600 max-w-md mx-auto">
+                <strong>Debug Info:</strong><br />
+                <span id="debug-url"></span>
+            </div>
+        </div>
+
+        <script>
+            // Show the requested URL for debugging
+            document.getElementById('debug-url').textContent = 'Requested: ' + window.location.pathname;
+        </script>
+    </body>
+</html>

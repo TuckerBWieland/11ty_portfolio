@@ -1,0 +1,6 @@
+# Cloudflare Pages Redirects Configuration
+# Only fallback to SPA for non-asset routes
+
+# SPA fallback - but NOT for static assets
+# This only applies to routes that don't match existing files
+/* /index.html 200

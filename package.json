@@ -4,18 +4,21 @@
     "description": "Tucker Wieland's professional portfolio website",
     "main": "index.js",
     "scripts": {
-        "build": "eleventy",
+        "build": "npm run build:ts && npx @11ty/eleventy",
+        "build:production": "npm ci --include=dev && npm run build:ts && npx @11ty/eleventy",
+        "build:ts": "tsc",
         "build:css": "tailwindcss -i ./src/css/main.css -o ./_site/css/main.css",
-        "dev": "eleventy --serve --watch",
+        "dev": "npm run build:ts && eleventy --serve --watch",
         "start": "npm run dev",
-        "lint": "npm run lint:js && npm run lint:css && npm run lint:format",
-        "lint:js": "eslint src/js/**/*.js",
-        "lint:js:fix": "eslint src/js/**/*.js --fix",
+        "watch:ts": "tsc --watch",
+        "lint": "npm run lint:ts && npm run lint:css && npm run lint:format",
+        "lint:ts": "eslint src/js/**/*.ts",
+        "lint:ts:fix": "eslint src/js/**/*.ts --fix",
         "lint:css": "stylelint src/css/**/*.css",
         "lint:css:fix": "stylelint src/css/**/*.css --fix",
-        "lint:format": "prettier --check \"src/**/*.{js,css,njk,json,md}\"",
-        "lint:format:fix": "prettier --write \"src/**/*.{js,css,njk,json,md}\"",
-        "lint:fix": "npm run lint:js:fix && npm run lint:css:fix && npm run lint:format:fix",
+        "lint:format": "prettier --check \"src/**/*.{ts,css,njk,json,md}\"",
+        "lint:format:fix": "prettier --write \"src/**/*.{ts,css,njk,json,md}\"",
+        "lint:fix": "npm run lint:ts:fix && npm run lint:css:fix && npm run lint:format:fix",
         "lint:check": "npm run lint"
     },
     "keywords": [
@@ -31,6 +34,9 @@
     "devDependencies": {
         "@11ty/eleventy": "^3.1.2",
         "@11ty/eleventy-img": "^6.0.4",
+        "@types/node": "^24.3.0",
+        "@typescript-eslint/eslint-plugin": "^8.41.0",
+        "@typescript-eslint/parser": "^8.41.0",
         "autoprefixer": "^10.4.16",
         "eslint": "^9.34.0",
         "html-minifier-terser": "^7.2.0",
@@ -42,13 +48,14 @@
         "stylelint": "^16.23.1",
         "stylelint-config-standard": "^39.0.0",
         "stylelint-config-tailwindcss": "^1.0.0",
-        "tailwindcss": "^3.4.0"
+        "tailwindcss": "^3.4.0",
+        "typescript": "^5.9.2"
     },
     "engines": {
         "node": ">=18.0.0"
     },
     "lint-staged": {
-        "*.js": [
+        "*.ts": [
             "eslint --fix",
             "prettier --write"
         ],

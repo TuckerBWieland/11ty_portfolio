@@ -1,13 +1,50 @@
 const { exec } = require("child_process");
 
 module.exports = function(eleventyConfig) {
+  // Configure server options to fix MIME type issues
+  eleventyConfig.setServerOptions({
+    module: "@11ty/eleventy-dev-server",
+    port: 8080,
+    middleware: [
+      function(req, res, next) {
+        if (req.url.endsWith('.js')) {
+          res.setHeader('Content-Type', 'application/javascript');
+        }
+        next();
+      }
+    ]
+  });
+
   // Watch CSS and config files for changes
   eleventyConfig.addWatchTarget("./src/css/");
   eleventyConfig.addWatchTarget("./tailwind.config.js");
   eleventyConfig.addWatchTarget("./postcss.config.js");
+  eleventyConfig.addWatchTarget("./src/js/");
 
-  // Don't copy the unprocessed CSS into the output
+  // Don't copy the unprocessed CSS and TypeScript source files into the output
   eleventyConfig.ignores.add("src/css/**/*");
+  eleventyConfig.ignores.add("src/js/**/*.ts");
+
+  // Build TypeScript before Eleventy runs
+  eleventyConfig.on("beforeBuild", () => {
+    console.log("Running TypeScript build...");
+    return new Promise((resolve, reject) => {
+      exec("tsc", (error, stdout, stderr) => {
+        if (error) {
+          console.error("TypeScript build error:", stderr);
+          reject(error);
+        } else {
+          console.log(stdout);
+          resolve();
+        }
+      });
+    });
+  });
+
+  // Rebuild TypeScript on watched changes
+  eleventyConfig.on("beforeWatch", () => {
+    exec("tsc");
+  });
 
   // Build Tailwind CSS after Eleventy has written output
   eleventyConfig.on("afterBuild", () => {
@@ -25,14 +62,18 @@ module.exports = function(eleventyConfig) {
     });
   });
 
-  // Copy static assets
-  eleventyConfig.addPassthroughCopy({ "src/js": "js" });
+  // Copy compiled JavaScript files from dist to _site
+  eleventyConfig.addPassthroughCopy({ "dist/js": "js" });
   eleventyConfig.addPassthroughCopy({ "src/static": "static" });
   
   // Copy font files from @fontsource
   eleventyConfig.addPassthroughCopy({ 
     "node_modules/@fontsource/ibm-plex-mono/files": "fonts" 
   });
+
+  // Copy Cloudflare Pages configuration files
+  eleventyConfig.addPassthroughCopy({ "src/_headers": "_headers" });
+  eleventyConfig.addPassthroughCopy({ "src/_redirects": "_redirects" });
 
   return {
     dir: {
