@@ -1,102 +1,157 @@
 <!-- Hero Section Component -->
 <!-- Background lines clip fixed: overflow-hidden → overflow-visible + isolate z-10 with -z-10 background layer -->
-<section class="relative isolate z-10 min-h-[100svh] w-full overflow-visible bg-background-primary pb-[calc(env(safe-area-inset-bottom,0px)+1.25rem)]">
-
-  <!-- Background abstract lines -->
-  <div class="absolute inset-0 pointer-events-none -z-10 h-[130svh] sm:h-[150svh]">
-    <img src="/static/Tangled line.svg" alt="Abstract background lines" class="w-full h-full object-cover" decoding="async">
-  </div>
-
-  <!-- Header -->
-  <header class="absolute top-0 left-0 right-0 flex items-center justify-between px-4 py-6 z-30 xs:px-5 md:px-11 md:py-9">
-    <a href="#" class="font-mono font-semibold text-sm text-text-primary tracking-wide uppercase xs:text-base md:text-xl lg:text-2xl hover:gradient-text transition-all duration-300 cursor-pointer">
-      TUCKER WIELAND
-    </a>
-    
-    <!-- Mobile menu button -->
-    <button id="mobile-menu-button" class="w-8 h-8 flex items-center justify-center xs:w-9 xs:h-9 md:w-11 md:h-11 z-40 relative" aria-controls="mobile-menu" aria-expanded="false">
-      <div class="hamburger w-5 h-5 flex flex-col justify-center space-y-1 xs:w-5.5 xs:h-5.5 md:w-6 md:h-6">
-        <div class="hamburger-line w-full h-0.5 bg-text-primary transition-all duration-300 ease-in-out"></div>
-        <div class="hamburger-line w-full h-0.5 bg-text-primary transition-all duration-300 ease-in-out"></div>
-        <div class="hamburger-line w-full h-0.5 bg-text-primary transition-all duration-300 ease-in-out"></div>
-      </div>
-    </button>
-  </header>
-
-  <!-- Mobile Menu Overlay -->
-  <div id="menu-overlay" class="menu-overlay fixed inset-0 bg-black bg-opacity-50 z-20 opacity-0 invisible transition-all duration-300 ease-in-out"></div>
-
-  <!-- Mobile Menu Sidebar -->
-  <nav id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-80 h-full bg-background-secondary z-30 flex flex-col transform translate-x-full transition-transform duration-300 ease-in-out"
-    <div class="flex justify-end p-6">
-      <button id="close-menu" class="w-8 h-8 flex items-center justify-center text-text-primary">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
+<section
+    class="relative isolate z-10 min-h-[100svh] w-full overflow-visible bg-background-primary pb-[calc(env(safe-area-inset-bottom,0px)+1.25rem)]"
+>
+    <!-- Background abstract lines -->
+    <div class="absolute inset-0 pointer-events-none -z-10 h-[130svh] sm:h-[150svh]">
+        <img
+            src="/static/Tangled line.svg"
+            alt="Abstract background lines"
+            class="w-full h-full object-cover"
+            decoding="async"
+        />
     </div>
-    
-    <div class="flex-1 flex flex-col justify-start px-6 pt-8">
-      <ul class="space-y-8 font-mono text-text-primary uppercase tracking-wider">
-        <li><a href="#project-showcase" class="text-lg font-medium hover:gradient-text transition-all duration-200">PROJECT SHOWCASE</a></li>
-        <li><a href="#worked-with" class="text-lg font-medium hover:gradient-text transition-all duration-200">WORKED WITH</a></li>
-        <li><a href="#about-me" class="text-lg font-medium hover:gradient-text transition-all duration-200">ABOUT ME</a></li>
-        <li><a href="#contact-me" class="text-lg font-medium hover:gradient-text transition-all duration-200">CONTACT ME</a></li>
-      </ul>
-    </div>
-  </nav>
 
-  <!-- Hero content container -->
-  <div class="relative min-h-[100svh] flex items-center justify-center px-4 pt-20 xs:px-5 md:px-11 md:pt-24 z-20">
-    
-    <!-- Main headline - "LOST IN CHAOS?" -->
-    <div class="relative font-helvetica font-bold text-text-primary leading-none w-full mb-20 xs:mb-24 sm:mb-32 md:mb-12">
-      
-      <!-- Mobile Layout (under 640px) -->
-      <div class="block xs:hidden">
-        <div class="text-[80px] leading-none text-left mb-1">LOST</div>
-        <div class="text-[80px] leading-none text-center mb-1">IN</div>
-        <div class="text-[80px] leading-none text-left">CHAOS?</div>
-      </div>
-      
-      <!-- Tablet Layout (640px - 1024px) -->
-      <div class="hidden xs:block md:hidden">
-        <div class="text-[80px] sm:text-[130px] text-left mb-2 sm:mb-4">LOST</div>
-        <div class="text-[80px] sm:text-[130px] text-center mb-2 sm:mb-4">IN</div>
-        <div class="text-[80px] sm:text-[130px] text-right">CHAOS?</div>
-      </div>
-      
-      <!-- Desktop Layout (1024px+) -->
-      <div class="hidden md:block centerline">
-        <div class="center-grid">
-          <!-- LOST snaps to the line on the left side -->
-          <div class="snap-left leading-none mb-2 text-[130px] mmd:text-[180px]">LOST</div>
-          <div></div>
+    <!-- Header -->
+    <header
+        class="absolute top-0 left-0 right-0 flex items-center justify-between px-4 py-6 z-30 xs:px-5 md:px-11 md:py-9"
+    >
+        <a
+            href="#"
+            class="font-mono font-semibold text-sm text-text-primary tracking-wide uppercase xs:text-base md:text-xl lg:text-2xl hover:gradient-text transition-all duration-300 cursor-pointer"
+        >
+            TUCKER WIELAND
+        </a>
+
+        <!-- Mobile menu button -->
+        <button
+            id="mobile-menu-button"
+            class="w-8 h-8 flex items-center justify-center xs:w-9 xs:h-9 md:w-11 md:h-11 z-40 relative"
+            aria-controls="mobile-menu"
+            aria-expanded="false"
+        >
+            <div class="hamburger w-5 h-5 flex flex-col justify-center space-y-1 xs:w-5.5 xs:h-5.5 md:w-6 md:h-6">
+                <div class="hamburger-line w-full h-0.5 bg-text-primary transition-all duration-300 ease-in-out"></div>
+                <div class="hamburger-line w-full h-0.5 bg-text-primary transition-all duration-300 ease-in-out"></div>
+                <div class="hamburger-line w-full h-0.5 bg-text-primary transition-all duration-300 ease-in-out"></div>
+            </div>
+        </button>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div
+        id="menu-overlay"
+        class="menu-overlay fixed inset-0 bg-black bg-opacity-50 z-20 opacity-0 invisible transition-all duration-300 ease-in-out"
+    ></div>
+
+    <!-- Mobile Menu Sidebar -->
+    <nav
+        id="mobile-menu"
+        class="mobile-menu fixed top-0 right-0 w-80 h-full bg-background-secondary z-30 flex flex-col transform translate-x-full transition-transform duration-300 ease-in-out"
+    >
+        <div class="flex justify-end p-6">
+            <button id="close-menu" class="w-8 h-8 flex items-center justify-center text-text-primary">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12"
+                    ></path>
+                </svg>
+            </button>
         </div>
 
-        <div class="center-grid">
-          <!-- IN sits centered across both columns -->
-          <div class="col-span-full text-center leading-none mb-2 text-[130px] mmd:text-[180px]" style="grid-column: 1 / -1;">IN</div>
+        <div class="flex-1 flex flex-col justify-start px-6 pt-8">
+            <ul class="space-y-8 font-mono text-text-primary uppercase tracking-wider">
+                <li>
+                    <a
+                        href="#project-showcase"
+                        class="text-lg font-medium hover:gradient-text transition-all duration-200"
+                        >PROJECT SHOWCASE</a
+                    >
+                </li>
+                <li>
+                    <a href="#worked-with" class="text-lg font-medium hover:gradient-text transition-all duration-200"
+                        >WORKED WITH</a
+                    >
+                </li>
+                <li>
+                    <a href="#about-me" class="text-lg font-medium hover:gradient-text transition-all duration-200"
+                        >ABOUT ME</a
+                    >
+                </li>
+                <li>
+                    <a href="#contact-me" class="text-lg font-medium hover:gradient-text transition-all duration-200"
+                        >CONTACT ME</a
+                    >
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero content container -->
+    <div class="relative min-h-[100svh] flex items-center justify-center px-4 pt-20 xs:px-5 md:px-11 md:pt-24 z-20">
+        <!-- Main headline - "LOST IN CHAOS?" -->
+        <div
+            class="relative font-helvetica font-bold text-text-primary leading-none w-full mb-20 xs:mb-24 sm:mb-32 md:mb-12"
+        >
+            <!-- Mobile Layout (under 640px) -->
+            <div class="block xs:hidden">
+                <div class="text-[80px] leading-none text-left mb-1">LOST</div>
+                <div class="text-[80px] leading-none text-center mb-1">IN</div>
+                <div class="text-[80px] leading-none text-left">CHAOS?</div>
+            </div>
+
+            <!-- Tablet Layout (640px - 1024px) -->
+            <div class="hidden xs:block md:hidden">
+                <div class="text-[80px] sm:text-[130px] text-left mb-2 sm:mb-4">LOST</div>
+                <div class="text-[80px] sm:text-[130px] text-center mb-2 sm:mb-4">IN</div>
+                <div class="text-[80px] sm:text-[130px] text-right">CHAOS?</div>
+            </div>
+
+            <!-- Desktop Layout (1024px+) -->
+            <div class="hidden md:block centerline">
+                <div class="center-grid">
+                    <!-- LOST snaps to the line on the left side -->
+                    <div class="snap-left leading-none mb-2 text-[130px] mmd:text-[180px]">LOST</div>
+                    <div></div>
+                </div>
+
+                <div class="center-grid">
+                    <!-- IN sits centered across both columns -->
+                    <div
+                        class="col-span-full text-center leading-none mb-2 text-[130px] mmd:text-[180px]"
+                        style="grid-column: 1 / -1"
+                    >
+                        IN
+                    </div>
+                </div>
+
+                <div class="center-grid">
+                    <div></div>
+                    <!-- CHAOS? snaps to the line on the right side -->
+                    <div class="snap-right leading-none text-[130px] mmd:text-[180px]">CHAOS?</div>
+                </div>
+            </div>
         </div>
 
-        <div class="center-grid">
-          <div></div>
-          <!-- CHAOS? snaps to the line on the right side -->
-          <div class="snap-right leading-none text-[130px] mmd:text-[180px]">CHAOS?</div>
+        <!-- Description text -->
+        <div
+            class="absolute left-4 bottom-[calc(env(safe-area-inset-bottom,0px)+2.5rem)] right-4 font-mono font-medium text-text-primary xs:left-5 xs:bottom-[calc(env(safe-area-inset-bottom,0px)+3.5rem)] md:left-11 md:bottom-16 md:right-auto md:w-96 xl:w-[470px]"
+        >
+            <p
+                class="text-xs leading-relaxed xs:text-sm xs:leading-relaxed md:text-base md:leading-relaxed lg:text-lg lg:leading-relaxed xl:text-xl xl:leading-relaxed"
+            >
+                <span class="text-text-primary relative inline-block">
+                    Growth Strategy & Operations Leader
+                    <span class="absolute bottom-0 left-0 w-full h-0.5 gradient-bg"></span> </span
+                ><br class="xs:hidden md:inline" />
+                <span class="text-text-secondary"
+                    >I help companies transform messy ideas into scalable systems that drive growth.</span
+                >
+            </p>
         </div>
-      </div>
     </div>
-    
-    <!-- Description text -->
-    <div class="absolute left-4 bottom-[calc(env(safe-area-inset-bottom,0px)+2.5rem)] right-4 font-mono font-medium text-text-primary xs:left-5 xs:bottom-[calc(env(safe-area-inset-bottom,0px)+3.5rem)] md:left-11 md:bottom-16 md:right-auto md:w-96 xl:w-[470px]">
-      <p class="text-xs leading-relaxed xs:text-sm xs:leading-relaxed md:text-base md:leading-relaxed lg:text-lg lg:leading-relaxed xl:text-xl xl:leading-relaxed">
-        <span class="text-text-primary relative inline-block">
-          Growth Strategy & Operations Leader
-          <span class="absolute bottom-0 left-0 w-full h-0.5 gradient-bg"></span>
-        </span><br class="xs:hidden md:inline" />
-        <span class="text-text-secondary">I help companies transform messy ideas into scalable systems that drive growth.</span>
-      </p>
-    </div>
-  </div>
-
 </section>

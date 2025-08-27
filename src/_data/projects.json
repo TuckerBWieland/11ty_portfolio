@@ -1,96 +1,135 @@
 {
-  "projects": [
-    {
-      "id": "justworks-awareness-campaign",
-      "company": "JUSTWORKS",
-      "title": "Coordinated Awareness Campaign to Drive Market Growth",
-      "description": "Coordinated awareness campaign to drive market growth",
-      "problem": "Low market awareness slowing sales growth despite high customer satisfaction.",
-      "solution": "Launch multi-channel awareness campaign targeting ICPs with clear, resonant messaging.",
-      "result": "Significant lift in awareness and improved ICP match in targeting.",
-      "role": "Led strategy, operations, budget, and cross-functional execution.",
-      "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop",
-      "media": [
-        { "type": "video", "src": "static/CompanyPhoto.mp4", "alt": "Justworks awareness campaign company photo shoot", "poster": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop" },
-        { "type": "video", "src": "static/MovingUP.mp4", "alt": "Justworks awareness campaign moving up visualization", "poster": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop" }
-      ],
-      "narrative": "At Justworks, we had a strange challenge: customers loved us, but too few people had heard of us. That lack of awareness was slowing down sales, even though our product stood out in the market. To fix it, we dug into research with agencies to figure out how to break through the noise, then tied those insights to our ideal customer profile work. The result was a coordinated awareness push: TV spots, digital ads, and out-of-home campaigns that all carried the same clear message through the sales funnel. As Strategy & Ops lead, I managed the strategy, budget, and cross-team coordination to keep everything on track. The outcome: stronger brand awareness and more efficient campaigns, with clear gains in reaching the right buyers. <a href='https://adage.com/creativity/work/aa-justworks-for-your-people/' target='_blank' class='text-blue-400 hover:text-blue-300 underline'>Read more about the campaign in Ad Age</a>."
-    },
-    {
-      "id": "justworks-marketing-roi",
-      "company": "JUSTWORKS",
-      "title": "Built Trust in Marketing Investment Through ROI Measurement",
-      "description": "Built trust in marketing investment through ROI measurement",
-      "problem": "No reliable way to track or prove marketing ROI, limiting investment.",
-      "solution": "Re-architect measurement systems and collaborate cross-functionally to prove impact.",
-      "result": "The marketing budget grew from 7% to 14% of company revenue.",
-      "role": "Led cross-functional strategy to improve measurement and justify investment.",
-      "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop",
-      "narrative": "When I joined Justworks, marketing spend was stuck at ~7% of revenue. Leadership didn't trust the ROI numbers, so they were hesitant to invest, even in areas with real growth potential. Over the next few years, I worked across revenue enablement, BI, analytics, marketing ops, and product to rebuild how we measured impact. We aligned data, built reliable reporting, and tied marketing activity directly to business results. That transparency changed the conversation. Executives saw that marketing could deliver returns and spend responsibly, which unlocked more budget each year. Today, marketing investment has nearly doubled to ~14% of revenue and is recognized as a proven growth driver with a scalable foundation for the future."
-    },
-    {
-      "id": "justworks-project-tracking",
-      "company": "JUSTWORKS",
-      "title": "Streamlined Accountability with a Custom Project Tracking Tool",
-      "description": "Streamlined accountability with a custom project tracking tool",
-      "problem": "Fractured project visibility slowed progress and made reporting unreliable.",
-      "solution": "Built a lightweight internal tool in Slack with org-aware workflows.",
-      "result": "80%+ of projects updated within 14 days, faster course corrections, and rapid adoption across departments.",
-      "role": "Project lead and initiator—designed system, co-developed tool, and oversaw rollout.",
-      "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop",
-      "media": [
-        { "type": "image", "src": "static/projectBot1.webp", "alt": "Project tracking bot interface screenshot 1" },
-        { "type": "image", "src": "static/projectBot2.webp", "alt": "Project tracking bot interface screenshot 2" }
-      ],
-      "narrative": "At Justworks, strategy sessions were common, but follow-through often stalled because no one had a clear view of what teams were actually working on. Roadmaps and reports existed, but they were scattered and hard to piece together. After trying just about every project management tool and finding them bloated, a teammate and I built our own. It was a simple Slack-based system backed by GCP: lightweight reminders and org chart context nudged teams to update projects regularly, and the data rolled up into a format everyone could use. The results were immediate. Over 80% of projects stayed current within 14 days, leadership finally had visibility into where energy was going, and course corrections got faster. What started as a side project turned into an adopted tool that made the whole company more aligned."
-    },
-    {
-      "id": "shopify-dev-degree",
-      "company": "SHOPIFY",
-      "title": "Connecting with Developers via the Dev Degree Program",
-      "description": "Connecting with developers via the Dev Degree Program",
-      "problem": "Hard to reach developer audiences—traditionally skeptical, fragmented, and challenging to market to.",
-      "solution": "Sponsor students to work part-time at Shopify through deep education partnerships.",
-      "result": "Boosted brand credibility, sparked Reddit & Discord buzz, gained thousands of applications, plus strong PR and favorability.",
-      "role": "Marketing Lead—coordinated funding, internal buy-in, university partnerships, and program launch.",
-      "image": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=300&fit=crop",
-      "media": [
-        { "type": "video", "src": "https://www.youtube.com/embed/nEa0qhmYLgs", "alt": "Shopify Dev Degree program video", "poster": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=300&fit=crop" }
-      ],
-      "narrative": "Developers value authenticity and tend to ignore traditional marketing. At Shopify, we embraced that by launching the Dev Degree Program: a partnership with universities that sponsored computer science students, blending their studies with real-world development experience at Shopify. This approach built genuine trust. Students became natural advocates, and Shopify earned credibility in the developer community. The program quickly gained momentum—praised by our CTO and CEO, attracting thousands of applicants each year, and sparking lively conversation on Reddit and Discord. As Marketing Lead, I secured funding, aligned stakeholders, and worked closely with university partners to bring the program to life. The results were powerful: strong PR, thriving community engagement, and lasting improvements in how developers viewed Shopify. <a href='https://devdegree.ca/' target='_blank' class='text-blue-400 hover:text-blue-300 underline'>Learn more about the Dev Degree program</a>."
-    },
-    {
-      "id": "general-assembly-2024",
-      "company": "GENERAL ASSEMBLY",
-      "title": "Open-Sourced the Product Roadmap to Match Market Demand",
-      "description": "Open-sourced the product roadmap to match market demand",
-      "problem": "No reliable way to validate course demand before investing in development.",
-      "solution": "Publicly share the product roadmap and gather community input.",
-      "result": "Clearer product–market fit and stronger go-to-market from day one.",
-      "role": "Senior Product Manager leading roadmap validation strategy.",
-      "image": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=300&fit=crop",
-      "media": [
-        { "type": "image", "src": "static/GA demand testing.webp", "alt": "General Assembly enterprise roadmap interface" },
-        { "type": "image", "src": "static/ga-demand test.webp", "alt": "General Assembly demand testing signup benefits" }
-      ],
-      "narrative": "At General Assembly, our courses had to evolve constantly to keep up with how fast tech and design were changing. The problem was, building a new course took a ton of time and money—so launching the wrong thing wasn't an option. What we lacked was a reliable way to determine ahead of time whether people actually wanted what we were about to build. A few of us decided to tackle that, and we ended up creating GA's first growth team. The idea we landed on was surprisingly simple: make our roadmap public. We shared the course topics we were considering and invited students, alumni, and industry folks to weigh in. Suddenly, we had a real feedback loop. Instead of guessing, we could see demand directly and use it to prioritize. The results were immediate. Courses launched to build in demand, marketing had ready-made audiences, and we stopped wasting effort on ideas that would have flopped. As Senior Product Manager, I helped shape the strategy, gathered input from across the company, and implemented the system—turning an experiment into a reliable way to grow."
-    },
-    {
-      "id": "billion-oyster-project",
-      "company": "BILLION OYSTER PROJECT",
-      "title": "Mapped Water Quality Data for Community Engagement",
-      "description": "Mapped water quality data for community engagement",
-      "problem": "Valuable water quality data was hard to access and interpret.",
-      "solution": "Built a lightweight web app mapping data via GeoJSON for easy context.",
-      "result": "Clearer understanding of local water quality and stronger community engagement.",
-      "role": "Volunteer project lead—designed, coded, and deployed app independently.",
-      "image": "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=300&fit=crop",
-      "media": [
-        { "type": "image", "src": "static/BOP1.webp", "alt": "Billion Oyster Project water quality data visualization 1" },
-        { "type": "image", "src": "static/BOP2.webp", "alt": "Billion Oyster Project water quality data visualization 2" },
-        { "type": "image", "src": "static/POB3.webp", "alt": "Billion Oyster Project interface screenshot 3" }
-      ],
-      "narrative": "The Billion Oyster Project is working to restore New York Harbor's oyster population while engaging the public in marine science. As a volunteer, I noticed a recurring challenge: the water quality data we collected was stuck in massive Google Sheets that few people could actually use or understand. To make it more accessible, I built a lightweight web app as a side project. By mapping the data with GeoJSON, users could see readings in their geographic context—spotting trends, identifying problem areas, and getting a clearer picture of the harbor's health. I designed, built, and deployed the app on GitHub Pages, and it quickly resonated with volunteers and community members. People said it made the data easier to understand and gave them a stronger connection to why the harbor's health matters. <a href='https://tuckerbwieland.github.io/nyc-water-app/' target='_blank' class='text-blue-400 hover:text-blue-300 underline'>View the live NYC Water Quality App</a>."
-    }
-  ]
+    "projects": [
+        {
+            "id": "justworks-awareness-campaign",
+            "company": "JUSTWORKS",
+            "title": "Coordinated Awareness Campaign to Drive Market Growth",
+            "description": "Coordinated awareness campaign to drive market growth",
+            "problem": "Low market awareness slowing sales growth despite high customer satisfaction.",
+            "solution": "Launch multi-channel awareness campaign targeting ICPs with clear, resonant messaging.",
+            "result": "Significant lift in awareness and improved ICP match in targeting.",
+            "role": "Led strategy, operations, budget, and cross-functional execution.",
+            "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop",
+            "media": [
+                {
+                    "type": "video",
+                    "src": "static/CompanyPhoto.mp4",
+                    "alt": "Justworks awareness campaign company photo shoot",
+                    "poster": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop"
+                },
+                {
+                    "type": "video",
+                    "src": "static/MovingUP.mp4",
+                    "alt": "Justworks awareness campaign moving up visualization",
+                    "poster": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop"
+                }
+            ],
+            "narrative": "At Justworks, we had a strange challenge: customers loved us, but too few people had heard of us. That lack of awareness was slowing down sales, even though our product stood out in the market. To fix it, we dug into research with agencies to figure out how to break through the noise, then tied those insights to our ideal customer profile work. The result was a coordinated awareness push: TV spots, digital ads, and out-of-home campaigns that all carried the same clear message through the sales funnel. As Strategy & Ops lead, I managed the strategy, budget, and cross-team coordination to keep everything on track. The outcome: stronger brand awareness and more efficient campaigns, with clear gains in reaching the right buyers. <a href='https://adage.com/creativity/work/aa-justworks-for-your-people/' target='_blank' class='text-blue-400 hover:text-blue-300 underline'>Read more about the campaign in Ad Age</a>."
+        },
+        {
+            "id": "justworks-marketing-roi",
+            "company": "JUSTWORKS",
+            "title": "Built Trust in Marketing Investment Through ROI Measurement",
+            "description": "Built trust in marketing investment through ROI measurement",
+            "problem": "No reliable way to track or prove marketing ROI, limiting investment.",
+            "solution": "Re-architect measurement systems and collaborate cross-functionally to prove impact.",
+            "result": "The marketing budget grew from 7% to 14% of company revenue.",
+            "role": "Led cross-functional strategy to improve measurement and justify investment.",
+            "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop",
+            "narrative": "When I joined Justworks, marketing spend was stuck at ~7% of revenue. Leadership didn't trust the ROI numbers, so they were hesitant to invest, even in areas with real growth potential. Over the next few years, I worked across revenue enablement, BI, analytics, marketing ops, and product to rebuild how we measured impact. We aligned data, built reliable reporting, and tied marketing activity directly to business results. That transparency changed the conversation. Executives saw that marketing could deliver returns and spend responsibly, which unlocked more budget each year. Today, marketing investment has nearly doubled to ~14% of revenue and is recognized as a proven growth driver with a scalable foundation for the future."
+        },
+        {
+            "id": "justworks-project-tracking",
+            "company": "JUSTWORKS",
+            "title": "Streamlined Accountability with a Custom Project Tracking Tool",
+            "description": "Streamlined accountability with a custom project tracking tool",
+            "problem": "Fractured project visibility slowed progress and made reporting unreliable.",
+            "solution": "Built a lightweight internal tool in Slack with org-aware workflows.",
+            "result": "80%+ of projects updated within 14 days, faster course corrections, and rapid adoption across departments.",
+            "role": "Project lead and initiator—designed system, co-developed tool, and oversaw rollout.",
+            "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop",
+            "media": [
+                {
+                    "type": "image",
+                    "src": "static/projectBot1.webp",
+                    "alt": "Project tracking bot interface screenshot 1"
+                },
+                {
+                    "type": "image",
+                    "src": "static/projectBot2.webp",
+                    "alt": "Project tracking bot interface screenshot 2"
+                }
+            ],
+            "narrative": "At Justworks, strategy sessions were common, but follow-through often stalled because no one had a clear view of what teams were actually working on. Roadmaps and reports existed, but they were scattered and hard to piece together. After trying just about every project management tool and finding them bloated, a teammate and I built our own. It was a simple Slack-based system backed by GCP: lightweight reminders and org chart context nudged teams to update projects regularly, and the data rolled up into a format everyone could use. The results were immediate. Over 80% of projects stayed current within 14 days, leadership finally had visibility into where energy was going, and course corrections got faster. What started as a side project turned into an adopted tool that made the whole company more aligned."
+        },
+        {
+            "id": "shopify-dev-degree",
+            "company": "SHOPIFY",
+            "title": "Connecting with Developers via the Dev Degree Program",
+            "description": "Connecting with developers via the Dev Degree Program",
+            "problem": "Hard to reach developer audiences—traditionally skeptical, fragmented, and challenging to market to.",
+            "solution": "Sponsor students to work part-time at Shopify through deep education partnerships.",
+            "result": "Boosted brand credibility, sparked Reddit & Discord buzz, gained thousands of applications, plus strong PR and favorability.",
+            "role": "Marketing Lead—coordinated funding, internal buy-in, university partnerships, and program launch.",
+            "image": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=300&fit=crop",
+            "media": [
+                {
+                    "type": "video",
+                    "src": "https://www.youtube.com/embed/nEa0qhmYLgs",
+                    "alt": "Shopify Dev Degree program video",
+                    "poster": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=300&fit=crop"
+                }
+            ],
+            "narrative": "Developers value authenticity and tend to ignore traditional marketing. At Shopify, we embraced that by launching the Dev Degree Program: a partnership with universities that sponsored computer science students, blending their studies with real-world development experience at Shopify. This approach built genuine trust. Students became natural advocates, and Shopify earned credibility in the developer community. The program quickly gained momentum—praised by our CTO and CEO, attracting thousands of applicants each year, and sparking lively conversation on Reddit and Discord. As Marketing Lead, I secured funding, aligned stakeholders, and worked closely with university partners to bring the program to life. The results were powerful: strong PR, thriving community engagement, and lasting improvements in how developers viewed Shopify. <a href='https://devdegree.ca/' target='_blank' class='text-blue-400 hover:text-blue-300 underline'>Learn more about the Dev Degree program</a>."
+        },
+        {
+            "id": "general-assembly-2024",
+            "company": "GENERAL ASSEMBLY",
+            "title": "Open-Sourced the Product Roadmap to Match Market Demand",
+            "description": "Open-sourced the product roadmap to match market demand",
+            "problem": "No reliable way to validate course demand before investing in development.",
+            "solution": "Publicly share the product roadmap and gather community input.",
+            "result": "Clearer product–market fit and stronger go-to-market from day one.",
+            "role": "Senior Product Manager leading roadmap validation strategy.",
+            "image": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=300&fit=crop",
+            "media": [
+                {
+                    "type": "image",
+                    "src": "static/GA demand testing.webp",
+                    "alt": "General Assembly enterprise roadmap interface"
+                },
+                {
+                    "type": "image",
+                    "src": "static/ga-demand test.webp",
+                    "alt": "General Assembly demand testing signup benefits"
+                }
+            ],
+            "narrative": "At General Assembly, our courses had to evolve constantly to keep up with how fast tech and design were changing. The problem was, building a new course took a ton of time and money—so launching the wrong thing wasn't an option. What we lacked was a reliable way to determine ahead of time whether people actually wanted what we were about to build. A few of us decided to tackle that, and we ended up creating GA's first growth team. The idea we landed on was surprisingly simple: make our roadmap public. We shared the course topics we were considering and invited students, alumni, and industry folks to weigh in. Suddenly, we had a real feedback loop. Instead of guessing, we could see demand directly and use it to prioritize. The results were immediate. Courses launched to build in demand, marketing had ready-made audiences, and we stopped wasting effort on ideas that would have flopped. As Senior Product Manager, I helped shape the strategy, gathered input from across the company, and implemented the system—turning an experiment into a reliable way to grow."
+        },
+        {
+            "id": "billion-oyster-project",
+            "company": "BILLION OYSTER PROJECT",
+            "title": "Mapped Water Quality Data for Community Engagement",
+            "description": "Mapped water quality data for community engagement",
+            "problem": "Valuable water quality data was hard to access and interpret.",
+            "solution": "Built a lightweight web app mapping data via GeoJSON for easy context.",
+            "result": "Clearer understanding of local water quality and stronger community engagement.",
+            "role": "Volunteer project lead—designed, coded, and deployed app independently.",
+            "image": "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=300&fit=crop",
+            "media": [
+                {
+                    "type": "image",
+                    "src": "static/BOP1.webp",
+                    "alt": "Billion Oyster Project water quality data visualization 1"
+                },
+                {
+                    "type": "image",
+                    "src": "static/BOP2.webp",
+                    "alt": "Billion Oyster Project water quality data visualization 2"
+                },
+                { "type": "image", "src": "static/POB3.webp", "alt": "Billion Oyster Project interface screenshot 3" }
+            ],
+            "narrative": "The Billion Oyster Project is working to restore New York Harbor's oyster population while engaging the public in marine science. As a volunteer, I noticed a recurring challenge: the water quality data we collected was stuck in massive Google Sheets that few people could actually use or understand. To make it more accessible, I built a lightweight web app as a side project. By mapping the data with GeoJSON, users could see readings in their geographic context—spotting trends, identifying problem areas, and getting a clearer picture of the harbor's health. I designed, built, and deployed the app on GitHub Pages, and it quickly resonated with volunteers and community members. People said it made the data easier to understand and gave them a stronger connection to why the harbor's health matters. <a href='https://tuckerbwieland.github.io/nyc-water-app/' target='_blank' class='text-blue-400 hover:text-blue-300 underline'>View the live NYC Water Quality App</a>."
+        }
+    ]
 }

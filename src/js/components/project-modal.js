@@ -1,24 +1,24 @@
 // Company logo mapping - mirrors the tokens.json companyLogos structure
 const companyLogos = {
-    "JUSTWORKS": {
-        src: "static/company-logos/Justworks Logo.svg",
-        alt: "Justworks Logo",
-        modalClasses: "h-10 w-auto object-contain max-w-48"
+    JUSTWORKS: {
+        src: 'static/company-logos/Justworks Logo.svg',
+        alt: 'Justworks Logo',
+        modalClasses: 'h-10 w-auto object-contain max-w-48'
     },
-    "SHOPIFY": {
-        src: "static/company-logos/Shopify Logo.svg", 
-        alt: "Shopify Logo",
-        modalClasses: "h-10 w-auto object-contain max-w-48"
+    SHOPIFY: {
+        src: 'static/company-logos/Shopify Logo.svg',
+        alt: 'Shopify Logo',
+        modalClasses: 'h-10 w-auto object-contain max-w-48'
     },
-    "GENERAL ASSEMBLY": {
-        src: "static/company-logos/GA logo.svg",
-        alt: "General Assembly Logo", 
-        modalClasses: "h-10 w-auto object-contain max-w-48"
+    'GENERAL ASSEMBLY': {
+        src: 'static/company-logos/GA logo.svg',
+        alt: 'General Assembly Logo',
+        modalClasses: 'h-10 w-auto object-contain max-w-48'
     },
-    "BILLION OYSTER PROJECT": {
-        src: "static/company-logos/BOP Logo.svg",
-        alt: "Billion Oyster Project Logo",
-        modalClasses: "h-16 w-auto object-contain max-w-48"
+    'BILLION OYSTER PROJECT': {
+        src: 'static/company-logos/BOP Logo.svg',
+        alt: 'Billion Oyster Project Logo',
+        modalClasses: 'h-16 w-auto object-contain max-w-48'
     }
 };
 
@@ -28,30 +28,30 @@ const ProjectModal = {
     currentProject: null,
     currentProjectIndex: -1,
     allProjects: [],
-    
+
     // Open project modal
-    openModal(project, projectElement) {
+    openModal(project, _projectElement) {
         // Initialize all projects array if not done yet
         if (this.allProjects.length === 0) {
             this.initializeProjects();
         }
-        
+
         // Find current project index
         this.currentProjectIndex = this.allProjects.findIndex(p => p.id === project.id);
-        
+
         // Store current project for navigation
         this.currentProject = project;
-        
+
         const modal = document.getElementById('project-modal');
         const modalContent = modal.querySelector('.bg-background-primary');
-        
+
         modalContent.innerHTML = this.renderModalContent(project);
-        
+
         // Show modal with animation
         modal.classList.remove('opacity-0', 'invisible');
         modalContent.classList.remove('scale-95');
         document.body.style.overflow = 'hidden';
-        
+
         // Show sticky navigation arrows
         this.showStickyNavigation();
     },
@@ -121,7 +121,9 @@ const ProjectModal = {
             </div>
             
             <!-- Sticky Footer Navigation -->
-            ${this.allProjects.length > 1 ? `
+            ${
+                this.allProjects.length > 1
+                    ? `
                 <div class="sticky bottom-0 bg-background-primary border-t border-gray-700 px-4 py-3 mt-auto">
                     <div class="flex items-center justify-between">
                         <button onclick="ProjectModal.navigateToPreviousProject()" class="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg">
@@ -145,14 +147,16 @@ const ProjectModal = {
                         </button>
                     </div>
                 </div>
-            ` : ''}
+            `
+                    : ''
+            }
         `;
     },
 
     // Generate navigation footer HTML for project navigation
     generateProjectNavigationFooter() {
         if (this.allProjects.length <= 1) return '';
-        
+
         return `
             <div class="w-full max-w-4xl bg-background-primary border-t border-gray-700 px-4 py-3">
                 <div class="flex items-center justify-between">
@@ -184,12 +188,12 @@ const ProjectModal = {
     generateLightboxNavigationFooter() {
         const lightbox = document.getElementById('lightbox');
         if (!lightbox) return '';
-        
+
         const imagesData = JSON.parse(lightbox.dataset.imagesData || '[]');
         const currentIndex = parseInt(lightbox.dataset.currentIndex || '0');
-        
+
         if (imagesData.length <= 1) return '';
-        
+
         return `
             <div class="w-full max-w-4xl bg-background-primary border-t border-gray-700 px-4 py-3">
                 <div class="flex items-center justify-between">
@@ -221,12 +225,12 @@ const ProjectModal = {
     generateVideoNavigationFooter() {
         const videoPlayer = document.getElementById('video-player');
         if (!videoPlayer) return '';
-        
+
         const videosData = JSON.parse(videoPlayer.dataset.videosData || '[]');
         const currentIndex = parseInt(videoPlayer.dataset.currentIndex || '0');
-        
+
         if (videosData.length <= 1) return '';
-        
+
         return `
             <div class="w-full max-w-4xl bg-background-primary border-t border-gray-700 px-4 py-3">
                 <div class="flex items-center justify-between">
@@ -274,7 +278,7 @@ const ProjectModal = {
                 </div>
             `;
         }
-        
+
         return `
             <div class="grid grid-cols-3 border-b border-gray-700 pb-4">
                 <h3 class="col-span-1 text-lg font-bold mb-2 font-helvetica uppercase">${title}</h3>
@@ -290,9 +294,10 @@ const ProjectModal = {
         }
 
         const gridClass = isMobile ? 'grid-cols-1' : 'grid-cols-2';
-        const mediaItems = mediaArray.map((media, index) => {
-            if (media.type === 'video') {
-                return `
+        const mediaItems = mediaArray
+            .map((media, _index) => {
+                if (media.type === 'video') {
+                    return `
                     <div class="relative rounded-lg overflow-hidden cursor-pointer group" onclick="ProjectModal.openVideoPlayer('${media.src}')">
                         <video class="w-full h-48 object-cover" preload="metadata" muted>
                             <source src="${media.src}" type="video/mp4">
@@ -304,14 +309,15 @@ const ProjectModal = {
                         </div>
                     </div>
                 `;
-            } else {
-                return `
+                } else {
+                    return `
                     <img src="${media.src}" alt="${media.alt}" 
                          class="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
                          onclick="ProjectModal.openLightbox('${media.src}', '${media.alt}')">
                 `;
-            }
-        }).join('');
+                }
+            })
+            .join('');
 
         return `
             <div class="flex-1">
@@ -332,50 +338,50 @@ const ProjectModal = {
     // Navigate to previous project
     navigateToPreviousProject() {
         if (this.allProjects.length <= 1) return;
-        
+
         let newIndex = this.currentProjectIndex - 1;
         if (newIndex < 0) {
             newIndex = this.allProjects.length - 1;
         }
-        
+
         this.switchToProject(newIndex);
     },
 
     // Navigate to next project
     navigateToNextProject() {
         if (this.allProjects.length <= 1) return;
-        
+
         let newIndex = this.currentProjectIndex + 1;
         if (newIndex >= this.allProjects.length) {
             newIndex = 0;
         }
-        
+
         this.switchToProject(newIndex);
     },
 
     // Switch to project by index
     switchToProject(newIndex) {
         if (newIndex < 0 || newIndex >= this.allProjects.length) return;
-        
+
         const newProject = this.allProjects[newIndex];
         this.currentProject = newProject;
         this.currentProjectIndex = newIndex;
-        
+
         // Close any open lightbox or video player first
         this.closeLightbox();
         this.closeVideoPlayer();
-        
+
         // Update modal content
         const modal = document.getElementById('project-modal');
         const modalContent = modal.querySelector('.bg-background-primary');
         modalContent.innerHTML = this.renderModalContent(newProject);
-        
+
         // Scroll modal content to top with smooth animation
         modalContent.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
-        
+
         // Update sticky navigation visibility
         this.updateStickyNavigation();
     },
@@ -391,7 +397,7 @@ const ProjectModal = {
     hideStickyNavigation() {
         const prevArrow = document.getElementById('sticky-prev-arrow');
         const nextArrow = document.getElementById('sticky-next-arrow');
-        
+
         if (prevArrow) prevArrow.remove();
         if (nextArrow) nextArrow.remove();
     },
@@ -409,14 +415,14 @@ const ProjectModal = {
     closeModal() {
         const modal = document.getElementById('project-modal');
         const modalContent = modal.querySelector('.bg-background-primary');
-        
+
         modal.classList.add('opacity-0', 'invisible');
         modalContent.classList.add('scale-95');
         document.body.style.overflow = 'auto';
-        
+
         // Hide sticky navigation arrows
         this.hideStickyNavigation();
-        
+
         // Clear current project data
         this.currentProject = null;
         this.currentProjectIndex = -1;
@@ -426,41 +432,41 @@ const ProjectModal = {
     openLightbox(src, alt) {
         const lightbox = document.getElementById('lightbox') || this.createLightbox();
         const img = lightbox.querySelector('img');
-        
+
         // Clear any previous lightbox data first
         lightbox.dataset.currentIndex = '';
         lightbox.dataset.imagesData = '';
-        
+
         // Remove any existing navigation footer
         const existingFooter = lightbox.querySelector('.w-full.max-w-4xl.bg-background-primary');
         if (existingFooter) {
             existingFooter.remove();
         }
-        
+
         // Set the image immediately to avoid showing old image
         img.src = src;
         img.alt = alt;
-        
+
         // Use current project's media data
         if (this.currentProject && this.currentProject.media) {
             const images = this.currentProject.media.filter(media => media.type === 'image');
             const currentIndex = images.findIndex(image => image.src === src);
-            
+
             // Only set data if we found the image in the current project
             if (currentIndex !== -1) {
                 lightbox.dataset.currentIndex = currentIndex;
                 lightbox.dataset.imagesData = JSON.stringify(images);
-                
+
                 // Add image navigation footer if there are multiple images
                 if (images.length > 1) {
                     lightbox.innerHTML += this.generateLightboxNavigationFooter();
                 }
             }
         }
-        
+
         lightbox.classList.remove('opacity-0', 'invisible');
         document.body.style.overflow = 'hidden';
-        
+
         // Hide sticky navigation while lightbox is open
         this.hideStickyNavigation();
     },
@@ -468,27 +474,27 @@ const ProjectModal = {
     // Open video player
     openVideoPlayer(src) {
         const videoPlayer = document.getElementById('video-player') || this.createVideoPlayer();
-        
+
         // Clear any previous video data first
         videoPlayer.dataset.currentIndex = '';
         videoPlayer.dataset.videosData = '';
-        
+
         // Remove any existing navigation footer
         const existingFooter = videoPlayer.querySelector('.w-full.max-w-4xl.bg-background-primary');
         if (existingFooter) {
             existingFooter.remove();
         }
-        
+
         // Use current project's media data to set up video navigation
         if (this.currentProject && this.currentProject.media) {
             const videos = this.currentProject.media.filter(media => media.type === 'video');
             const currentIndex = videos.findIndex(video => video.src === src);
-            
+
             // Only set data if we found the video in the current project
             if (currentIndex !== -1) {
                 videoPlayer.dataset.currentIndex = currentIndex;
                 videoPlayer.dataset.videosData = JSON.stringify(videos);
-                
+
                 // Add video navigation footer if there are multiple videos
                 if (videos.length > 1) {
                     videoPlayer.innerHTML += this.generateVideoNavigationFooter();
@@ -505,12 +511,12 @@ const ProjectModal = {
                 videoPlayer.innerHTML += this.generateProjectNavigationFooter();
             }
         }
-        
+
         // Check if it's a YouTube video
         if (src.includes('youtube.com/embed/')) {
             const iframe = videoPlayer.querySelector('iframe');
             const video = videoPlayer.querySelector('video');
-            
+
             // Hide video element and show iframe
             if (video) video.style.display = 'none';
             if (iframe) {
@@ -520,7 +526,7 @@ const ProjectModal = {
         } else {
             const video = videoPlayer.querySelector('video');
             const iframe = videoPlayer.querySelector('iframe');
-            
+
             // Hide iframe and show video
             if (iframe) iframe.style.display = 'none';
             if (video) {
@@ -530,10 +536,10 @@ const ProjectModal = {
                 video.play().catch(e => console.log('Auto-play prevented:', e));
             }
         }
-        
+
         videoPlayer.classList.remove('opacity-0', 'invisible');
         document.body.style.overflow = 'hidden';
-        
+
         // Hide sticky navigation while video player is open
         this.hideStickyNavigation();
     },
@@ -542,7 +548,8 @@ const ProjectModal = {
     createLightbox() {
         const lightbox = document.createElement('div');
         lightbox.id = 'lightbox';
-        lightbox.className = 'fixed inset-0 bg-background-primary bg-opacity-90 flex flex-col items-center justify-center p-4 opacity-0 invisible transition-all duration-300 z-50';
+        lightbox.className =
+            'fixed inset-0 bg-background-primary bg-opacity-90 flex flex-col items-center justify-center p-4 opacity-0 invisible transition-all duration-300 z-50';
         lightbox.innerHTML = `
             <div class="relative max-w-4xl max-h-full flex-1 flex items-center justify-center">
                 <img class="max-w-full max-h-full object-contain" />
@@ -555,15 +562,15 @@ const ProjectModal = {
                 </button>
             </div>
         `;
-        
+
         // Navigation footer will be added dynamically when lightbox opens with image data
-        
-        lightbox.addEventListener('click', (e) => {
+
+        lightbox.addEventListener('click', e => {
             if (e.target === lightbox) {
                 this.closeLightbox();
             }
         });
-        
+
         document.body.appendChild(lightbox);
         return lightbox;
     },
@@ -572,7 +579,8 @@ const ProjectModal = {
     createVideoPlayer() {
         const videoPlayer = document.createElement('div');
         videoPlayer.id = 'video-player';
-        videoPlayer.className = 'fixed inset-0 bg-background-primary bg-opacity-90 flex flex-col items-center justify-center p-4 opacity-0 invisible transition-all duration-300 z-50';
+        videoPlayer.className =
+            'fixed inset-0 bg-background-primary bg-opacity-90 flex flex-col items-center justify-center p-4 opacity-0 invisible transition-all duration-300 z-50';
         videoPlayer.innerHTML = `
             <div class="relative max-w-4xl max-h-full flex-1 flex items-center justify-center">
                 <video class="max-w-full max-h-full" controls autoplay>
@@ -589,15 +597,15 @@ const ProjectModal = {
                 </button>
             </div>
         `;
-        
+
         // Navigation footer will be added dynamically when video opens with data
-        
-        videoPlayer.addEventListener('click', (e) => {
+
+        videoPlayer.addEventListener('click', e => {
             if (e.target === videoPlayer) {
                 this.closeVideoPlayer();
             }
         });
-        
+
         document.body.appendChild(videoPlayer);
         return videoPlayer;
     },
@@ -606,31 +614,31 @@ const ProjectModal = {
     navigateLightbox(direction) {
         const lightbox = document.getElementById('lightbox');
         if (!lightbox) return;
-        
+
         const currentIndex = parseInt(lightbox.dataset.currentIndex);
         const imagesData = JSON.parse(lightbox.dataset.imagesData || '[]');
-        
+
         if (imagesData.length <= 1) return;
-        
+
         let newIndex = currentIndex + direction;
-        
+
         // Loop around if at beginning/end
         if (newIndex < 0) {
             newIndex = imagesData.length - 1;
         } else if (newIndex >= imagesData.length) {
             newIndex = 0;
         }
-        
+
         // Update image
         const img = lightbox.querySelector('img');
         const newImage = imagesData[newIndex];
-        
+
         img.src = newImage.src;
         img.alt = newImage.alt;
-        
+
         // Update current index
         lightbox.dataset.currentIndex = newIndex;
-        
+
         // Update navigation footer with new index
         const existingFooter = lightbox.querySelector('.w-full.max-w-4xl.bg-background-primary');
         if (existingFooter) {
@@ -643,37 +651,37 @@ const ProjectModal = {
     navigateVideo(direction) {
         const videoPlayer = document.getElementById('video-player');
         if (!videoPlayer) return;
-        
+
         const currentIndex = parseInt(videoPlayer.dataset.currentIndex);
         const videosData = JSON.parse(videoPlayer.dataset.videosData || '[]');
-        
+
         if (videosData.length <= 1) return;
-        
+
         let newIndex = currentIndex + direction;
-        
+
         // Loop around if at beginning/end
         if (newIndex < 0) {
             newIndex = videosData.length - 1;
         } else if (newIndex >= videosData.length) {
             newIndex = 0;
         }
-        
+
         // Get new video data
         const newVideo = videosData[newIndex];
-        
+
         // Stop current video
         const video = videoPlayer.querySelector('video');
         const iframe = videoPlayer.querySelector('iframe');
-        
+
         if (video && video.style.display !== 'none') {
             video.pause();
             video.currentTime = 0;
         }
-        
+
         if (iframe && iframe.style.display !== 'none') {
             iframe.src = '';
         }
-        
+
         // Load new video
         if (newVideo.src.includes('youtube.com/embed/')) {
             // Hide video element and show iframe
@@ -692,10 +700,10 @@ const ProjectModal = {
                 video.play().catch(e => console.log('Auto-play prevented:', e));
             }
         }
-        
+
         // Update current index
         videoPlayer.dataset.currentIndex = newIndex;
-        
+
         // Update navigation footer with new index
         const existingFooter = videoPlayer.querySelector('.w-full.max-w-4xl.bg-background-primary');
         if (existingFooter) {
@@ -711,23 +719,23 @@ const ProjectModal = {
             // Clear lightbox data
             lightbox.dataset.currentIndex = '';
             lightbox.dataset.imagesData = '';
-            
+
             // Clear the image src to prevent showing old images
             const img = lightbox.querySelector('img');
             if (img) {
                 img.src = '';
                 img.alt = '';
             }
-            
+
             // Remove navigation footer
             const existingFooter = lightbox.querySelector('.w-full.max-w-4xl.bg-background-primary');
             if (existingFooter) {
                 existingFooter.remove();
             }
-            
+
             lightbox.classList.add('opacity-0', 'invisible');
             document.body.style.overflow = 'auto';
-            
+
             // Restore sticky navigation when lightbox closes
             this.showStickyNavigation();
         }
@@ -740,31 +748,31 @@ const ProjectModal = {
             // Clear video data
             videoPlayer.dataset.currentIndex = '';
             videoPlayer.dataset.videosData = '';
-            
+
             const video = videoPlayer.querySelector('video');
             const iframe = videoPlayer.querySelector('iframe');
-            
+
             // Stop video playback
             if (video && video.style.display !== 'none') {
                 video.pause();
                 video.currentTime = 0;
                 video.src = '';
             }
-            
+
             // Stop iframe playback by clearing src
             if (iframe && iframe.style.display !== 'none') {
                 iframe.src = '';
             }
-            
+
             // Remove navigation footer
             const existingFooter = videoPlayer.querySelector('.w-full.max-w-4xl.bg-background-primary');
             if (existingFooter) {
                 existingFooter.remove();
             }
-            
+
             videoPlayer.classList.add('opacity-0', 'invisible');
             document.body.style.overflow = 'auto';
-            
+
             // Restore sticky navigation when video player closes
             this.showStickyNavigation();
         }
@@ -775,7 +783,7 @@ const ProjectModal = {
         // Close modal when clicking outside
         const modal = document.getElementById('project-modal');
         if (modal) {
-            modal.addEventListener('click', (e) => {
+            modal.addEventListener('click', e => {
                 if (e.target === e.currentTarget) {
                     this.closeModal();
                 }
@@ -783,11 +791,11 @@ const ProjectModal = {
         }
 
         // Handle keyboard navigation
-        document.addEventListener('keydown', (e) => {
+        document.addEventListener('keydown', e => {
             const lightbox = document.getElementById('lightbox');
             const videoPlayer = document.getElementById('video-player');
             const projectModal = document.getElementById('project-modal');
-            
+
             if (e.key === 'Escape') {
                 // Check what's currently open and close it
                 if (lightbox && !lightbox.classList.contains('invisible')) {
@@ -804,8 +812,11 @@ const ProjectModal = {
                 } else if (e.key === 'ArrowRight') {
                     this.navigateLightbox(1);
                 }
-            } else if (projectModal && !projectModal.classList.contains('invisible') && 
-                      (!videoPlayer || videoPlayer.classList.contains('invisible'))) {
+            } else if (
+                projectModal &&
+                !projectModal.classList.contains('invisible') &&
+                (!videoPlayer || videoPlayer.classList.contains('invisible'))
+            ) {
                 // Navigate between projects with arrow keys when modal is open but lightbox/video is not
                 if (e.key === 'ArrowLeft') {
                     this.navigateToPreviousProject();

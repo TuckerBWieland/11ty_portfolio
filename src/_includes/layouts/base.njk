@@ -1,97 +1,104 @@
 <!DOCTYPE html>
 <html lang="{{ metadata.site.locale or 'en' }}">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="{{ description or metadata.site.description }}">
-  <meta name="author" content="{{ metadata.site.author }}">
-  
-  <title>{% if title %}{{ title }}{% else %}{{ metadata.site.title }}{% endif %}</title>
-  
-  <!-- Canonical URL -->
-  <link rel="canonical" href="{{ metadata.site.url }}{{ page.url or '/' }}">
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="{{ metadata.site.type }}">
-  <meta property="og:url" content="{{ metadata.site.url }}{{ page.url or '/' }}">
-  <meta property="og:title" content="{% if title %}{{ title }}{% else %}{{ metadata.site.title }}{% endif %}">
-  <meta property="og:description" content="{{ description or metadata.site.description }}">
-  <meta property="og:image" content="{{ metadata.site.url }}{{ metadata.site.image }}">
-  <meta property="og:image:alt" content="{{ metadata.site.imageAlt }}">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:site_name" content="{{ metadata.site.author }}">
-  <meta property="og:locale" content="{{ metadata.site.locale }}">
-  
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="{{ metadata.site.url }}{{ page.url or '/' }}">
-  <meta name="twitter:title" content="{% if title %}{{ title }}{% else %}{{ metadata.site.title }}{% endif %}">
-  <meta name="twitter:description" content="{{ description or metadata.site.description }}">
-  <meta name="twitter:image" content="{{ metadata.site.url }}{{ metadata.site.image }}">
-  <meta name="twitter:image:alt" content="{{ metadata.site.imageAlt }}">
-  {% if metadata.site.twitterHandle %}<meta name="twitter:creator" content="{{ metadata.site.twitterHandle }}">{% endif %}
-  
-  <!-- LinkedIn (uses Open Graph) -->
-  <meta property="og:image:secure_url" content="{{ metadata.site.url }}{{ metadata.site.image }}">
-  
-  <!-- WhatsApp & Telegram (uses Open Graph) -->
-  <meta property="og:image:type" content="image/webp">
-  
-  <!-- Additional image for square format (some platforms prefer this) -->
-  <meta property="og:image" content="{{ metadata.site.url }}{{ metadata.site.imageSquare }}">
-  <meta property="og:image:width" content="1080">
-  <meta property="og:image:height" content="1080">
-  
-  <!-- Twitter uses both images - platform will choose appropriate one -->
-  <meta name="twitter:image" content="{{ metadata.site.url }}{{ metadata.site.imageSquare }}">
-  
-  <!-- Additional SEO meta tags -->
-  <meta name="robots" content="index, follow">
-  <meta name="googlebot" content="index, follow">
-  <meta name="theme-color" content="#000000">
-  
-  <!-- Apple Touch Icon and Favicon -->
-  <link rel="icon" type="image/webp" href="{{ metadata.site.favicon }}">
-  <link rel="apple-touch-icon" href="{{ metadata.site.favicon }}">
-  <link rel="shortcut icon" href="{{ metadata.site.favicon }}">
-  
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "{{ metadata.site.author }}",
-    "jobTitle": "Strategy & Operations Leader",
-    "description": "{{ metadata.site.description }}",
-    "url": "{{ metadata.site.url }}",
-    "image": "{{ metadata.site.url }}{{ metadata.site.image }}",
-    "sameAs": [
-      "https://linkedin.com/in/tuckerwieland"
-    ]
-  }
-  </script>
-  
-  <!-- Main CSS -->
-  <link rel="stylesheet" href="/css/main.css">
-  <!-- Preload hero art for above-the-fold optimization -->
-  <link rel="preload" as="image" href="/static/Tangled line.svg">
-</head>
-<body>
-  <!-- Main content -->
-  <main>
-    {{ content | safe }}
-  </main>
-  
-  <!-- Footer -->
-  {% include "components/site-footer.njk" %}
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <!-- Component JavaScript -->
-  <script src="/js/components/hero-section.js"></script>
-  <script src="/js/components/project-table.js"></script>
-  <script src="/js/components/project-modal.js"></script>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="{{ description or metadata.site.description }}" />
+        <meta name="author" content="{{ metadata.site.author }}" />
 
-</body>
+        <title>{% if title %}{{ title }}{% else %}{{ metadata.site.title }}{% endif %}</title>
+
+        <!-- Canonical URL -->
+        <link rel="canonical" href="{{ metadata.site.url }}{{ page.url or '/' }}" />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="{{ metadata.site.type }}" />
+        <meta property="og:url" content="{{ metadata.site.url }}{{ page.url or '/' }}" />
+        <meta property="og:title" content="{% if title %}{{ title }}{% else %}{{ metadata.site.title }}{% endif %}" />
+        <meta property="og:description" content="{{ description or metadata.site.description }}" />
+        <meta property="og:image" content="{{ metadata.site.url }}{{ metadata.site.image }}" />
+        <meta property="og:image:alt" content="{{ metadata.site.imageAlt }}" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="{{ metadata.site.author }}" />
+        <meta property="og:locale" content="{{ metadata.site.locale }}" />
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="{{ metadata.site.url }}{{ page.url or '/' }}" />
+        <meta name="twitter:title" content="{% if title %}{{ title }}{% else %}{{ metadata.site.title }}{% endif %}" />
+        <meta name="twitter:description" content="{{ description or metadata.site.description }}" />
+        <meta name="twitter:image" content="{{ metadata.site.url }}{{ metadata.site.image }}" />
+        <meta name="twitter:image:alt" content="{{ metadata.site.imageAlt }}" />
+        {% if metadata.site.twitterHandle %}
+        <meta name="twitter:creator" content="{{ metadata.site.twitterHandle }}" />
+        {% endif %}
+
+        <!-- LinkedIn (uses Open Graph) -->
+        <meta property="og:image:secure_url" content="{{ metadata.site.url }}{{ metadata.site.image }}" />
+
+        <!-- WhatsApp & Telegram (uses Open Graph) -->
+        <meta property="og:image:type" content="image/webp" />
+
+        <!-- Additional image for square format (some platforms prefer this) -->
+        <meta property="og:image" content="{{ metadata.site.url }}{{ metadata.site.imageSquare }}" />
+        <meta property="og:image:width" content="1080" />
+        <meta property="og:image:height" content="1080" />
+
+        <!-- Twitter uses both images - platform will choose appropriate one -->
+        <meta name="twitter:image" content="{{ metadata.site.url }}{{ metadata.site.imageSquare }}" />
+
+        <!-- Additional SEO meta tags -->
+        <meta name="robots" content="index, follow" />
+        <meta name="googlebot" content="index, follow" />
+        <meta name="theme-color" content="#000000" />
+
+        <!-- Apple Touch Icon and Favicon -->
+        <link rel="icon" type="image/webp" href="{{ metadata.site.favicon }}" />
+        <link rel="apple-touch-icon" href="{{ metadata.site.favicon }}" />
+        <link rel="shortcut icon" href="{{ metadata.site.favicon }}" />
+
+        <!-- Structured Data -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Person",
+                "name": "{{ metadata.site.author }}",
+                "jobTitle": "Strategy & Operations Leader",
+                "description": "{{ metadata.site.description }}",
+                "url": "{{ metadata.site.url }}",
+                "image": "{{ metadata.site.url }}{{ metadata.site.image }}",
+                "sameAs": ["https://linkedin.com/in/tuckerwieland"]
+            }
+        </script>
+
+        <!-- Main CSS -->
+        <link rel="stylesheet" href="/css/main.css" />
+        <!-- Preload hero art for above-the-fold optimization -->
+        <link rel="preload" as="image" href="/static/Tangled line.svg" />
+    </head>
+    <body>
+        <!-- Main content -->
+        <main>{{ content | safe }}</main>
+
+        <!-- Footer -->
+        {% include "components/site-footer.njk" %}
+
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
+            integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"
+            integrity="sha512-Ic9xkERjyZ1xgJ5svx3y0u3xrvfT/uPkV99LBwe68xjy/mGtO+4eURHZBW2xW4SZbFrF1Tf090XqB+EVgXnVjw=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <!-- Component JavaScript -->
+        <script src="/js/components/hero-section.js"></script>
+        <script src="/js/components/project-table.js"></script>
+        <script src="/js/components/project-modal.js"></script>
+    </body>
 </html>

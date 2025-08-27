@@ -3,7 +3,7 @@ const ProjectTable = {
     // Setup event listeners for project table
     setupEventListeners() {
         // Add click handlers to project items
-        document.addEventListener('click', (e) => {
+        document.addEventListener('click', e => {
             const projectItem = e.target.closest('.project-item');
             if (projectItem && window.ProjectModal) {
                 // Extract project data from data attributes
@@ -20,7 +20,7 @@ const ProjectTable = {
                     narrative: projectItem.dataset.projectNarrative,
                     media: JSON.parse(projectItem.dataset.projectMedia || '[]')
                 };
-                
+
                 // Open modal with project data
                 window.ProjectModal.openModal(project, projectItem);
             }
