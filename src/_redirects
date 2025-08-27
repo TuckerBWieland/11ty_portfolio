@@ -1,0 +1,11 @@
+# Cloudflare Pages Redirects Configuration
+# Ensure static assets are served correctly
+
+# JavaScript files - serve as static files, not routes
+/js/* /js/:splat 200
+/css/* /css/:splat 200
+/static/* /static/:splat 200
+/fonts/* /fonts/:splat 200
+
+# Fallback for SPA - serve index.html for non-existent routes
+/* /index.html 200
