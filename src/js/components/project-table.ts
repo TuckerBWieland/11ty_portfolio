@@ -31,7 +31,7 @@ const ProjectTable = {
             const projectItem = target.closest('.project-item') as HTMLElement | null;
             if (projectItem && (window as any).ProjectModal) {
                 // Extract project data from data attributes
-                const project: any = {
+                const project: _Project = {
                     id: projectItem.dataset.projectId || '',
                     company: projectItem.dataset.projectCompany || '',
                     title: projectItem.dataset.projectTitle || '',
@@ -52,22 +52,24 @@ const ProjectTable = {
     },
 
     // Initialize all projects array from DOM
-    getAllProjects(): any[] {
+    getAllProjects(): _Project[] {
         const projectElements = document.querySelectorAll('.project-item[data-project-id]') as NodeListOf<HTMLElement>;
-        return Array.from(projectElements).map((element: HTMLElement): any => ({
-            id: element.dataset.projectId || '',
-            company: element.dataset.projectCompany || '',
-            title: element.dataset.projectTitle || '',
-            description: element.dataset.projectDescription || '',
-            problem: element.dataset.projectProblem || '',
-            solution: element.dataset.projectSolution || '',
-            result: element.dataset.projectResult || '',
-            role: element.dataset.projectRole || '',
-            image: element.dataset.projectImage || '',
-            narrative: element.dataset.projectNarrative || '',
-            media: JSON.parse(element.dataset.projectMedia || '[]'),
-            element: element
-        }));
+        return Array.from(projectElements).map(
+            (element: HTMLElement): _Project => ({
+                id: element.dataset.projectId || '',
+                company: element.dataset.projectCompany || '',
+                title: element.dataset.projectTitle || '',
+                description: element.dataset.projectDescription || '',
+                problem: element.dataset.projectProblem || '',
+                solution: element.dataset.projectSolution || '',
+                result: element.dataset.projectResult || '',
+                role: element.dataset.projectRole || '',
+                image: element.dataset.projectImage || '',
+                narrative: element.dataset.projectNarrative || '',
+                media: JSON.parse(element.dataset.projectMedia || '[]'),
+                element: element
+            })
+        );
     }
 };
 
