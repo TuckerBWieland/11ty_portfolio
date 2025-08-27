@@ -6,8 +6,9 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addWatchTarget("./tailwind.config.js");
   eleventyConfig.addWatchTarget("./postcss.config.js");
 
-  // Don't copy the unprocessed CSS into the output
+  // Don't copy the unprocessed CSS and TypeScript source files into the output
   eleventyConfig.ignores.add("src/css/**/*");
+  eleventyConfig.ignores.add("src/js/**/*.ts");
 
   // Build Tailwind CSS after Eleventy has written output
   eleventyConfig.on("afterBuild", () => {
