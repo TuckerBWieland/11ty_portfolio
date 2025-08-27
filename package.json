@@ -4,7 +4,8 @@
     "description": "Tucker Wieland's professional portfolio website",
     "main": "index.js",
     "scripts": {
-        "build": "npm run build:ts && eleventy",
+        "build": "npm run build:ts && npx @11ty/eleventy",
+        "build:production": "npm ci --include=dev && npm run build:ts && npx @11ty/eleventy",
         "build:ts": "tsc",
         "build:css": "tailwindcss -i ./src/css/main.css -o ./_site/css/main.css",
         "dev": "npm run build:ts && eleventy --serve --watch",
