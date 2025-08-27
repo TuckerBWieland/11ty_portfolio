@@ -49,6 +49,9 @@ module.exports = function(eleventyConfig) {
     "node_modules/@fontsource/ibm-plex-mono/files": "fonts" 
   });
 
+  // Copy Cloudflare Pages configuration files
+  eleventyConfig.addPassthroughCopy({ "src/_headers": "_headers" });
+
   return {
     dir: {
       input: "src",
