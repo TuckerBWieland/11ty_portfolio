@@ -4,10 +4,10 @@
   "description": "Tucker Wieland's professional portfolio website",
   "main": "index.js",
   "scripts": {
-      "build": "eleventy",
-      "build:css": "tailwindcss -i ./src/css/main.css -o ./_site/css/main.css",
-      "dev": "eleventy --serve --watch",
-      "start": "npm run dev"
+    "build": "eleventy",
+    "build:css": "tailwindcss -i ./src/css/main.css -o ./_site/css/main.css",
+    "dev": "eleventy --serve --watch",
+    "start": "npm run dev"
   },
   "keywords": [
     "portfolio",
@@ -30,5 +30,8 @@
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-mono": "^5.2.6"
   }
 }

@@ -28,6 +28,11 @@ module.exports = function(eleventyConfig) {
   // Copy static assets
   eleventyConfig.addPassthroughCopy({ "src/js": "js" });
   eleventyConfig.addPassthroughCopy({ "src/static": "static" });
+  
+  // Copy font files from @fontsource
+  eleventyConfig.addPassthroughCopy({ 
+    "node_modules/@fontsource/ibm-plex-mono/files": "fonts" 
+  });
 
   return {
     dir: {
