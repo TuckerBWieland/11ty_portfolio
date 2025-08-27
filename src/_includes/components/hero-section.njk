@@ -1,9 +1,9 @@
 <!-- Hero Section Component -->
 <!-- Background lines clip fixed: overflow-hidden → overflow-visible + isolate z-10 with -z-10 background layer -->
-<section class="relative isolate z-10 min-h-screen w-full overflow-visible bg-background-primary pb-16 md:pb-24">
+<section class="relative isolate z-10 min-h-[100svh] w-full overflow-visible bg-background-primary pb-[calc(env(safe-area-inset-bottom,0px)+1.25rem)]">
 
   <!-- Background abstract lines -->
-  <div class="absolute inset-0 pointer-events-none -z-10 h-[150vh]">
+  <div class="absolute inset-0 pointer-events-none -z-10 h-[130svh] sm:h-[150svh]">
     <img src="/static/Tangled line.svg" alt="Abstract background lines" class="w-full h-full object-cover" decoding="async">
   </div>
 
@@ -47,10 +47,10 @@
   </nav>
 
   <!-- Hero content container -->
-  <div class="relative min-h-screen flex items-center justify-center px-4 pt-20 xs:px-5 md:px-11 md:pt-24 z-20">
+  <div class="relative min-h-[100svh] flex items-center justify-center px-4 pt-20 xs:px-5 md:px-11 md:pt-24 z-20">
     
     <!-- Main headline - "LOST IN CHAOS?" -->
-    <div class="relative font-helvetica font-bold text-text-primary leading-none w-full">
+    <div class="relative font-helvetica font-bold text-text-primary leading-none w-full mb-20 xs:mb-24 sm:mb-32 md:mb-12">
       
       <!-- Mobile Layout (under 640px) -->
       <div class="block xs:hidden">
@@ -61,8 +61,8 @@
       
       <!-- Tablet Layout (640px - 1024px) -->
       <div class="hidden xs:block md:hidden">
-        <div class="text-[80px] sm:text-[130px] text-left mb-2">LOST</div>
-        <div class="text-[80px] sm:text-[130px] text-center mb-2">IN</div>
+        <div class="text-[80px] sm:text-[130px] text-left mb-2 sm:mb-4">LOST</div>
+        <div class="text-[80px] sm:text-[130px] text-center mb-2 sm:mb-4">IN</div>
         <div class="text-[80px] sm:text-[130px] text-right">CHAOS?</div>
       </div>
       
@@ -88,10 +88,10 @@
     </div>
     
     <!-- Description text -->
-    <div class="absolute left-4 bottom-12 right-4 font-mono font-medium text-text-primary xs:left-5 xs:bottom-14 md:left-11 md:bottom-16 md:right-auto md:w-96 xl:w-[470px]">
+    <div class="absolute left-4 bottom-[calc(env(safe-area-inset-bottom,0px)+2.5rem)] right-4 font-mono font-medium text-text-primary xs:left-5 xs:bottom-[calc(env(safe-area-inset-bottom,0px)+3.5rem)] md:left-11 md:bottom-16 md:right-auto md:w-96 xl:w-[470px]">
       <p class="text-xs leading-relaxed xs:text-sm xs:leading-relaxed md:text-base md:leading-relaxed lg:text-lg lg:leading-relaxed xl:text-xl xl:leading-relaxed">
         <span class="text-text-primary relative inline-block">
-          Growth Strategy & Ops Lead
+          Growth Strategy & Operations Leader
           <span class="absolute bottom-0 left-0 w-full h-0.5 gradient-bg"></span>
         </span><br class="xs:hidden md:inline" />
         <span class="text-text-secondary">I help companies transform messy ideas into scalable systems that drive growth.</span>
