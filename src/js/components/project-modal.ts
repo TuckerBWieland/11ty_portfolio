@@ -28,7 +28,11 @@ interface _CompanyLogo {
     modalClasses: string;
 }
 
-const companyLogos: any = {
+interface _CompanyLogos {
+    [key: string]: _CompanyLogo;
+}
+
+const companyLogos: _CompanyLogos = {
     JUSTWORKS: {
         src: 'static/company-logos/Justworks Logo.svg',
         alt: 'Justworks Logo',
@@ -54,12 +58,12 @@ const companyLogos: any = {
 // Project Modal Component - Handles the modal popup and all its interactions
 const ProjectModal = {
     // Store current project data
-    currentProject: null as any,
+    currentProject: null as _Project | null,
     currentProjectIndex: -1,
-    allProjects: [] as any[],
+    allProjects: [] as _Project[],
 
     // Open project modal
-    openModal(project: any, _projectElement: HTMLElement): void {
+    openModal(project: _Project, _projectElement: HTMLElement): void {
         // Initialize all projects array if not done yet
         if (this.allProjects.length === 0) {
             this.initializeProjects();
@@ -86,7 +90,7 @@ const ProjectModal = {
     },
 
     // Render modal content
-    renderModalContent(project: any): string {
+    renderModalContent(project: _Project): string {
         return `
             <!-- Close button -->
             <button onclick="ProjectModal.closeModal()" class="absolute top-4 right-4 text-white hover:text-gray-300 z-10 transition-colors">
@@ -218,7 +222,7 @@ const ProjectModal = {
         const lightbox = document.getElementById('lightbox') as HTMLElement | null;
         if (!lightbox) return '';
 
-        const imagesData: any[] = JSON.parse(lightbox.dataset.imagesData || '[]');
+        const imagesData: ProjectMedia[] = JSON.parse(lightbox.dataset.imagesData || '[]');
         const currentIndex = parseInt(lightbox.dataset.currentIndex || '0');
 
         if (imagesData.length <= 1) return '';
@@ -255,7 +259,7 @@ const ProjectModal = {
         const videoPlayer = document.getElementById('video-player') as HTMLElement | null;
         if (!videoPlayer) return '';
 
-        const videosData: any[] = JSON.parse(videoPlayer.dataset.videosData || '[]');
+        const videosData: ProjectMedia[] = JSON.parse(videoPlayer.dataset.videosData || '[]');
         const currentIndex = parseInt(videoPlayer.dataset.currentIndex || '0');
 
         if (videosData.length <= 1) return '';
@@ -317,14 +321,14 @@ const ProjectModal = {
     },
 
     // Render media gallery
-    renderMediaGallery(mediaArray: any[], isMobile = false): string {
+    renderMediaGallery(mediaArray: ProjectMedia[], isMobile = false): string {
         if (!mediaArray || mediaArray.length === 0) {
             return '';
         }
 
         const gridClass = isMobile ? 'grid-cols-1' : 'grid-cols-2';
         const mediaItems = mediaArray
-            .map((media: any): string => {
+            .map((media: ProjectMedia): string => {
                 if (media.type === 'video') {
                     return `
                     <div class="relative rounded-lg overflow-hidden cursor-pointer group" onclick="ProjectModal.openVideoPlayer('${media.src}')">
@@ -478,8 +482,8 @@ const ProjectModal = {
 
         // Use current project's media data
         if (this.currentProject && this.currentProject.media) {
-            const images = this.currentProject.media.filter((media: any) => media.type === 'image');
-            const currentIndex = images.findIndex((image: any) => image.src === src);
+            const images = this.currentProject.media.filter((media: ProjectMedia) => media.type === 'image');
+            const currentIndex = images.findIndex((image: ProjectMedia) => image.src === src);
 
             // Only set data if we found the image in the current project
             if (currentIndex !== -1) {
@@ -516,8 +520,8 @@ const ProjectModal = {
 
         // Use current project's media data to set up video navigation
         if (this.currentProject && this.currentProject.media) {
-            const videos = this.currentProject.media.filter((media: any) => media.type === 'video');
-            const currentIndex = videos.findIndex((video: any) => video.src === src);
+            const videos = this.currentProject.media.filter((media: ProjectMedia) => media.type === 'video');
+            const currentIndex = videos.findIndex((video: ProjectMedia) => video.src === src);
 
             // Only set data if we found the video in the current project
             if (currentIndex !== -1) {
@@ -647,7 +651,7 @@ const ProjectModal = {
         if (!lightbox) return;
 
         const currentIndex = parseInt(lightbox.dataset.currentIndex || '0');
-        const imagesData: any[] = JSON.parse(lightbox.dataset.imagesData || '[]');
+        const imagesData: ProjectMedia[] = JSON.parse(lightbox.dataset.imagesData || '[]');
 
         if (imagesData.length <= 1) return;
 
@@ -684,7 +688,7 @@ const ProjectModal = {
         if (!videoPlayer) return;
 
         const currentIndex = parseInt(videoPlayer.dataset.currentIndex || '0');
-        const videosData: any[] = JSON.parse(videoPlayer.dataset.videosData || '[]');
+        const videosData: ProjectMedia[] = JSON.parse(videoPlayer.dataset.videosData || '[]');
 
         if (videosData.length <= 1) return;
 
