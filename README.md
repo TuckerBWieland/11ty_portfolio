@@ -41,8 +41,7 @@ npm run dev              # Build CSS + start dev server with hot reload
 ### Build Commands
 ```bash
 npm run build:css       # Build Tailwind CSS only
-npm run build           # Build static site with Eleventy
-npm run build:prod      # Build optimized production version
+npm run build           # Build Tailwind CSS and static site (production)
 npm start              # Alias for npm run dev
 ```
 
@@ -213,8 +212,10 @@ lg: '1440px'             /* Desktop */
 
 ### Production Build
 ```bash
-npm run build:prod       # Builds optimized CSS + static site
+npm run build            # Builds CSS and static site for deployment
 ```
+
+When deploying to platforms like Cloudflare Pages, configure the build command as `npm run build` and set the output directory to `_site` so the generated CSS is served correctly.
 
 ### Build Output
 - Generated files go to `_site/` directory

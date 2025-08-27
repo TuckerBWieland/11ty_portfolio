@@ -275,9 +275,6 @@ npm run build:css
 
 # Build entire site
 npm run build
-
-# Production build (optimized)
-npm run build:prod
 ```
 
 ### File Watching & Hot Reload
@@ -292,7 +289,7 @@ npm run build:prod
 3. **Update data**: Edit JSON files in `src/_data/`
 4. **Add styles**: Use Tailwind classes or add to component CSS files
 5. **Test responsive**: Use browser dev tools to test breakpoints
-6. **Build for production**: `npm run build:prod`
+6. **Build for production**: `npm run build`
 
 ---
 
@@ -408,7 +405,7 @@ gsap.to(element, { duration: 0.3, opacity: 1 });
 ### Development Quality Checks
 ```bash
 # Build production version
-npm run build:prod
+npm run build
 
 # Check for console errors in browser
 # Verify responsive breakpoints
@@ -479,7 +476,7 @@ npm run dev
 # → Include in src/index.njk
 
 # Build for production
-npm run build:prod
+npm run build
 ```
 
 ### Design Token Quick Reference
