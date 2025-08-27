@@ -1,6 +1,20 @@
 const { exec } = require("child_process");
 
 module.exports = function(eleventyConfig) {
+  // Configure server options to fix MIME type issues
+  eleventyConfig.setServerOptions({
+    module: "@11ty/eleventy-dev-server",
+    port: 8080,
+    middleware: [
+      function(req, res, next) {
+        if (req.url.endsWith('.js')) {
+          res.setHeader('Content-Type', 'application/javascript');
+        }
+        next();
+      }
+    ]
+  });
+
   // Watch CSS and config files for changes
   eleventyConfig.addWatchTarget("./src/css/");
   eleventyConfig.addWatchTarget("./tailwind.config.js");
