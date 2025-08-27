@@ -25,8 +25,8 @@ module.exports = function(eleventyConfig) {
     });
   });
 
-  // Copy static assets
-  eleventyConfig.addPassthroughCopy({ "src/js": "js" });
+  // Copy compiled JavaScript files from dist to _site
+  eleventyConfig.addPassthroughCopy({ "dist/js": "js" });
   eleventyConfig.addPassthroughCopy({ "src/static": "static" });
   
   // Copy font files from @fontsource

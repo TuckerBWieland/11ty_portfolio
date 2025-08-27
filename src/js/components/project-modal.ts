@@ -1,5 +1,34 @@
 // Company logo mapping - mirrors the tokens.json companyLogos structure
-const companyLogos = {
+
+interface ProjectMedia {
+    type: 'image' | 'video';
+    src: string;
+    alt: string;
+}
+
+// Interfaces used internally by this component
+interface _Project {
+    id: string;
+    company: string;
+    title: string;
+    description: string;
+    problem: string;
+    solution: string;
+    result: string;
+    role: string;
+    image: string;
+    narrative: string;
+    media: ProjectMedia[];
+    element?: HTMLElement;
+}
+
+interface _CompanyLogo {
+    src: string;
+    alt: string;
+    modalClasses: string;
+}
+
+const companyLogos: any = {
     JUSTWORKS: {
         src: 'static/company-logos/Justworks Logo.svg',
         alt: 'Justworks Logo',
@@ -25,12 +54,12 @@ const companyLogos = {
 // Project Modal Component - Handles the modal popup and all its interactions
 const ProjectModal = {
     // Store current project data
-    currentProject: null,
+    currentProject: null as any,
     currentProjectIndex: -1,
-    allProjects: [],
+    allProjects: [] as any[],
 
     // Open project modal
-    openModal(project, _projectElement) {
+    openModal(project: any, _projectElement: HTMLElement): void {
         // Initialize all projects array if not done yet
         if (this.allProjects.length === 0) {
             this.initializeProjects();
@@ -42,8 +71,8 @@ const ProjectModal = {
         // Store current project for navigation
         this.currentProject = project;
 
-        const modal = document.getElementById('project-modal');
-        const modalContent = modal.querySelector('.bg-background-primary');
+        const modal = document.getElementById('project-modal') as HTMLElement;
+        const modalContent = modal.querySelector('.bg-background-primary') as HTMLElement;
 
         modalContent.innerHTML = this.renderModalContent(project);
 
@@ -57,7 +86,7 @@ const ProjectModal = {
     },
 
     // Render modal content
-    renderModalContent(project) {
+    renderModalContent(project: any): string {
         return `
             <!-- Close button -->
             <button onclick="ProjectModal.closeModal()" class="absolute top-4 right-4 text-white hover:text-gray-300 z-10 transition-colors">
@@ -154,7 +183,7 @@ const ProjectModal = {
     },
 
     // Generate navigation footer HTML for project navigation
-    generateProjectNavigationFooter() {
+    generateProjectNavigationFooter(): string {
         if (this.allProjects.length <= 1) return '';
 
         return `
@@ -185,11 +214,11 @@ const ProjectModal = {
     },
 
     // Generate navigation footer HTML for lightbox (image navigation)
-    generateLightboxNavigationFooter() {
-        const lightbox = document.getElementById('lightbox');
+    generateLightboxNavigationFooter(): string {
+        const lightbox = document.getElementById('lightbox') as HTMLElement | null;
         if (!lightbox) return '';
 
-        const imagesData = JSON.parse(lightbox.dataset.imagesData || '[]');
+        const imagesData: any[] = JSON.parse(lightbox.dataset.imagesData || '[]');
         const currentIndex = parseInt(lightbox.dataset.currentIndex || '0');
 
         if (imagesData.length <= 1) return '';
@@ -222,11 +251,11 @@ const ProjectModal = {
     },
 
     // Generate navigation footer HTML for video player (video navigation)
-    generateVideoNavigationFooter() {
-        const videoPlayer = document.getElementById('video-player');
+    generateVideoNavigationFooter(): string {
+        const videoPlayer = document.getElementById('video-player') as HTMLElement | null;
         if (!videoPlayer) return '';
 
-        const videosData = JSON.parse(videoPlayer.dataset.videosData || '[]');
+        const videosData: any[] = JSON.parse(videoPlayer.dataset.videosData || '[]');
         const currentIndex = parseInt(videoPlayer.dataset.currentIndex || '0');
 
         if (videosData.length <= 1) return '';
@@ -259,7 +288,7 @@ const ProjectModal = {
     },
 
     // Render company logo or fallback to company name
-    renderCompanyLogo(companyName) {
+    renderCompanyLogo(companyName: string): string {
         const logoConfig = companyLogos[companyName];
         if (logoConfig) {
             return `<img src="${logoConfig.src}" alt="${logoConfig.alt}" class="${logoConfig.modalClasses}">`;
@@ -269,7 +298,7 @@ const ProjectModal = {
     },
 
     // Render content section
-    renderContentSection(title, content, isMobile = false) {
+    renderContentSection(title: string, content: string, isMobile = false): string {
         if (isMobile) {
             return `
                 <div class="border-b border-gray-700 pb-4">
@@ -288,14 +317,14 @@ const ProjectModal = {
     },
 
     // Render media gallery
-    renderMediaGallery(mediaArray, isMobile = false) {
+    renderMediaGallery(mediaArray: any[], isMobile = false): string {
         if (!mediaArray || mediaArray.length === 0) {
             return '';
         }
 
         const gridClass = isMobile ? 'grid-cols-1' : 'grid-cols-2';
         const mediaItems = mediaArray
-            .map((media, _index) => {
+            .map((media: any): string => {
                 if (media.type === 'video') {
                     return `
                     <div class="relative rounded-lg overflow-hidden cursor-pointer group" onclick="ProjectModal.openVideoPlayer('${media.src}')">
@@ -329,14 +358,14 @@ const ProjectModal = {
     },
 
     // Initialize projects array from DOM
-    initializeProjects() {
-        if (window.ProjectTable) {
-            this.allProjects = window.ProjectTable.getAllProjects();
+    initializeProjects(): void {
+        if ((window as any).ProjectTable) {
+            this.allProjects = (window as any).ProjectTable.getAllProjects();
         }
     },
 
     // Navigate to previous project
-    navigateToPreviousProject() {
+    navigateToPreviousProject(): void {
         if (this.allProjects.length <= 1) return;
 
         let newIndex = this.currentProjectIndex - 1;
@@ -348,7 +377,7 @@ const ProjectModal = {
     },
 
     // Navigate to next project
-    navigateToNextProject() {
+    navigateToNextProject(): void {
         if (this.allProjects.length <= 1) return;
 
         let newIndex = this.currentProjectIndex + 1;
@@ -360,7 +389,7 @@ const ProjectModal = {
     },
 
     // Switch to project by index
-    switchToProject(newIndex) {
+    switchToProject(newIndex: number): void {
         if (newIndex < 0 || newIndex >= this.allProjects.length) return;
 
         const newProject = this.allProjects[newIndex];
@@ -372,8 +401,8 @@ const ProjectModal = {
         this.closeVideoPlayer();
 
         // Update modal content
-        const modal = document.getElementById('project-modal');
-        const modalContent = modal.querySelector('.bg-background-primary');
+        const modal = document.getElementById('project-modal') as HTMLElement;
+        const modalContent = modal.querySelector('.bg-background-primary') as HTMLElement;
         modalContent.innerHTML = this.renderModalContent(newProject);
 
         // Scroll modal content to top with smooth animation
@@ -387,14 +416,14 @@ const ProjectModal = {
     },
 
     // Show sticky navigation arrows (disabled - using footer navigation instead)
-    showStickyNavigation() {
+    showStickyNavigation(): void {
         // Navigation is now handled by the sticky footer inside the modal
         // This method is kept for compatibility but doesn't create external arrows
         this.hideStickyNavigation(); // Clean up any existing arrows
     },
 
     // Hide sticky navigation arrows
-    hideStickyNavigation() {
+    hideStickyNavigation(): void {
         const prevArrow = document.getElementById('sticky-prev-arrow');
         const nextArrow = document.getElementById('sticky-next-arrow');
 
@@ -403,7 +432,7 @@ const ProjectModal = {
     },
 
     // Update sticky navigation visibility
-    updateStickyNavigation() {
+    updateStickyNavigation(): void {
         if (this.allProjects.length > 1) {
             this.showStickyNavigation();
         } else {
@@ -412,9 +441,9 @@ const ProjectModal = {
     },
 
     // Close project modal
-    closeModal() {
-        const modal = document.getElementById('project-modal');
-        const modalContent = modal.querySelector('.bg-background-primary');
+    closeModal(): void {
+        const modal = document.getElementById('project-modal') as HTMLElement;
+        const modalContent = modal.querySelector('.bg-background-primary') as HTMLElement;
 
         modal.classList.add('opacity-0', 'invisible');
         modalContent.classList.add('scale-95');
@@ -429,9 +458,9 @@ const ProjectModal = {
     },
 
     // Open lightbox for images
-    openLightbox(src, alt) {
-        const lightbox = document.getElementById('lightbox') || this.createLightbox();
-        const img = lightbox.querySelector('img');
+    openLightbox(src: string, alt: string): void {
+        const lightbox = (document.getElementById('lightbox') as HTMLElement) || this.createLightbox();
+        const img = lightbox.querySelector('img') as HTMLImageElement;
 
         // Clear any previous lightbox data first
         lightbox.dataset.currentIndex = '';
@@ -449,12 +478,12 @@ const ProjectModal = {
 
         // Use current project's media data
         if (this.currentProject && this.currentProject.media) {
-            const images = this.currentProject.media.filter(media => media.type === 'image');
-            const currentIndex = images.findIndex(image => image.src === src);
+            const images = this.currentProject.media.filter((media: any) => media.type === 'image');
+            const currentIndex = images.findIndex((image: any) => image.src === src);
 
             // Only set data if we found the image in the current project
             if (currentIndex !== -1) {
-                lightbox.dataset.currentIndex = currentIndex;
+                lightbox.dataset.currentIndex = currentIndex.toString();
                 lightbox.dataset.imagesData = JSON.stringify(images);
 
                 // Add image navigation footer if there are multiple images
@@ -472,8 +501,8 @@ const ProjectModal = {
     },
 
     // Open video player
-    openVideoPlayer(src) {
-        const videoPlayer = document.getElementById('video-player') || this.createVideoPlayer();
+    openVideoPlayer(src: string): void {
+        const videoPlayer = (document.getElementById('video-player') as HTMLElement) || this.createVideoPlayer();
 
         // Clear any previous video data first
         videoPlayer.dataset.currentIndex = '';
@@ -487,12 +516,12 @@ const ProjectModal = {
 
         // Use current project's media data to set up video navigation
         if (this.currentProject && this.currentProject.media) {
-            const videos = this.currentProject.media.filter(media => media.type === 'video');
-            const currentIndex = videos.findIndex(video => video.src === src);
+            const videos = this.currentProject.media.filter((media: any) => media.type === 'video');
+            const currentIndex = videos.findIndex((video: any) => video.src === src);
 
             // Only set data if we found the video in the current project
             if (currentIndex !== -1) {
-                videoPlayer.dataset.currentIndex = currentIndex;
+                videoPlayer.dataset.currentIndex = currentIndex.toString();
                 videoPlayer.dataset.videosData = JSON.stringify(videos);
 
                 // Add video navigation footer if there are multiple videos
@@ -514,8 +543,8 @@ const ProjectModal = {
 
         // Check if it's a YouTube video
         if (src.includes('youtube.com/embed/')) {
-            const iframe = videoPlayer.querySelector('iframe');
-            const video = videoPlayer.querySelector('video');
+            const iframe = videoPlayer.querySelector('iframe') as HTMLIFrameElement | null;
+            const video = videoPlayer.querySelector('video') as HTMLVideoElement | null;
 
             // Hide video element and show iframe
             if (video) video.style.display = 'none';
@@ -524,8 +553,8 @@ const ProjectModal = {
                 iframe.src = src + '?autoplay=1';
             }
         } else {
-            const video = videoPlayer.querySelector('video');
-            const iframe = videoPlayer.querySelector('iframe');
+            const video = videoPlayer.querySelector('video') as HTMLVideoElement | null;
+            const iframe = videoPlayer.querySelector('iframe') as HTMLIFrameElement | null;
 
             // Hide iframe and show video
             if (iframe) iframe.style.display = 'none';
@@ -533,7 +562,9 @@ const ProjectModal = {
                 video.style.display = 'block';
                 video.src = src;
                 video.load();
-                video.play().catch(e => console.log('Auto-play prevented:', e));
+                video.play().catch(() => {
+                    // Auto-play prevented by browser - this is expected behavior
+                });
             }
         }
 
@@ -545,7 +576,7 @@ const ProjectModal = {
     },
 
     // Create lightbox
-    createLightbox() {
+    createLightbox(): HTMLElement {
         const lightbox = document.createElement('div');
         lightbox.id = 'lightbox';
         lightbox.className =
@@ -565,7 +596,7 @@ const ProjectModal = {
 
         // Navigation footer will be added dynamically when lightbox opens with image data
 
-        lightbox.addEventListener('click', e => {
+        lightbox.addEventListener('click', (e: Event): void => {
             if (e.target === lightbox) {
                 this.closeLightbox();
             }
@@ -576,7 +607,7 @@ const ProjectModal = {
     },
 
     // Create video player
-    createVideoPlayer() {
+    createVideoPlayer(): HTMLElement {
         const videoPlayer = document.createElement('div');
         videoPlayer.id = 'video-player';
         videoPlayer.className =
@@ -600,7 +631,7 @@ const ProjectModal = {
 
         // Navigation footer will be added dynamically when video opens with data
 
-        videoPlayer.addEventListener('click', e => {
+        videoPlayer.addEventListener('click', (e: Event): void => {
             if (e.target === videoPlayer) {
                 this.closeVideoPlayer();
             }
@@ -611,12 +642,12 @@ const ProjectModal = {
     },
 
     // Navigate lightbox (previous/next images)
-    navigateLightbox(direction) {
-        const lightbox = document.getElementById('lightbox');
+    navigateLightbox(direction: number): void {
+        const lightbox = document.getElementById('lightbox') as HTMLElement;
         if (!lightbox) return;
 
-        const currentIndex = parseInt(lightbox.dataset.currentIndex);
-        const imagesData = JSON.parse(lightbox.dataset.imagesData || '[]');
+        const currentIndex = parseInt(lightbox.dataset.currentIndex || '0');
+        const imagesData: any[] = JSON.parse(lightbox.dataset.imagesData || '[]');
 
         if (imagesData.length <= 1) return;
 
@@ -630,14 +661,14 @@ const ProjectModal = {
         }
 
         // Update image
-        const img = lightbox.querySelector('img');
+        const img = lightbox.querySelector('img') as HTMLImageElement;
         const newImage = imagesData[newIndex];
 
         img.src = newImage.src;
         img.alt = newImage.alt;
 
         // Update current index
-        lightbox.dataset.currentIndex = newIndex;
+        lightbox.dataset.currentIndex = newIndex.toString();
 
         // Update navigation footer with new index
         const existingFooter = lightbox.querySelector('.w-full.max-w-4xl.bg-background-primary');
@@ -648,12 +679,12 @@ const ProjectModal = {
     },
 
     // Navigate video (previous/next videos)
-    navigateVideo(direction) {
-        const videoPlayer = document.getElementById('video-player');
+    navigateVideo(direction: number): void {
+        const videoPlayer = document.getElementById('video-player') as HTMLElement;
         if (!videoPlayer) return;
 
-        const currentIndex = parseInt(videoPlayer.dataset.currentIndex);
-        const videosData = JSON.parse(videoPlayer.dataset.videosData || '[]');
+        const currentIndex = parseInt(videoPlayer.dataset.currentIndex || '0');
+        const videosData: any[] = JSON.parse(videoPlayer.dataset.videosData || '[]');
 
         if (videosData.length <= 1) return;
 
@@ -670,8 +701,8 @@ const ProjectModal = {
         const newVideo = videosData[newIndex];
 
         // Stop current video
-        const video = videoPlayer.querySelector('video');
-        const iframe = videoPlayer.querySelector('iframe');
+        const video = videoPlayer.querySelector('video') as HTMLVideoElement | null;
+        const iframe = videoPlayer.querySelector('iframe') as HTMLIFrameElement | null;
 
         if (video && video.style.display !== 'none') {
             video.pause();
@@ -697,12 +728,14 @@ const ProjectModal = {
                 video.style.display = 'block';
                 video.src = newVideo.src;
                 video.load();
-                video.play().catch(e => console.log('Auto-play prevented:', e));
+                video.play().catch(() => {
+                    // Auto-play prevented by browser - this is expected behavior
+                });
             }
         }
 
         // Update current index
-        videoPlayer.dataset.currentIndex = newIndex;
+        videoPlayer.dataset.currentIndex = newIndex.toString();
 
         // Update navigation footer with new index
         const existingFooter = videoPlayer.querySelector('.w-full.max-w-4xl.bg-background-primary');
@@ -713,15 +746,15 @@ const ProjectModal = {
     },
 
     // Close lightbox
-    closeLightbox() {
-        const lightbox = document.getElementById('lightbox');
+    closeLightbox(): void {
+        const lightbox = document.getElementById('lightbox') as HTMLElement | null;
         if (lightbox) {
             // Clear lightbox data
             lightbox.dataset.currentIndex = '';
             lightbox.dataset.imagesData = '';
 
             // Clear the image src to prevent showing old images
-            const img = lightbox.querySelector('img');
+            const img = lightbox.querySelector('img') as HTMLImageElement | null;
             if (img) {
                 img.src = '';
                 img.alt = '';
@@ -742,15 +775,15 @@ const ProjectModal = {
     },
 
     // Close video player
-    closeVideoPlayer() {
-        const videoPlayer = document.getElementById('video-player');
+    closeVideoPlayer(): void {
+        const videoPlayer = document.getElementById('video-player') as HTMLElement | null;
         if (videoPlayer) {
             // Clear video data
             videoPlayer.dataset.currentIndex = '';
             videoPlayer.dataset.videosData = '';
 
-            const video = videoPlayer.querySelector('video');
-            const iframe = videoPlayer.querySelector('iframe');
+            const video = videoPlayer.querySelector('video') as HTMLVideoElement | null;
+            const iframe = videoPlayer.querySelector('iframe') as HTMLIFrameElement | null;
 
             // Stop video playback
             if (video && video.style.display !== 'none') {
@@ -779,11 +812,11 @@ const ProjectModal = {
     },
 
     // Setup event listeners
-    setupEventListeners() {
+    setupEventListeners(): void {
         // Close modal when clicking outside
-        const modal = document.getElementById('project-modal');
+        const modal = document.getElementById('project-modal') as HTMLElement | null;
         if (modal) {
-            modal.addEventListener('click', e => {
+            modal.addEventListener('click', (e: Event): void => {
                 if (e.target === e.currentTarget) {
                     this.closeModal();
                 }
@@ -791,10 +824,10 @@ const ProjectModal = {
         }
 
         // Handle keyboard navigation
-        document.addEventListener('keydown', e => {
-            const lightbox = document.getElementById('lightbox');
-            const videoPlayer = document.getElementById('video-player');
-            const projectModal = document.getElementById('project-modal');
+        document.addEventListener('keydown', (e: KeyboardEvent): void => {
+            const lightbox = document.getElementById('lightbox') as HTMLElement | null;
+            const videoPlayer = document.getElementById('video-player') as HTMLElement | null;
+            const projectModal = document.getElementById('project-modal') as HTMLElement | null;
 
             if (e.key === 'Escape') {
                 // Check what's currently open and close it
@@ -829,9 +862,11 @@ const ProjectModal = {
 };
 
 // Make ProjectModal globally available
-window.ProjectModal = ProjectModal;
+(window as any).ProjectModal = ProjectModal;
 
 // Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', (): void => {
     ProjectModal.setupEventListeners();
 });
+
+// ProjectModal is made globally available above

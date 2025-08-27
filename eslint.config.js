@@ -3,10 +3,14 @@ module.exports = [
         ignores: ['_site/**', 'dist/**', 'node_modules/**', '*.log', 'coverage/**', '.DS_Store']
     },
     {
-        files: ['src/js/**/*.js'],
+        files: ['src/js/**/*.ts'],
         languageOptions: {
             ecmaVersion: 2022,
-            sourceType: 'script',
+            sourceType: 'module',
+            parser: require('@typescript-eslint/parser'),
+            parserOptions: {
+                project: './tsconfig.json'
+            },
             globals: {
                 window: 'readonly',
                 document: 'readonly',
@@ -20,16 +24,22 @@ module.exports = [
                 parseInt: 'readonly'
             }
         },
+        plugins: {
+            '@typescript-eslint': require('@typescript-eslint/eslint-plugin')
+        },
         rules: {
-            // Basic recommended rules (manually defined)
-            'no-undef': 'error',
-            'no-unused-vars': [
+            // TypeScript specific rules
+            '@typescript-eslint/no-unused-vars': [
                 'error',
                 {
                     argsIgnorePattern: '^_',
                     varsIgnorePattern: '^_'
                 }
             ],
+            '@typescript-eslint/no-explicit-any': 'warn',
+            '@typescript-eslint/explicit-function-return-type': 'error',
+            '@typescript-eslint/no-inferrable-types': 'error',
+            // Basic recommended rules
             'no-console': 'warn',
             'no-debugger': 'error',
             'no-alert': 'warn',
