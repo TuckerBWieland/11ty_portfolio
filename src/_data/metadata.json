@@ -1,15 +1,15 @@
 {
-  "site": {
-    "title": "Tucker Wieland - Strategy & Operations Leader.",
-    "description": "I help companies transform messy ideas into scalable systems that drive growth.",
-    "url": "https://tuckerwieland.com",
-    "author": "Tucker Wieland",
-    "favicon": "/static/me.webp",
-    "image": "/static/meta1.webp",
-    "imageSquare": "/static/meta2.webp",
-    "imageAlt": "Tucker Wieland - Strategy & Operations Leader portfolio preview",
-    "twitterHandle": "@tuckerwieland",
-    "type": "website",
-    "locale": "en_US"
-  }
+    "site": {
+        "title": "Tucker Wieland - Strategy & Operations Leader.",
+        "description": "I help companies transform messy ideas into scalable systems that drive growth.",
+        "url": "https://tuckerwieland.com",
+        "author": "Tucker Wieland",
+        "favicon": "/static/me.webp",
+        "image": "/static/meta1.webp",
+        "imageSquare": "/static/meta2.webp",
+        "imageAlt": "Tucker Wieland - Strategy & Operations Leader portfolio preview",
+        "twitterHandle": "@tuckerwieland",
+        "type": "website",
+        "locale": "en_US"
+    }
 }

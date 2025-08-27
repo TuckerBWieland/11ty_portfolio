@@ -1,0 +1,44 @@
+# Build output
+_site/
+dist/
+
+# Dependencies
+node_modules/
+
+# Package files
+package-lock.json
+yarn.lock
+
+# Log files
+*.log
+npm-debug.log*
+
+# Generated files
+coverage/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Large binary files
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.svg
+*.mp4
+*.mov
+*.avi
+
+# Fonts
+*.woff
+*.woff2
+*.ttf
+*.otf
+*.eot
