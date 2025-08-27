@@ -38,30 +38,9 @@ module.exports = [
             'no-var': 'error',
             'prefer-const': 'error',
             'no-trailing-spaces': 'error',
-            'eol-last': 'error',
+            'eol-last': 'error'
 
-            // Style rules
-            indent: ['error', 4],
-            quotes: ['error', 'single', { avoidEscape: true }],
-            semi: ['error', 'always'],
-            'comma-dangle': ['error', 'never'],
-            'brace-style': ['error', '1tbs'],
-
-            // Function rules
-            'function-paren-newline': ['error', 'multiline'],
-            'space-before-function-paren': [
-                'error',
-                {
-                    anonymous: 'never',
-                    named: 'never',
-                    asyncArrow: 'always'
-                }
-            ],
-
-            // Object/Array rules
-            'object-curly-spacing': ['error', 'always'],
-            'array-bracket-spacing': ['error', 'never'],
-            'key-spacing': ['error', { beforeColon: false, afterColon: true }]
+            // Keep only non-style rules - let Prettier handle formatting
         }
     },
     {

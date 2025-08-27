@@ -27,10 +27,10 @@ jobs:
           HUSKY: 0
 
       - name: Run ESLint
-        run: npm run lint:js
+        run: npx eslint src/js/**/*.js
 
       - name: Run Stylelint
-        run: npm run lint:css
+        run: npx stylelint src/css/**/*.css
 
       - name: Check Prettier formatting
-        run: npm run lint:format
+        run: npx prettier --check "src/**/*.{js,css,njk,json,md}"
