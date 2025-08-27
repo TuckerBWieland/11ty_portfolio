@@ -1,7 +1,4 @@
-const js = require('@eslint/js');
-
 module.exports = [
-    js.configs.recommended,
     {
         ignores: ['_site/**', 'dist/**', 'node_modules/**', '*.log', 'coverage/**', '.DS_Store']
     },
@@ -24,7 +21,8 @@ module.exports = [
             }
         },
         rules: {
-            // Code quality rules
+            // Basic recommended rules (manually defined)
+            'no-undef': 'error',
             'no-unused-vars': [
                 'error',
                 {
@@ -39,8 +37,6 @@ module.exports = [
             'prefer-const': 'error',
             'no-trailing-spaces': 'error',
             'eol-last': 'error'
-
-            // Keep only non-style rules - let Prettier handle formatting
         }
     },
     {
