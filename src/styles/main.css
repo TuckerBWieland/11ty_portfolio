@@ -243,17 +243,7 @@
     justify-self: start; /* left edge kisses the line */
     text-align: left;
   }
-  /* line is hidden on all screen sizes */
-  @screen xs {
-    .centerline::before {
-      opacity: 0;
-    }
-  }
-  @screen md {
-    .centerline::before {
-      opacity: 0;
-    }
-  }
+  /* line is hidden on all screen sizes (already set to opacity: 0 by default) */
 
   /* Mobile menu animations */
   .mobile-menu.open {
