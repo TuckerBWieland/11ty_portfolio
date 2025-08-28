@@ -1,19 +1,20 @@
 ---
 permalink: /sitemap.xml
 eleventyExcludeFromCollections: true
+layout: false
 ---
 
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    {%- for page in collections.all %} {%- if not page.data.eleventyExcludeFromCollections and page.url %}
+    {%- for page in collections.all -%} {%- if not page.data.eleventyExcludeFromCollections and page.url -%}
     <url>
         <loc>{{ metadata.site.url }}{{ page.url }}</loc>
-        {%- if page.url == "/" %}
+        {%- if page.url == "/" -%}
         <priority>1.0</priority>
-        {%- else %}
+        {%- else -%}
         <priority>0.8</priority>
-        {%- endif %}
+        {%- endif -%}
         <changefreq>{% if page.url == "/" %}weekly{% else %}monthly{% endif %}</changefreq>
     </url>
-    {%- endif %} {%- endfor %}
+    {%- endif -%} {%- endfor -%}
 </urlset>
