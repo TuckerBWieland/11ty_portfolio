@@ -29,7 +29,10 @@ const ProjectTable = {
         document.addEventListener('click', (e: Event): void => {
             const target = e.target as HTMLElement;
             const projectItem = target.closest('.project-item') as HTMLElement | null;
-            if (projectItem && (window as any).ProjectModal) {
+            if (
+                projectItem &&
+                (window as typeof window & { ProjectModal?: { openModal(project: _Project): void } }).ProjectModal
+            ) {
                 // Extract project data from data attributes
                 const project: _Project = {
                     id: projectItem.dataset.projectId || '',
@@ -46,7 +49,9 @@ const ProjectTable = {
                 };
 
                 // Open modal with project data
-                (window as any).ProjectModal.openModal(project);
+                (
+                    window as typeof window & { ProjectModal: { openModal(project: _Project): void } }
+                ).ProjectModal.openModal(project);
             }
         });
     },
@@ -74,7 +79,7 @@ const ProjectTable = {
 };
 
 // Make ProjectTable globally available
-(window as any).ProjectTable = ProjectTable;
+(window as typeof window & { ProjectTable: typeof ProjectTable }).ProjectTable = ProjectTable;
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', (): void => {
