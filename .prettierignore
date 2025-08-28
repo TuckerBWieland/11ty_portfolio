@@ -42,3 +42,6 @@ Thumbs.db
 *.ttf
 *.otf
 *.eot
+
+# XML files that need precise formatting
+src/sitemap.xml.njk
