@@ -285,51 +285,10 @@
         }
     }
 
-    /* Animation for scroll-in effect */
+    /* Company items visible by default - no animation */
     .company-item {
-        opacity: 0;
-        transform: translateY(20px);
-        animation: fadeInUp 0.6s ease forwards;
-    }
-
-    .company-item:nth-child(1) {
-        animation-delay: 0.1s;
-    }
-    .company-item:nth-child(2) {
-        animation-delay: 0.2s;
-    }
-    .company-item:nth-child(3) {
-        animation-delay: 0.3s;
-    }
-    .company-item:nth-child(4) {
-        animation-delay: 0.4s;
-    }
-    .company-item:nth-child(5) {
-        animation-delay: 0.5s;
-    }
-    .company-item:nth-child(6) {
-        animation-delay: 0.6s;
-    }
-
-    @keyframes fadeInUp {
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Respect reduced motion preference */
-    @media (prefers-reduced-motion: reduce) {
-        .company-item {
-            animation: none;
-            opacity: 1;
-            transform: none;
-        }
-
-        .company-item,
-        .company-logo {
-            transition: none;
-        }
+        opacity: 1;
+        transform: none;
     }
 </style>
 
@@ -509,27 +468,5 @@
                 hideTooltip();
             }
         });
-
-        // Intersection Observer for scroll-triggered animations
-        if ('IntersectionObserver' in window) {
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '-50px 0px'
-            };
-
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-in');
-                    }
-                });
-            }, observerOptions);
-
-            // Observe the grid container
-            const grid = document.querySelector('.company-grid');
-            if (grid) {
-                observer.observe(grid);
-            }
-        }
     })();
 </script>
