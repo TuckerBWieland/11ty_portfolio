@@ -1,4 +1,4 @@
-// Company logo mapping - mirrors the tokens.json companyLogos structure
+// Company logo mapping for modal display
 
 interface ProjectMedia {
     type: 'image' | 'video';
@@ -34,22 +34,22 @@ interface _CompanyLogos {
 
 const companyLogos: _CompanyLogos = {
     JUSTWORKS: {
-        src: 'static/company-logos/Justworks Logo.svg',
+        src: '/assets/images/company-logos/Justworks Logo.svg',
         alt: 'Justworks Logo',
         modalClasses: 'h-10 w-auto object-contain max-w-48'
     },
     SHOPIFY: {
-        src: 'static/company-logos/Shopify Logo.svg',
+        src: '/assets/images/company-logos/Shopify Logo.svg',
         alt: 'Shopify Logo',
         modalClasses: 'h-10 w-auto object-contain max-w-48'
     },
     'GENERAL ASSEMBLY': {
-        src: 'static/company-logos/GA logo.svg',
+        src: '/assets/images/company-logos/GA logo.svg',
         alt: 'General Assembly Logo',
         modalClasses: 'h-10 w-auto object-contain max-w-48'
     },
     'BILLION OYSTER PROJECT': {
-        src: 'static/company-logos/BOP Logo.svg',
+        src: '/assets/images/company-logos/BOP Logo.svg',
         alt: 'Billion Oyster Project Logo',
         modalClasses: 'h-16 w-auto object-contain max-w-48'
     }
@@ -63,7 +63,7 @@ const ProjectModal = {
     allProjects: [] as _Project[],
 
     // Open project modal
-    openModal(project: _Project, _projectElement: HTMLElement): void {
+    openModal(project: _Project): void {
         // Initialize all projects array if not done yet
         if (this.allProjects.length === 0) {
             this.initializeProjects();

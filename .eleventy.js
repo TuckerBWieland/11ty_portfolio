@@ -16,14 +16,14 @@ module.exports = function(eleventyConfig) {
   });
 
   // Watch CSS and config files for changes
-  eleventyConfig.addWatchTarget("./src/css/");
+  eleventyConfig.addWatchTarget("./src/styles/");
   eleventyConfig.addWatchTarget("./tailwind.config.js");
   eleventyConfig.addWatchTarget("./postcss.config.js");
-  eleventyConfig.addWatchTarget("./src/js/");
+  eleventyConfig.addWatchTarget("./src/scripts/");
 
   // Don't copy the unprocessed CSS and TypeScript source files into the output
-  eleventyConfig.ignores.add("src/css/**/*");
-  eleventyConfig.ignores.add("src/js/**/*.ts");
+  eleventyConfig.ignores.add("src/styles/**/*");
+  eleventyConfig.ignores.add("src/scripts/**/*.ts");
 
   // Build TypeScript before Eleventy runs
   eleventyConfig.on("beforeBuild", () => {
@@ -50,7 +50,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.on("afterBuild", () => {
     console.log("Running Tailwind build...");
     return new Promise((resolve, reject) => {
-      exec("npx tailwindcss -i ./src/css/main.css -o ./_site/css/main.css", (error, stdout, stderr) => {
+      exec("npx tailwindcss -i ./src/styles/main.css -o ./_site/styles/main.css", (error, stdout, stderr) => {
         if (error) {
           console.error("Tailwind build error:", stderr);
           reject(error);
@@ -62,9 +62,9 @@ module.exports = function(eleventyConfig) {
     });
   });
 
-  // Copy compiled JavaScript files from dist to _site
-  eleventyConfig.addPassthroughCopy({ "dist/js": "js" });
-  eleventyConfig.addPassthroughCopy({ "src/static": "static" });
+  // Copy compiled JavaScript files and assets
+  eleventyConfig.addPassthroughCopy({ "dist/scripts": "scripts" });
+  eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
   
   // Copy font files from @fontsource
   eleventyConfig.addPassthroughCopy({ 
@@ -72,14 +72,17 @@ module.exports = function(eleventyConfig) {
   });
 
   // Copy Cloudflare Pages configuration files
-  eleventyConfig.addPassthroughCopy({ "src/_headers": "_headers" });
-  eleventyConfig.addPassthroughCopy({ "src/_redirects": "_redirects" });
-  eleventyConfig.addPassthroughCopy({ "src/robots.txt": "robots.txt" });
+  eleventyConfig.addPassthroughCopy({ "src/_config/_headers": "_headers" });
+  eleventyConfig.addPassthroughCopy({ "src/_config/_redirects": "_redirects" });
+  eleventyConfig.addPassthroughCopy({ "src/_config/robots.txt": "robots.txt" });
 
   return {
     dir: {
       input: "src",
       output: "_site"
-    }
+    },
+    templateFormats: ["njk", "md", "html"],
+    htmlTemplateEngine: "njk",
+    dataTemplateEngine: "njk"
   };
 };

@@ -29,8 +29,7 @@ src/
 ├── _data/                    # Eleventy data files
 │   ├── metadata.json         # Site meta information
 │   ├── projects.json         # Project portfolio data
-│   ├── companies.json        # Company experience data
-│   └── tokens.json           # Design system tokens
+│   └── companies.json        # Company experience data
 ├── _includes/
 │   ├── layouts/
 │   │   └── base.njk          # Base HTML template
