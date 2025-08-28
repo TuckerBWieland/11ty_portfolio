@@ -12,26 +12,211 @@ eleventyExcludeFromCollections: true
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>404 - Page Not Found | Tucker Wieland</title>
         <link rel="stylesheet" href="/styles/main.css" />
-    </head>
-    <body class="bg-gray-50 min-h-screen flex items-center justify-center">
-        <div class="text-center">
-            <h1 class="text-6xl font-bold text-gray-800 mb-4">404</h1>
-            <h2 class="text-2xl font-semibold text-gray-600 mb-4">Page Not Found</h2>
-            <p class="text-gray-500 mb-8">The requested resource could not be found.</p>
-            <a href="/" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
-                Go Home
-            </a>
+        <style>
+            .robot-face {
+                position: relative;
+                width: 200px;
+                height: 200px;
+                margin: 0 auto 2rem;
+                background: #2a2a2a;
+                border-radius: 50%;
+                border: 4px solid #4a4a4a;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                box-shadow:
+                    0 0 20px rgba(0, 0, 0, 0.3),
+                    inset 0 0 20px rgba(255, 255, 255, 0.1);
+            }
 
-            <!-- Debug info for development -->
-            <div class="mt-8 p-4 bg-gray-100 rounded-lg text-left text-sm text-gray-600 max-w-md mx-auto">
-                <strong>Debug Info:</strong><br />
-                <span id="debug-url"></span>
+            .robot-eyes {
+                display: flex;
+                gap: 2rem;
+                margin-bottom: 1rem;
+            }
+
+            .eye {
+                width: 30px;
+                height: 30px;
+                background: #fff;
+                border-radius: 50%;
+                position: relative;
+                border: 2px solid #4a4a4a;
+                overflow: hidden;
+            }
+
+            .pupil {
+                width: 12px;
+                height: 12px;
+                background: #000;
+                border-radius: 50%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                transition: all 0.1s ease-out;
+            }
+
+            .robot-mouth {
+                width: 60px;
+                height: 20px;
+                background: #4a4a4a;
+                border-radius: 0 0 30px 30px;
+                border: 2px solid #6a6a6a;
+                transition: all 0.3s ease;
+            }
+
+            .robot-mouth.talking {
+                height: 25px;
+                background: #6a6a6a;
+                border-color: #8a8a8a;
+            }
+
+            .robot-mouth.smiling {
+                border-radius: 0 0 40px 40px;
+                background: #5a5a5a;
+            }
+
+            .antenna {
+                position: absolute;
+                top: -20px;
+                width: 4px;
+                height: 20px;
+                background: #4a4a4a;
+                border-radius: 2px;
+            }
+
+            .antenna.left {
+                left: 30px;
+            }
+
+            .antenna.right {
+                right: 30px;
+            }
+
+            .antenna::after {
+                content: '';
+                position: absolute;
+                top: -8px;
+                left: -2px;
+                width: 8px;
+                height: 8px;
+                background: #e4c555;
+                border-radius: 50%;
+                animation: pulse 2s ease-in-out infinite;
+            }
+
+            @keyframes pulse {
+                0%,
+                100% {
+                    opacity: 0.6;
+                    transform: scale(1);
+                }
+                50% {
+                    opacity: 1;
+                    transform: scale(1.2);
+                }
+            }
+
+            .gradient-button {
+                background: #4a5568;
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 0;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 1.1rem;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                position: relative;
+                overflow: hidden;
+                border: 2px solid #718096;
+            }
+
+            .gradient-button:hover {
+                background: linear-gradient(
+                    90deg,
+                    #e4c555 0%,
+                    #629fde 16.66%,
+                    #27ae60 33.32%,
+                    #ff3333 49.98%,
+                    #f45cb3 66.64%,
+                    #f87c46 83.3%,
+                    #ff6b35 100%
+                );
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+                border-color: transparent;
+            }
+
+            .gradient-button::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                transition: left 0.5s ease;
+                opacity: 0;
+            }
+
+            .gradient-button:hover::before {
+                left: 100%;
+                opacity: 1;
+            }
+
+            .error-code {
+                font-size: 8rem;
+                font-weight: 900;
+                background: linear-gradient(
+                    90deg,
+                    #e4c555 0%,
+                    #629fde 16.66%,
+                    #27ae60 33.32%,
+                    #ff3333 49.98%,
+                    #f45cb3 66.64%,
+                    #f87c46 83.3%,
+                    #ff6b35 100%
+                );
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                color: transparent;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+                margin-bottom: 1rem;
+            }
+        </style>
+    </head>
+    <body class="bg-gray-900 min-h-screen flex items-center justify-center text-white">
+        <div class="text-center max-w-2xl mx-auto px-4">
+            <!-- Robot Face -->
+            <div class="robot-face">
+                <div class="antenna left"></div>
+                <div class="antenna right"></div>
+                <div class="robot-eyes">
+                    <div class="eye">
+                        <div class="pupil" id="left-pupil"></div>
+                    </div>
+                    <div class="eye">
+                        <div class="pupil" id="right-pupil"></div>
+                    </div>
+                </div>
+                <div class="robot-mouth"></div>
             </div>
+
+            <!-- Error Code -->
+            <div class="error-code">404</div>
+
+            <!-- Error Message -->
+            <h2 class="text-3xl font-semibold mb-4 text-gray-200">Page Not Found</h2>
+            <p class="text-gray-400 mb-8 text-lg">The requested resource could not be found.</p>
+
+            <!-- Return Home Button -->
+            <a href="/" class="gradient-button inline-block"> Return Home </a>
         </div>
 
-        <script>
-            // Show the requested URL for debugging
-            document.getElementById('debug-url').textContent = 'Requested: ' + window.location.pathname;
-        </script>
+        <script src="/scripts/components/robot-animation.js" defer></script>
     </body>
 </html>

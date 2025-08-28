@@ -90,7 +90,7 @@ const ProjectModal = {
     renderModalContent(project: _Project): string {
         return `
             <!-- Close button -->
-            <button onclick="ProjectModal.closeModal()" class="absolute top-4 right-4 text-white hover:text-gray-300 z-10 transition-colors">
+            <button data-action="close-modal" class="absolute top-4 right-4 text-white hover:text-gray-300 z-10 transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
@@ -144,7 +144,7 @@ const ProjectModal = {
 
                 <!-- Close button -->
                 <div class="mt-8 flex justify-center">
-                    <button onclick="ProjectModal.closeModal()" class="bg-[#629FDE] text-white px-6 py-2 font-mono text-sm uppercase hover:bg-blue-600 transition-colors rounded">
+                    <button data-action="close-modal" class="bg-[#629FDE] text-white px-6 py-2 font-mono text-sm uppercase hover:bg-blue-600 transition-colors rounded">
                         CLOSE
                     </button>
                 </div>
@@ -156,7 +156,7 @@ const ProjectModal = {
                     ? `
                 <div class="sticky bottom-0 bg-background-primary border-t border-gray-700 px-4 py-3 mt-auto">
                     <div class="flex items-center justify-between">
-                        <button onclick="ProjectModal.navigateToPreviousProject()" class="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg">
+                        <button data-action="navigate-previous" class="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                             </svg>
@@ -169,7 +169,7 @@ const ProjectModal = {
                             </div>
                         </div>
                         
-                        <button onclick="ProjectModal.navigateToNextProject()" class="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg">
+                        <button data-action="navigate-next" class="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg">
                             <span class="font-mono text-sm uppercase">Next</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -187,15 +187,11 @@ const ProjectModal = {
     generateNavigationFooter(type: 'project' | 'lightbox' | 'video'): string {
         let totalItems = 0;
         let currentIndex = 0;
-        let prevAction = '';
-        let nextAction = '';
 
         if (type === 'project') {
             if (this.allProjects.length <= 1) return '';
             totalItems = this.allProjects.length;
             currentIndex = this.currentProjectIndex;
-            prevAction = 'ProjectModal.navigateToPreviousProject()';
-            nextAction = 'ProjectModal.navigateToNextProject()';
         } else if (type === 'lightbox') {
             const lightbox = document.getElementById('lightbox') as HTMLElement | null;
             if (!lightbox) return '';
@@ -203,8 +199,6 @@ const ProjectModal = {
             if (imagesData.length <= 1) return '';
             totalItems = imagesData.length;
             currentIndex = parseInt(lightbox.dataset.currentIndex || '0');
-            prevAction = 'ProjectModal.navigateLightbox(-1)';
-            nextAction = 'ProjectModal.navigateLightbox(1)';
         } else if (type === 'video') {
             const videoPlayer = document.getElementById('video-player') as HTMLElement | null;
             if (!videoPlayer) return '';
@@ -212,11 +206,9 @@ const ProjectModal = {
             if (videosData.length <= 1) return '';
             totalItems = videosData.length;
             currentIndex = parseInt(videoPlayer.dataset.currentIndex || '0');
-            prevAction = 'ProjectModal.navigateVideo(-1)';
-            nextAction = 'ProjectModal.navigateVideo(1)';
         }
 
-        return `<div class="w-full max-w-4xl bg-background-primary border-t border-gray-700 px-4 py-3"><div class="flex items-center justify-between"><button onclick="${prevAction}" class="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="font-mono text-sm uppercase">Previous</span></button><div class="text-center"><div class="text-xs text-gray-400 font-mono">${currentIndex + 1} of ${totalItems}</div></div><button onclick="${nextAction}" class="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg"><span class="font-mono text-sm uppercase">Next</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button></div></div>`;
+        return `<div class="w-full max-w-4xl bg-background-primary border-t border-gray-700 px-4 py-3"><div class="flex items-center justify-between"><button data-action="${type}-navigate-previous" class="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="font-mono text-sm uppercase">Previous</span></button><div class="text-center"><div class="text-xs text-gray-400 font-mono">${currentIndex + 1} of ${totalItems}</div></div><button data-action="${type}-navigate-next" class="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg"><span class="font-mono text-sm uppercase">Next</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button></div></div>`;
     },
 
     // Render company logo or fallback to company name
@@ -259,7 +251,7 @@ const ProjectModal = {
             .map((media: ProjectMedia): string => {
                 if (media.type === 'video') {
                     return `
-                    <div class="relative rounded-lg overflow-hidden cursor-pointer group" onclick="ProjectModal.openVideoPlayer('${media.src}')">
+                    <div class="relative rounded-lg overflow-hidden cursor-pointer group" data-action="open-video" data-video-src="${media.src}">
                         <video class="w-full h-48 object-cover" preload="metadata" muted>
                             <source src="${media.src}" type="video/mp4">
                         </video>
@@ -274,7 +266,7 @@ const ProjectModal = {
                     return `
                     <img src="${media.src}" alt="${media.alt}" 
                          class="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
-                         onclick="ProjectModal.openLightbox('${media.src}', '${media.alt}')">
+                         data-action="open-lightbox" data-image-src="${media.src}" data-image-alt="${media.alt}">
                 `;
                 }
             })
@@ -291,8 +283,10 @@ const ProjectModal = {
 
     // Initialize projects array from DOM
     initializeProjects(): void {
-        if ((window as any).ProjectTable) {
-            this.allProjects = (window as any).ProjectTable.getAllProjects();
+        if ((window as typeof window & { ProjectTable?: { getAllProjects(): _Project[] } }).ProjectTable) {
+            this.allProjects = (
+                window as typeof window & { ProjectTable: { getAllProjects(): _Project[] } }
+            ).ProjectTable.getAllProjects();
         }
     },
 
@@ -481,7 +475,7 @@ const ProjectModal = {
                 <img class="max-w-full max-h-full object-contain" />
                 
                 <!-- Close button -->
-                <button onclick="ProjectModal.closeLightbox()" class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors">
+                <button data-action="close-lightbox" class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
@@ -516,7 +510,7 @@ const ProjectModal = {
                 <iframe class="w-full h-full min-h-[400px] md:min-h-[500px] lg:min-h-[600px]" style="display: none; aspect-ratio: 16/9;" 
                         frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                         allowfullscreen></iframe>
-                <button onclick="ProjectModal.closeVideoPlayer()" class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors z-10">
+                <button data-action="close-video-player" class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors z-10">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
@@ -700,6 +694,52 @@ const ProjectModal = {
         }
     },
 
+    // Handle action events from data-action attributes
+    handleAction(element: HTMLElement): void {
+        const action = element.getAttribute('data-action');
+
+        switch (action) {
+            case 'close-modal':
+                this.closeModal();
+                break;
+            case 'navigate-previous':
+                this.navigateToPreviousProject();
+                break;
+            case 'navigate-next':
+                this.navigateToNextProject();
+                break;
+            case 'open-video':
+                const videoSrc = element.getAttribute('data-video-src');
+                if (videoSrc) this.openVideoPlayer(videoSrc);
+                break;
+            case 'open-lightbox':
+                const imageSrc = element.getAttribute('data-image-src');
+                const imageAlt = element.getAttribute('data-image-alt');
+                if (imageSrc && imageAlt) this.openLightbox(imageSrc, imageAlt);
+                break;
+            case 'close-lightbox':
+                this.closeLightbox();
+                break;
+            case 'close-video-player':
+                this.closeVideoPlayer();
+                break;
+            case 'lightbox-navigate-previous':
+                this.navigateLightbox(-1);
+                break;
+            case 'lightbox-navigate-next':
+                this.navigateLightbox(1);
+                break;
+            case 'video-navigate-previous':
+                this.navigateVideo(-1);
+                break;
+            case 'video-navigate-next':
+                this.navigateVideo(1);
+                break;
+            default:
+            // Unknown action: ${action}
+        }
+    },
+
     // Setup event listeners
     setupEventListeners(): void {
         // Close modal when clicking outside
@@ -711,6 +751,17 @@ const ProjectModal = {
                 }
             });
         }
+
+        // Event delegation for all modal actions
+        document.addEventListener('click', (e: Event): void => {
+            const target = e.target as HTMLElement;
+            const actionElement = target.closest('[data-action]') as HTMLElement | null;
+
+            if (actionElement) {
+                e.preventDefault();
+                this.handleAction(actionElement);
+            }
+        });
 
         // Handle keyboard navigation
         document.addEventListener('keydown', (e: KeyboardEvent): void => {
@@ -751,7 +802,7 @@ const ProjectModal = {
 };
 
 // Make ProjectModal globally available
-(window as any).ProjectModal = ProjectModal;
+(window as typeof window & { ProjectModal: typeof ProjectModal }).ProjectModal = ProjectModal;
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', (): void => {
