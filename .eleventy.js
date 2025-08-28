@@ -74,6 +74,7 @@ module.exports = function(eleventyConfig) {
   // Copy Cloudflare Pages configuration files
   eleventyConfig.addPassthroughCopy({ "src/_headers": "_headers" });
   eleventyConfig.addPassthroughCopy({ "src/_redirects": "_redirects" });
+  eleventyConfig.addPassthroughCopy({ "src/robots.txt": "robots.txt" });
 
   return {
     dir: {
