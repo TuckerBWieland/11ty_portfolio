@@ -46,7 +46,7 @@ const ProjectTable = {
                 };
 
                 // Open modal with project data
-                (window as any).ProjectModal.openModal(project, projectItem);
+                (window as any).ProjectModal.openModal(project);
             }
         });
     },

@@ -3,7 +3,7 @@ module.exports = [
         ignores: ['_site/**', 'dist/**', 'node_modules/**', '*.log', 'coverage/**', '.DS_Store']
     },
     {
-        files: ['src/js/**/*.ts'],
+        files: ['src/scripts/**/*.ts'],
         languageOptions: {
             ecmaVersion: 2022,
             sourceType: 'module',

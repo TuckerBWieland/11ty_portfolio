@@ -1,22 +1,28 @@
 ## Cloudflare Pages Headers Configuration
 ## This file configures HTTP headers for static assets
 
-# JavaScript files - set correct MIME type
-/js/*
+# JavaScript files - set correct MIME type and caching
+/scripts/*
   Content-Type: application/javascript; charset=utf-8
+  Cache-Control: public, max-age=31536000
 
-# CSS files - ensure proper MIME type
-/css/*
+# CSS files - ensure proper MIME type and caching
+/styles/*
   Content-Type: text/css; charset=utf-8
+  Cache-Control: public, max-age=31536000
 
 # Image files - optimize caching
-/static/*
+/assets/*
   Cache-Control: public, max-age=31536000
 
 # Font files - optimize caching and CORS
 /fonts/*
   Cache-Control: public, max-age=31536000
   Access-Control-Allow-Origin: *
+
+# Third-party scripts and assets - longer cache for external resources
+/beacon.min.js/*
+  Cache-Control: public, max-age=31536000
 
 # HTML files - security headers
 /*

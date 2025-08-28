@@ -13,13 +13,13 @@
             "media": [
                 {
                     "type": "video",
-                    "src": "static/CompanyPhoto.mp4",
+                    "src": "/assets/videos/CompanyPhoto.mp4",
                     "alt": "Justworks awareness campaign company photo shoot",
                     "poster": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop"
                 },
                 {
                     "type": "video",
-                    "src": "static/MovingUP.mp4",
+                    "src": "/assets/videos/MovingUP.mp4",
                     "alt": "Justworks awareness campaign moving up visualization",
                     "poster": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop"
                 }
@@ -51,12 +51,12 @@
             "media": [
                 {
                     "type": "image",
-                    "src": "static/projectBot1.webp",
+                    "src": "/assets/images/projects/projectBot1.webp",
                     "alt": "Project tracking bot interface screenshot 1"
                 },
                 {
                     "type": "image",
-                    "src": "static/projectBot2.webp",
+                    "src": "/assets/images/projects/projectBot2.webp",
                     "alt": "Project tracking bot interface screenshot 2"
                 }
             ],
@@ -95,12 +95,12 @@
             "media": [
                 {
                     "type": "image",
-                    "src": "static/GA demand testing.webp",
+                    "src": "/assets/images/projects/GA demand testing.webp",
                     "alt": "General Assembly enterprise roadmap interface"
                 },
                 {
                     "type": "image",
-                    "src": "static/ga-demand test.webp",
+                    "src": "/assets/images/projects/ga-demand test.webp",
                     "alt": "General Assembly demand testing signup benefits"
                 }
             ],
@@ -119,15 +119,19 @@
             "media": [
                 {
                     "type": "image",
-                    "src": "static/BOP1.webp",
+                    "src": "/assets/images/projects/BOP1.webp",
                     "alt": "Billion Oyster Project water quality data visualization 1"
                 },
                 {
                     "type": "image",
-                    "src": "static/BOP2.webp",
+                    "src": "/assets/images/projects/BOP2.webp",
                     "alt": "Billion Oyster Project water quality data visualization 2"
                 },
-                { "type": "image", "src": "static/POB3.webp", "alt": "Billion Oyster Project interface screenshot 3" }
+                {
+                    "type": "image",
+                    "src": "/assets/images/projects/POB3.webp",
+                    "alt": "Billion Oyster Project interface screenshot 3"
+                }
             ],
             "narrative": "The Billion Oyster Project is working to restore New York Harbor's oyster population while engaging the public in marine science. As a volunteer, I noticed a recurring challenge: the water quality data we collected was stuck in massive Google Sheets that few people could actually use or understand. To make it more accessible, I built a lightweight web app as a side project. By mapping the data with GeoJSON, users could see readings in their geographic context—spotting trends, identifying problem areas, and getting a clearer picture of the harbor's health. I designed, built, and deployed the app on GitHub Pages, and it quickly resonated with volunteers and community members. People said it made the data easier to understand and gave them a stronger connection to why the harbor's health matters. <a href='https://tuckerbwieland.github.io/nyc-water-app/' target='_blank' class='text-blue-400 hover:text-blue-300 underline'>View the live NYC Water Quality App</a>."
         }
