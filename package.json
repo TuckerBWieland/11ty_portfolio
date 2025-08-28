@@ -7,7 +7,7 @@
         "build": "npm run build:ts && npx @11ty/eleventy",
         "build:production": "npm ci --include=dev && npm run build:ts && npx @11ty/eleventy",
         "build:ts": "tsc",
-        "build:css": "tailwindcss -i ./src/styles/main.css -o ./_site/styles/main.css",
+        "build:css": "tailwindcss -i ./src/styles/main.css -o ./_site/styles/main.css --minify",
         "dev": "npm run build:ts && eleventy --serve --watch",
         "start": "npm run dev",
         "watch:ts": "tsc --watch",
