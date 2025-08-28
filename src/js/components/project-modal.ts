@@ -84,9 +84,6 @@ const ProjectModal = {
         modal.classList.remove('opacity-0', 'invisible');
         modalContent.classList.remove('scale-95');
         document.body.style.overflow = 'hidden';
-
-        // Show sticky navigation arrows
-        this.showStickyNavigation();
     },
 
     // Render modal content
@@ -186,109 +183,40 @@ const ProjectModal = {
         `;
     },
 
-    // Generate navigation footer HTML for project navigation
-    generateProjectNavigationFooter(): string {
-        if (this.allProjects.length <= 1) return '';
+    // Generate unified navigation footer HTML
+    generateNavigationFooter(type: 'project' | 'lightbox' | 'video'): string {
+        let totalItems = 0;
+        let currentIndex = 0;
+        let prevAction = '';
+        let nextAction = '';
 
-        return `
-            <div class="w-full max-w-4xl bg-background-primary border-t border-gray-700 px-4 py-3">
-                <div class="flex items-center justify-between">
-                    <button onclick="ProjectModal.navigateToPreviousProject()" class="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                        </svg>
-                        <span class="font-mono text-sm uppercase">Previous</span>
-                    </button>
-                    
-                    <div class="text-center">
-                        <div class="text-xs text-gray-400 font-mono">
-                            ${this.currentProjectIndex + 1} of ${this.allProjects.length}
-                        </div>
-                    </div>
-                    
-                    <button onclick="ProjectModal.navigateToNextProject()" class="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg">
-                        <span class="font-mono text-sm uppercase">Next</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        `;
-    },
+        if (type === 'project') {
+            if (this.allProjects.length <= 1) return '';
+            totalItems = this.allProjects.length;
+            currentIndex = this.currentProjectIndex;
+            prevAction = 'ProjectModal.navigateToPreviousProject()';
+            nextAction = 'ProjectModal.navigateToNextProject()';
+        } else if (type === 'lightbox') {
+            const lightbox = document.getElementById('lightbox') as HTMLElement | null;
+            if (!lightbox) return '';
+            const imagesData: ProjectMedia[] = JSON.parse(lightbox.dataset.imagesData || '[]');
+            if (imagesData.length <= 1) return '';
+            totalItems = imagesData.length;
+            currentIndex = parseInt(lightbox.dataset.currentIndex || '0');
+            prevAction = 'ProjectModal.navigateLightbox(-1)';
+            nextAction = 'ProjectModal.navigateLightbox(1)';
+        } else if (type === 'video') {
+            const videoPlayer = document.getElementById('video-player') as HTMLElement | null;
+            if (!videoPlayer) return '';
+            const videosData: ProjectMedia[] = JSON.parse(videoPlayer.dataset.videosData || '[]');
+            if (videosData.length <= 1) return '';
+            totalItems = videosData.length;
+            currentIndex = parseInt(videoPlayer.dataset.currentIndex || '0');
+            prevAction = 'ProjectModal.navigateVideo(-1)';
+            nextAction = 'ProjectModal.navigateVideo(1)';
+        }
 
-    // Generate navigation footer HTML for lightbox (image navigation)
-    generateLightboxNavigationFooter(): string {
-        const lightbox = document.getElementById('lightbox') as HTMLElement | null;
-        if (!lightbox) return '';
-
-        const imagesData: ProjectMedia[] = JSON.parse(lightbox.dataset.imagesData || '[]');
-        const currentIndex = parseInt(lightbox.dataset.currentIndex || '0');
-
-        if (imagesData.length <= 1) return '';
-
-        return `
-            <div class="w-full max-w-4xl bg-background-primary border-t border-gray-700 px-4 py-3">
-                <div class="flex items-center justify-between">
-                    <button onclick="ProjectModal.navigateLightbox(-1)" class="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                        </svg>
-                        <span class="font-mono text-sm uppercase">Previous</span>
-                    </button>
-                    
-                    <div class="text-center">
-                        <div class="text-xs text-gray-400 font-mono">
-                            ${currentIndex + 1} of ${imagesData.length}
-                        </div>
-                    </div>
-                    
-                    <button onclick="ProjectModal.navigateLightbox(1)" class="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg">
-                        <span class="font-mono text-sm uppercase">Next</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        `;
-    },
-
-    // Generate navigation footer HTML for video player (video navigation)
-    generateVideoNavigationFooter(): string {
-        const videoPlayer = document.getElementById('video-player') as HTMLElement | null;
-        if (!videoPlayer) return '';
-
-        const videosData: ProjectMedia[] = JSON.parse(videoPlayer.dataset.videosData || '[]');
-        const currentIndex = parseInt(videoPlayer.dataset.currentIndex || '0');
-
-        if (videosData.length <= 1) return '';
-
-        return `
-            <div class="w-full max-w-4xl bg-background-primary border-t border-gray-700 px-4 py-3">
-                <div class="flex items-center justify-between">
-                    <button onclick="ProjectModal.navigateVideo(-1)" class="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                        </svg>
-                        <span class="font-mono text-sm uppercase">Previous</span>
-                    </button>
-                    
-                    <div class="text-center">
-                        <div class="text-xs text-gray-400 font-mono">
-                            ${currentIndex + 1} of ${videosData.length}
-                        </div>
-                    </div>
-                    
-                    <button onclick="ProjectModal.navigateVideo(1)" class="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg">
-                        <span class="font-mono text-sm uppercase">Next</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        `;
+        return `<div class="w-full max-w-4xl bg-background-primary border-t border-gray-700 px-4 py-3"><div class="flex items-center justify-between"><button onclick="${prevAction}" class="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="font-mono text-sm uppercase">Previous</span></button><div class="text-center"><div class="text-xs text-gray-400 font-mono">${currentIndex + 1} of ${totalItems}</div></div><button onclick="${nextAction}" class="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg"><span class="font-mono text-sm uppercase">Next</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button></div></div>`;
     },
 
     // Render company logo or fallback to company name
@@ -414,34 +342,6 @@ const ProjectModal = {
             top: 0,
             behavior: 'smooth'
         });
-
-        // Update sticky navigation visibility
-        this.updateStickyNavigation();
-    },
-
-    // Show sticky navigation arrows (disabled - using footer navigation instead)
-    showStickyNavigation(): void {
-        // Navigation is now handled by the sticky footer inside the modal
-        // This method is kept for compatibility but doesn't create external arrows
-        this.hideStickyNavigation(); // Clean up any existing arrows
-    },
-
-    // Hide sticky navigation arrows
-    hideStickyNavigation(): void {
-        const prevArrow = document.getElementById('sticky-prev-arrow');
-        const nextArrow = document.getElementById('sticky-next-arrow');
-
-        if (prevArrow) prevArrow.remove();
-        if (nextArrow) nextArrow.remove();
-    },
-
-    // Update sticky navigation visibility
-    updateStickyNavigation(): void {
-        if (this.allProjects.length > 1) {
-            this.showStickyNavigation();
-        } else {
-            this.hideStickyNavigation();
-        }
     },
 
     // Close project modal
@@ -452,9 +352,6 @@ const ProjectModal = {
         modal.classList.add('opacity-0', 'invisible');
         modalContent.classList.add('scale-95');
         document.body.style.overflow = 'auto';
-
-        // Hide sticky navigation arrows
-        this.hideStickyNavigation();
 
         // Clear current project data
         this.currentProject = null;
@@ -492,16 +389,13 @@ const ProjectModal = {
 
                 // Add image navigation footer if there are multiple images
                 if (images.length > 1) {
-                    lightbox.innerHTML += this.generateLightboxNavigationFooter();
+                    lightbox.innerHTML += this.generateNavigationFooter('lightbox');
                 }
             }
         }
 
         lightbox.classList.remove('opacity-0', 'invisible');
         document.body.style.overflow = 'hidden';
-
-        // Hide sticky navigation while lightbox is open
-        this.hideStickyNavigation();
     },
 
     // Open video player
@@ -530,18 +424,18 @@ const ProjectModal = {
 
                 // Add video navigation footer if there are multiple videos
                 if (videos.length > 1) {
-                    videoPlayer.innerHTML += this.generateVideoNavigationFooter();
+                    videoPlayer.innerHTML += this.generateNavigationFooter('video');
                 }
             } else {
                 // If there's only one video or not found in project, show project navigation
                 if (this.allProjects.length > 1) {
-                    videoPlayer.innerHTML += this.generateProjectNavigationFooter();
+                    videoPlayer.innerHTML += this.generateNavigationFooter('project');
                 }
             }
         } else {
             // Fallback to project navigation if no media data
             if (this.allProjects.length > 1) {
-                videoPlayer.innerHTML += this.generateProjectNavigationFooter();
+                videoPlayer.innerHTML += this.generateNavigationFooter('project');
             }
         }
 
@@ -574,9 +468,6 @@ const ProjectModal = {
 
         videoPlayer.classList.remove('opacity-0', 'invisible');
         document.body.style.overflow = 'hidden';
-
-        // Hide sticky navigation while video player is open
-        this.hideStickyNavigation();
     },
 
     // Create lightbox
@@ -678,7 +569,7 @@ const ProjectModal = {
         const existingFooter = lightbox.querySelector('.w-full.max-w-4xl.bg-background-primary');
         if (existingFooter) {
             existingFooter.remove();
-            lightbox.innerHTML += this.generateLightboxNavigationFooter();
+            lightbox.innerHTML += this.generateNavigationFooter('lightbox');
         }
     },
 
@@ -745,7 +636,7 @@ const ProjectModal = {
         const existingFooter = videoPlayer.querySelector('.w-full.max-w-4xl.bg-background-primary');
         if (existingFooter) {
             existingFooter.remove();
-            videoPlayer.innerHTML += this.generateVideoNavigationFooter();
+            videoPlayer.innerHTML += this.generateNavigationFooter('video');
         }
     },
 
@@ -772,9 +663,6 @@ const ProjectModal = {
 
             lightbox.classList.add('opacity-0', 'invisible');
             document.body.style.overflow = 'auto';
-
-            // Restore sticky navigation when lightbox closes
-            this.showStickyNavigation();
         }
     },
 
@@ -809,9 +697,6 @@ const ProjectModal = {
 
             videoPlayer.classList.add('opacity-0', 'invisible');
             document.body.style.overflow = 'auto';
-
-            // Restore sticky navigation when video player closes
-            this.showStickyNavigation();
         }
     },
 
