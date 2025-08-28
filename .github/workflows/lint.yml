@@ -30,10 +30,10 @@ jobs:
         run: npm run build:ts
 
       - name: Run ESLint
-        run: npx eslint src/js/**/*.ts
+        run: npx eslint src/scripts/**/*.ts
 
       - name: Run Stylelint
-        run: npx stylelint src/css/**/*.css
+        run: npx stylelint src/styles/**/*.css
 
       - name: Check Prettier formatting
         run: npx prettier --check "src/**/*.{ts,css,njk,json,md}"

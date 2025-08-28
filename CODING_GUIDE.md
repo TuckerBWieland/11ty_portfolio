@@ -308,7 +308,7 @@ Add the corresponding SVG logo to `src/static/company-logos/`.
 **TypeScript Component Pattern**:
 
 ```typescript
-// src/js/components/component-name.ts
+// src/scripts/components/component-name.ts
 export interface ComponentConfig {
     // Type definitions
 }
@@ -396,7 +396,7 @@ npm run lint:format   # Prettier formatting only
 
 1. **Start development**: `npm run dev`
 2. **Edit components**: Modify `.njk` files in `src/_includes/components/`
-3. **Add functionality**: Write TypeScript in `src/js/components/`
+3. **Add functionality**: Write TypeScript in `src/scripts/components/`
 4. **Update data**: Edit JSON files in `src/_data/`
 5. **Add styles**: Use Tailwind classes (prefer design tokens)
 6. **Test responsive**: Use browser dev tools to test breakpoints
@@ -625,7 +625,7 @@ git push origin feature/feature-name
 
 - **`src/index.njk`**: Main page template
 - **`src/_includes/components/`**: All UI components
-- **`src/js/components/`**: TypeScript component logic
+- **`src/scripts/components/`**: TypeScript component logic
 - **`src/_data/projects.json`**: Project portfolio data
 - **`src/_data/companies.json`**: Company logo data
 - **`tailwind.config.js`**: Design system configuration
@@ -648,13 +648,13 @@ npm run dev
 
 # Create new component
 # → Create src/_includes/components/component-name.njk
-# → Create src/js/components/component-name.ts (if interactive)
+# → Create src/scripts/components/component-name.ts (if interactive)
 # → Include in src/index.njk
 # → Import TypeScript in base template
 
 # Add new TypeScript functionality
-# → Write component in src/js/components/
-# → Define types in src/js/types.ts
+# → Write component in src/scripts/components/
+# → Define types in src/scripts/types.ts (if needed)
 # → Import and use in templates
 
 # Build for production
