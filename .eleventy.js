@@ -76,6 +76,11 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/_config/_redirects": "_redirects" });
   eleventyConfig.addPassthroughCopy({ "src/_config/robots.txt": "robots.txt" });
 
+  // Copy favicon files to site root
+  eleventyConfig.addPassthroughCopy({ "src/_config/favicon.ico": "favicon.ico" });
+  eleventyConfig.addPassthroughCopy({ "src/_config/favicon.svg": "favicon.svg" });
+  eleventyConfig.addPassthroughCopy({ "src/_config/apple-touch-icon.png": "apple-touch-icon.png" });
+
   return {
     dir: {
       input: "src",
