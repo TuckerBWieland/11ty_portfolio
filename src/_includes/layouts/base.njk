@@ -53,10 +53,10 @@
         <meta name="googlebot" content="index, follow" />
         <meta name="theme-color" content="#000000" />
 
-        <!-- Apple Touch Icon and Favicon -->
-        <link rel="icon" type="image/webp" href="{{ metadata.site.favicon }}" />
-        <link rel="apple-touch-icon" href="{{ metadata.site.favicon }}" />
-        <link rel="shortcut icon" href="{{ metadata.site.favicon }}" />
+        <!-- Favicons -->
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
 
         <!-- Structured Data -->
         <script type="application/ld+json">
@@ -64,7 +64,7 @@
                 "@context": "https://schema.org",
                 "@type": "Person",
                 "name": "{{ metadata.site.author }}",
-                "jobTitle": "Strategy & Operations Leader",
+                "jobTitle": "Growth Strategy & Operations Leader",
                 "description": "{{ metadata.site.description }}",
                 "url": "{{ metadata.site.url }}",
                 "image": "{{ metadata.site.url }}{{ metadata.site.image }}",
