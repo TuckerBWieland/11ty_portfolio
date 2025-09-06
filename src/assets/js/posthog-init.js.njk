@@ -39,14 +39,9 @@ eleventyExcludeFromCollections: true
     e._i.push([i,s,a])
   }, e.__SV=1)}(document,window.posthog||{});
 
-  // Debug: Environment variable status
-  console.log('🔍 Build-time env check:', '{{ process.env.PH_KEY }}' ? 'PH_KEY_FOUND' : 'PH_KEY_MISSING');
-  console.log('🔍 Original check:', '{{ process.env.POSTHOG_KEY }}' ? 'POSTHOG_KEY_FOUND' : 'POSTHOG_KEY_MISSING');
-  
-  {% if process.env.PH_KEY or process.env.POSTHOG_KEY %}
   try {
-    // Initialize via proxy
-    var key = '{{ process.env.PH_KEY or process.env.POSTHOG_KEY | safe }}';
+    // Initialize via proxy (hardcoded key for now)
+    var key = 'phc_TiV9pa7UYwvzOxJcVNO6kXQYhpKQNQPTdKzZKEKFBqU';
     console.log('🚀 Initializing PostHog with key:', key.slice(0, 8) + '...');
     window.posthog.init(key, {
       api_host: 'https://logs.tuckerwieland.com',
@@ -59,7 +54,4 @@ eleventyExcludeFromCollections: true
   } catch (e) {
     console.warn('⚠️ PostHog failed to initialize', e);
   }
-  {% else %}
-  console.log('ℹ️ PostHog skipped: no POSTHOG_KEY at build');
-  {% endif %}
 })();
