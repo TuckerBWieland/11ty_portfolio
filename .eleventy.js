@@ -93,7 +93,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/apple-touch-icon.png": "apple-touch-icon.png" });
 
   // Configure responsive image shortcode
-  eleventyConfig.addAsyncShortcode("image", async function(src, alt, sizes = "100vw") {
+  eleventyConfig.addAsyncShortcode("image", async function(src, alt, sizes = "100vw", loading = "lazy") {
     let metadata = await Image(src, {
       widths: [320, 640, 960, 1280],
       formats: ["webp", "jpeg"],
@@ -109,7 +109,7 @@ module.exports = function(eleventyConfig) {
     let imageAttributes = {
       alt,
       sizes,
-      loading: "lazy",
+      loading,
       decoding: "async",
     };
 
