@@ -97,6 +97,8 @@
         <link rel="stylesheet" href="/styles/main.css" />
         <!-- Preload hero art for above-the-fold optimization -->
         <link rel="preload" as="image" href="/assets/icons/Tangled line.svg" />
+        <!-- Preload critical profile image -->
+        <link rel="preload" as="image" href="/assets/images/optimized/me-640w.webp" />
 
         <!-- PostHog Analytics -->
         <script src="/assets/js/posthog-init.js" defer></script>
@@ -108,13 +110,19 @@
         <!-- Footer -->
         {% include "components/site-footer.njk" %}
 
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
-            integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-            defer
-        ></script>
+        <!-- Load GSAP conditionally when animations are needed -->
+        <script>
+            // Only load GSAP if we have elements that need animation
+            if (document.querySelector('[data-gsap]') || document.querySelector('.robot-animation')) {
+                const gsapScript = document.createElement('script');
+                gsapScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js';
+                gsapScript.integrity =
+                    'sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug==';
+                gsapScript.crossOrigin = 'anonymous';
+                gsapScript.referrerPolicy = 'no-referrer';
+                document.head.appendChild(gsapScript);
+            }
+        </script>
 
         <!-- Component JavaScript (compiled from TypeScript) -->
         <script src="/scripts/components/hero-section.js" defer></script>
