@@ -81,6 +81,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/favicon.ico": "favicon.ico" });
   eleventyConfig.addPassthroughCopy({ "src/apple-touch-icon.png": "apple-touch-icon.png" });
 
+
   return {
     dir: {
       input: "src",

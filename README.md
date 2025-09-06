@@ -50,19 +50,11 @@ src/
 **New Section**: Create component in `src/_includes/components/` + include in
 `src/index.njk`
 
-## Analytics Setup
+## Analytics
 
-This site uses PostHog for analytics with a Cloudflare Worker proxy for privacy.
+Set `POSTHOG_KEY` in Cloudflare Pages → Settings → Environment variables.
 
-### Environment Variables
-
-On Cloudflare Pages, add `POSTHOG_KEY` in Settings → Environment Variables.
-
-This key is safe to expose; it only writes events.
-
-### Local Development
-
-Analytics are only loaded in production when `POSTHOG_KEY` is set.
+All analytics requests route via https://logs.tuckerwieland.com.
 
 ## Development Guide
 

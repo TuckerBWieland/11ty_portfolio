@@ -45,3 +45,6 @@ Thumbs.db
 
 # XML files that need precise formatting
 src/sitemap.xml.njk
+
+# JavaScript files with minified code that shouldn't be formatted
+src/assets/js/posthog-init.js.njk
