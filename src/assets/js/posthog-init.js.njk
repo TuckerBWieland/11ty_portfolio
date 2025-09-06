@@ -7,7 +7,7 @@ eleventyExcludeFromCollections: true
   if (typeof window === 'undefined') return;
 
   // ✅ Official PostHog loader (UNMODIFIED)
-  !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){
+  {% raw %}!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){
     function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){
       t.push([e].concat(Array.prototype.slice.call(arguments,0)))
     }}
@@ -21,10 +21,10 @@ eleventyExcludeFromCollections: true
     o="capture identify alias people.set people.set_once people.unset register register_once unregister set_config reset opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing on isFeatureEnabled reloadFeatureFlags group groupIdentify".split(" ");
     for(n=0;n<o.length;n++)g(u,o[n]);
     e._i.push([i,s,a])
-  },e.__SV=1)}(document,window.posthog||[]);
+  },e.__SV=1)}(document,window.posthog||[]);{% endraw %}
 
   // Pull the token at build time; it must start with phc_
-  const KEY = '{{ process.env.POSTHOG_KEY || "" }}';
+  const KEY = '{{ process.env.POSTHOG_KEY or "" }}';
   if (!KEY) { console.log("ℹ️ PostHog skipped: no POSTHOG_KEY at build"); return; }
   if (!KEY.startsWith('phc_')) { console.error("❌ POSTHOG_KEY must start with 'phc_'"); return; }
 
