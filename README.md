@@ -64,3 +64,5 @@ component architecture.
 ---
 
 Built with modern web standards and systematic design principles.
+
+# Force rebuild for PostHog environment variable
