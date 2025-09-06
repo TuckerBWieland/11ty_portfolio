@@ -27,8 +27,8 @@ permalink: "/assets/js/posthog-init.js"
     e._i.push([i,s,a]);
   },e.__SV=1)}(document,window.posthog||[]);
 
-  // Only render in production when the key is present
-  {% if (process.env.ELEVENTY_ENV == "production" or process.env.NODE_ENV == "production") and process.env.POSTHOG_KEY %}
+  // Only render when the key is present
+  {% if process.env.POSTHOG_KEY %}
   posthog.init('{{ process.env.POSTHOG_KEY | safe }}', {
     api_host: 'https://logs.tuckerwieland.com',
     ui_host: 'https://us.posthog.com',
@@ -37,5 +37,7 @@ permalink: "/assets/js/posthog-init.js"
   });
   window.posthog.__LOADED__ = true;
   console.log("✅ PostHog loaded via proxy");
+  {% else %}
+  console.log("ℹ️ PostHog skipped: no POSTHOG_KEY at build");
   {% endif %}
 })();
