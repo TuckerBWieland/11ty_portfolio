@@ -29,3 +29,4 @@
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+  Content-Security-Policy: script-src 'self' https://logs.tuckerwieland.com; connect-src 'self' https://logs.tuckerwieland.com https://us.posthog.com; object-src 'none';
