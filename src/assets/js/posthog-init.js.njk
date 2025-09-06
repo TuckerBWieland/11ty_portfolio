@@ -39,9 +39,13 @@ eleventyExcludeFromCollections: true
     e._i.push([i,s,a])
   }, e.__SV=1)}(document,window.posthog||{});
 
+  // Debug: Environment variable status
+  console.log('🔍 Build-time env check:', '{{ process.env.POSTHOG_KEY }}' ? 'KEY_FOUND' : 'KEY_MISSING');
+  
   {% if process.env.POSTHOG_KEY %}
   try {
     // Initialize via proxy
+    console.log('🚀 Initializing PostHog with key:', '{{ process.env.POSTHOG_KEY | slice(0, 8) }}...');
     window.posthog.init('{{ process.env.POSTHOG_KEY | safe }}', {
       api_host: 'https://logs.tuckerwieland.com',
       ui_host: 'https://us.posthog.com',
