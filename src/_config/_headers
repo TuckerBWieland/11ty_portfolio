@@ -25,8 +25,16 @@
   Cache-Control: public, max-age=31536000
 
 # HTML files - security headers
+# Allows PostHog via Worker proxy + cdnjs + CF Analytics
 /*
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
-  Content-Security-Policy: script-src 'self' https://logs.tuckerwieland.com; connect-src 'self' https://logs.tuckerwieland.com https://us.posthog.com; object-src 'none';
+  Content-Security-Policy: 
+    default-src 'self';
+    script-src 'self' https://logs.tuckerwieland.com https://cdnjs.cloudflare.com https://static.cloudflareinsights.com;
+    connect-src 'self' https://logs.tuckerwieland.com https://us.posthog.com;
+    img-src 'self' data:;
+    style-src 'self' 'unsafe-inline';
+    font-src 'self';
+    object-src 'none';
