@@ -25,18 +25,28 @@ eleventyExcludeFromCollections: true
 
   // Pull the token at build time; it must start with phc_
   const KEY = '{{ process.env.POSTHOG_KEY or "" }}';
-  if (!KEY) { console.log("ℹ️ PostHog skipped: no POSTHOG_KEY at build"); return; }
-  if (!KEY.startsWith('phc_')) { console.error("❌ POSTHOG_KEY must start with 'phc_'"); return; }
+  if (!KEY || typeof KEY !== 'string' || KEY.trim() === '') { 
+    console.log("ℹ️ PostHog skipped: no POSTHOG_KEY at build"); 
+    return; 
+  }
+  if (!KEY.startsWith('phc_')) { 
+    console.error("❌ POSTHOG_KEY must start with 'phc_'"); 
+    return; 
+  }
 
   // ✅ Init with token as the first positional arg, options second
-  window.posthog.init(KEY, {
-    api_host: 'https://logs.tuckerwieland.com',
-    ui_host: 'https://us.posthog.com',
-    autocapture: true,
-    capture_pageview: true,
-    capture_pageleave: true
-  });
+  try {
+    window.posthog.init(KEY, {
+      api_host: 'https://logs.tuckerwieland.com',
+      ui_host: 'https://us.posthog.com',
+      autocapture: true,
+      capture_pageview: true,
+      capture_pageleave: true
+    });
 
-  // Quick sanity event so Live shows something immediately
-  window.posthog.capture('$pageview');
+    // Quick sanity event so Live shows something immediately
+    window.posthog.capture('$pageview');
+  } catch (error) {
+    console.warn('PostHog initialization failed:', error);
+  }
 })();

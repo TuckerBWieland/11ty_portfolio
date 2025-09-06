@@ -454,8 +454,9 @@ const ProjectModal = {
                 video.style.display = 'block';
                 video.src = src;
                 video.load();
-                video.play().catch(() => {
+                video.play().catch(error => {
                     // Auto-play prevented by browser - this is expected behavior
+                    console.debug('Video autoplay prevented:', error);
                 });
             }
         }
@@ -617,8 +618,9 @@ const ProjectModal = {
                 video.style.display = 'block';
                 video.src = newVideo.src;
                 video.load();
-                video.play().catch(() => {
+                video.play().catch(error => {
                     // Auto-play prevented by browser - this is expected behavior
+                    console.debug('Video autoplay prevented:', error);
                 });
             }
         }
