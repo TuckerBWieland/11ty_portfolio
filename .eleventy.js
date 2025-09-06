@@ -1,4 +1,6 @@
 const { exec } = require("child_process");
+const path = require("path");
+const Image = require("@11ty/eleventy-img");
 
 module.exports = function(eleventyConfig) {
   // Configure server options to fix MIME type issues
@@ -66,9 +68,18 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "dist/scripts": "scripts" });
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
   
-  // Copy font files from @fontsource
+  // Copy only needed font files from @fontsource (Latin 400 & 700 only)
   eleventyConfig.addPassthroughCopy({ 
-    "node_modules/@fontsource/ibm-plex-mono/files": "fonts" 
+    "node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2": "fonts/ibm-plex-mono-latin-400-normal.woff2" 
+  });
+  eleventyConfig.addPassthroughCopy({ 
+    "node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff": "fonts/ibm-plex-mono-latin-400-normal.woff" 
+  });
+  eleventyConfig.addPassthroughCopy({ 
+    "node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-700-normal.woff2": "fonts/ibm-plex-mono-latin-700-normal.woff2" 
+  });
+  eleventyConfig.addPassthroughCopy({ 
+    "node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-700-normal.woff": "fonts/ibm-plex-mono-latin-700-normal.woff" 
   });
 
   // Copy Cloudflare Pages configuration files
@@ -80,6 +91,30 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/favicon.svg": "favicon.svg" });
   eleventyConfig.addPassthroughCopy({ "src/favicon.ico": "favicon.ico" });
   eleventyConfig.addPassthroughCopy({ "src/apple-touch-icon.png": "apple-touch-icon.png" });
+
+  // Configure responsive image shortcode
+  eleventyConfig.addAsyncShortcode("image", async function(src, alt, sizes = "100vw") {
+    let metadata = await Image(src, {
+      widths: [320, 640, 960, 1280],
+      formats: ["webp", "jpeg"],
+      outputDir: "./_site/assets/images/optimized/",
+      urlPath: "/assets/images/optimized/",
+      filenameFormat: function (id, src, width, format, options) {
+        const extension = path.extname(src);
+        const name = path.basename(src, extension);
+        return `${name}-${width}w.${format}`;
+      }
+    });
+
+    let imageAttributes = {
+      alt,
+      sizes,
+      loading: "lazy",
+      decoding: "async",
+    };
+
+    return Image.generateHTML(metadata, imageAttributes);
+  });
 
 
   return {
