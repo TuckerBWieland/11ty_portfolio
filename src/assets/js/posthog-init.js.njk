@@ -39,19 +39,17 @@ eleventyExcludeFromCollections: true
     e._i.push([i,s,a])
   }, e.__SV=1)}(document,window.posthog||{});
 
-  try {
-    // Initialize via proxy (hardcoded key - v2)
-    var key = 'phc_TiV9pa7UYwvzOxJcVNO6kXQYhpKQNQPTdKzZKEKFBqU';
-    console.log('🚀 Initializing PostHog with key:', key.slice(0, 8) + '... (v2)');
-    window.posthog.init(key, {
-      api_host: 'https://logs.tuckerwieland.com',
-      ui_host: 'https://us.posthog.com',
-      persistence: 'localStorage+cookie',
-      capture_pageview: true
-    });
-    window.posthog.__LOADED__ = true;
-    console.log('✅ PostHog loaded via proxy');
-  } catch (e) {
-    console.warn('⚠️ PostHog failed to initialize', e);
-  }
+  // Initialize PostHog after SDK loads
+  var key = 'phc_TiV9pa7UYwvzOxJcVNO6kXQYhpKQNQPTdKzZKEKFBqU';
+  console.log('🚀 Initializing PostHog with key:', key.slice(0, 8) + '... (v3)');
+  
+  window.posthog.init(key, {
+    api_host: 'https://logs.tuckerwieland.com',
+    ui_host: 'https://us.posthog.com',
+    persistence: 'localStorage+cookie',
+    capture_pageview: true,
+    loaded: function(posthog) {
+      console.log('✅ PostHog loaded via proxy');
+    }
+  });
 })();
