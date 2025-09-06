@@ -52,7 +52,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.on("afterBuild", () => {
     console.log("Running Tailwind build...");
     return new Promise((resolve, reject) => {
-      exec("npx tailwindcss -i ./src/styles/main.css -o ./_site/styles/main.css", (error, stdout, stderr) => {
+      exec("npx tailwindcss -i ./src/styles/main.css -o ./_site/styles/main.css --minify", (error, stdout, stderr) => {
         if (error) {
           console.error("Tailwind build error:", stderr);
           reject(error);

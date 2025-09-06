@@ -27,7 +27,11 @@
 
 # Third-party scripts and assets - longer cache for external resources
 /beacon.min.js/*
-  Cache-Control: public, max-age=31536000
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cloudflare Insights beacon - longer cache for external CDN resources
+https://static.cloudflareinsights.com/*
+  Cache-Control: public, max-age=31536000, immutable
 
 # HTML files - security headers
 # Allows PostHog via Worker proxy + cdnjs + CF Analytics
