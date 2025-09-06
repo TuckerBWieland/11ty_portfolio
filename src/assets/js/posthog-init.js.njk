@@ -18,19 +18,87 @@ eleventyExcludeFromCollections: true
     return;
   }
 
-  // PostHog initialization using proper loader
-  !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]);t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript";p.async=!0;p.src=s.api_host+"/static/array.js";(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;void 0!==a?u=e[a]=[]:a="posthog";u.people=u.people||[];u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e};u.people.toString=function(){return u.toString(1)+".people (stub)"};o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags reloadFeatureFlags group groupIdentify".split(" ");for(n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+  // PostHog loader - loads array.js from proxy
+  !function(t,e){
+    var o,n,p,r;
+    if(!e.__SV){
+      window.posthog=e;
+      e._i=[];
+      e.init=function(i,s,a){
+        function g(t,e){
+          var o=e.split(".");
+          2==o.length&&(t=t[o[0]],e=o[1]);
+          t[e]=function(){
+            t.push([e].concat(Array.prototype.slice.call(arguments,0)));
+          };
+        }
+        (p=t.createElement("script")).type="text/javascript";
+        p.async=!0;
+        p.src=s.api_host+"/static/array.js";
+        p.onload=function(){
+          console.log('📦 PostHog array.js loaded from proxy');
+        };
+        p.onerror=function(){
+          console.error('❌ Failed to load PostHog array.js from proxy');
+        };
+        (r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);
+        
+        var u=e;
+        void 0!==a?u=e[a]=[]:a="posthog";
+        u.people=u.people||[];
+        u.toString=function(t){
+          var e="posthog";
+          return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e;
+        };
+        u.people.toString=function(){
+          return u.toString(1)+".people (stub)";
+        };
+        o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags reloadFeatureFlags group groupIdentify".split(" ");
+        for(n=0;n<o.length;n++)g(u,o[n]);
+        e._i.push([i,s,a]);
+      };
+      e.__SV=1;
+    }
+  }(document,window.posthog||[]);
 
-  // Initialize with proper configuration
+  // Initialize with proper configuration and error handling
+  const POSTHOG_KEY = 'phc_TiV9pa7UYwvzOxJcVNO6kXQYhpKQNQPTdKzZKEKFBqU';
   console.log('🚀 Initializing PostHog with key: phc_TiV9... (v4)');
   
-  window.posthog.init('phc_TiV9pa7UYwvzOxJcVNO6kXQYhpKQNQPTdKzZKEKFBqU', {
-    api_host: 'https://logs.tuckerwieland.com',
-    ui_host: 'https://us.posthog.com',
-    persistence: 'localStorage+cookie',
-    capture_pageview: true,
-    loaded: function(posthog) {
-      console.log('✅ PostHog loaded via proxy');
-    }
-  });
+  // Validate token format
+  if (!POSTHOG_KEY || !POSTHOG_KEY.startsWith('phc_')) {
+    console.error('❌ Invalid PostHog token format. Expected phc_ prefix.');
+    return;
+  }
+  
+  try {
+    window.posthog.init(POSTHOG_KEY, {
+      api_host: 'https://logs.tuckerwieland.com',
+      ui_host: 'https://us.posthog.com',
+      persistence: 'localStorage+cookie',
+      capture_pageview: true,
+      debug: false, // Set to true for detailed debugging
+      loaded: function(posthog) {
+        console.log('✅ PostHog loaded via proxy');
+        // Verify the instance is properly initialized
+        if (posthog && typeof posthog.capture === 'function') {
+          console.log('✅ PostHog instance validated');
+          // Test capture to ensure it's working
+          console.log('📊 Testing PostHog capture...');
+        } else {
+          console.warn('⚠️ PostHog instance may not be properly initialized');
+        }
+      },
+      // Add error handling
+      on_request_error: function(err) {
+        console.warn('⚠️ PostHog request error:', err);
+      }
+    });
+  } catch (error) {
+    console.error('❌ PostHog initialization failed:', error);
+    console.error('Error details:', {
+      message: error.message,
+      stack: error.stack
+    });
+  }
 })();
