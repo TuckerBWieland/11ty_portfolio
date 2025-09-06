@@ -105,6 +105,47 @@
         <!-- Footer -->
         {% include "components/site-footer.njk" %}
 
+        <!-- Global error handling -->
+        <script>
+            // Handle uncaught promise rejections
+            window.addEventListener('unhandledrejection', function (event) {
+                // Check if it's a browser extension related error
+                if (event.reason && typeof event.reason === 'object') {
+                    const reasonStr = event.reason.toString();
+                    if (
+                        reasonStr.includes('Extension context invalidated') ||
+                        reasonStr.includes('message channel closed') ||
+                        reasonStr.includes('runtime.lastError')
+                    ) {
+                        // Silently handle browser extension errors
+                        event.preventDefault();
+                        return;
+                    }
+                }
+
+                // Log other errors for debugging but don't show to user
+                console.warn('Unhandled promise rejection:', event.reason);
+                event.preventDefault();
+            });
+
+            // Handle general runtime errors
+            window.addEventListener('error', function (event) {
+                // Check if it's a browser extension related error
+                if (
+                    event.message &&
+                    (event.message.includes('Extension context invalidated') ||
+                        event.message.includes('runtime.lastError') ||
+                        (event.filename && event.filename.includes('extension://')))
+                ) {
+                    // Silently handle browser extension errors
+                    return;
+                }
+
+                // Log other errors for debugging
+                console.warn('Runtime error:', event.error || event.message);
+            });
+        </script>
+
         <!-- Load GSAP conditionally when animations are needed -->
         <script>
             // Only load GSAP if we have elements that need animation
