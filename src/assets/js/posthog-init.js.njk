@@ -3,24 +3,19 @@ permalink: /assets/js/posthog-init.js
 eleventyExcludeFromCollections: true
 ---
 
-/* Minimal, proxy-safe PostHog bootstrap */
-(function(doc, win) {
-  if (!("{{ process.env.POSTHOG_KEY }}")) {
-    console.log("ℹ️ PostHog skipped: no POSTHOG_KEY at build");
-    return;
-  }
+{# src/assets/js/posthog-init.js.njk #}
+{% set PH_TOKEN = env.POSTHOG_KEY %}
 
+(function(doc, win) {
+  {% if PH_TOKEN %}
   var ph = win.posthog = win.posthog || [];
   ph._i = ph._i || [];
-  ph.init = function(token, cfg, name) {
-    function stub(target, method){
-      target[method] = function(){ target.push([method].concat([].slice.call(arguments,0))) }
-    }
-    var instance = name ? ph[name] = [] : ph;
+  ph.init = function(token, cfg, name){
+    function stub(t, m){ t[m] = function(){ t.push([m].concat([].slice.call(arguments,0))) } }
+    var inst = name ? ph[name] = [] : ph;
     var methods = "init capture identify alias people.set people.set_once reset group.set register unregister autotrack set_config capture_links capture_forms time_event".split(" ");
-    for (var i=0; i<methods.length; i++) stub(instance, methods[i]);
+    for (var i=0; i<methods.length; i++) stub(inst, methods[i]);
 
-    // Load array.js from your proxy
     var s = doc.createElement("script");
     s.type = "text/javascript";
     s.async = true;
@@ -29,18 +24,16 @@ eleventyExcludeFromCollections: true
     var x = doc.getElementsByTagName("script")[0];
     x.parentNode.insertBefore(s, x);
 
-    instance._i.push([token, cfg, name]);
+    inst._i.push([token, cfg, name]);
   };
 
-  console.log("🚀 Initializing PostHog with key:", "{{ process.env.POSTHOG_KEY }}", "(v2)");
-
-  ph.init("{{ process.env.POSTHOG_KEY }}", {
+  ph.init("{{ PH_TOKEN }}", {
     api_host: "https://logs.tuckerwieland.com",
-    // never put `token:` here
     ui_host: "https://us.posthog.com",
     capture_pageview: true,
     person_profiles: "identified_only"
   });
-
-  console.log("✅ PostHog loaded via proxy");
+  {% else %}
+  console.warn("PostHog skipped: no POSTHOG_KEY at build.");
+  {% endif %}
 })(document, window);
