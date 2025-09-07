@@ -3,50 +3,44 @@ permalink: /assets/js/posthog-init.js
 eleventyExcludeFromCollections: true
 ---
 
-(function () {
-  if (typeof window === 'undefined') return;
-
-  // ✅ Official PostHog loader (UNMODIFIED)
-  {% raw %}!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){
-    function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){
-      t.push([e].concat(Array.prototype.slice.call(arguments,0)))
-    }}
-    (p=t.createElement("script")).type="text/javascript"; p.async=!0;
-    // Load the client through our proxy (the loader URL will be re-pointed by api_host when init runs)
-    p.src=(s && s.api_host ? s.api_host : "https://us.i.posthog.com") + "/static/array.js";
-    (r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);
-    var u=e; void 0!==a ? u=e[a]=[] : a="posthog"; u.people=u.people||[];
-    u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e};
-    u.people.toString=function(){return u.toString(1)+".people (stub)"};
-    o="capture identify alias people.set people.set_once people.unset register register_once unregister set_config reset opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing on isFeatureEnabled reloadFeatureFlags group groupIdentify".split(" ");
-    for(n=0;n<o.length;n++)g(u,o[n]);
-    e._i.push([i,s,a])
-  },e.__SV=1)}(document,window.posthog||[]);{% endraw %}
-
-  // Pull the token at build time; it must start with phc_
-  const KEY = '{{ process.env.POSTHOG_KEY or "" }}';
-  if (!KEY || typeof KEY !== 'string' || KEY.trim() === '') { 
-    console.log("ℹ️ PostHog skipped: no POSTHOG_KEY at build"); 
-    return; 
-  }
-  if (!KEY.startsWith('phc_')) { 
-    console.error("❌ POSTHOG_KEY must start with 'phc_'"); 
-    return; 
+/* Minimal, proxy-safe PostHog bootstrap */
+(function(doc, win) {
+  if (!("{{ process.env.POSTHOG_KEY }}")) {
+    console.log("ℹ️ PostHog skipped: no POSTHOG_KEY at build");
+    return;
   }
 
-  // ✅ Init with token as the first positional arg, options second
-  try {
-    window.posthog.init(KEY, {
-      api_host: 'https://logs.tuckerwieland.com',
-      ui_host: 'https://us.posthog.com',
-      autocapture: true,
-      capture_pageview: true,
-      capture_pageleave: true
-    });
+  var ph = win.posthog = win.posthog || [];
+  ph._i = ph._i || [];
+  ph.init = function(token, cfg, name) {
+    function stub(target, method){
+      target[method] = function(){ target.push([method].concat([].slice.call(arguments,0))) }
+    }
+    var instance = name ? ph[name] = [] : ph;
+    var methods = "init capture identify alias people.set people.set_once reset group.set register unregister autotrack set_config capture_links capture_forms time_event".split(" ");
+    for (var i=0; i<methods.length; i++) stub(instance, methods[i]);
 
-    // Quick sanity event so Live shows something immediately
-    window.posthog.capture('$pageview');
-  } catch (error) {
-    console.warn('PostHog initialization failed:', error);
-  }
-})();
+    // Load array.js from your proxy
+    var s = doc.createElement("script");
+    s.type = "text/javascript";
+    s.async = true;
+    s.crossOrigin = "anonymous";
+    s.src = "https://logs.tuckerwieland.com/static/array.js";
+    var x = doc.getElementsByTagName("script")[0];
+    x.parentNode.insertBefore(s, x);
+
+    instance._i.push([token, cfg, name]);
+  };
+
+  console.log("🚀 Initializing PostHog with key:", "{{ process.env.POSTHOG_KEY }}", "(v2)");
+
+  ph.init("{{ process.env.POSTHOG_KEY }}", {
+    api_host: "https://logs.tuckerwieland.com",
+    // never put `token:` here
+    ui_host: "https://us.posthog.com",
+    capture_pageview: true,
+    person_profiles: "identified_only"
+  });
+
+  console.log("✅ PostHog loaded via proxy");
+})(document, window);
