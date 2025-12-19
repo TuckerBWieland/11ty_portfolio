@@ -4,61 +4,42 @@
     "description": "Tucker Wieland's professional portfolio website",
     "main": "index.js",
     "scripts": {
-        "build": "npm run build:ts && npx @11ty/eleventy",
-        "build:production": "npm ci --include=dev && npm run build:ts && npx @11ty/eleventy",
-        "build:ts": "tsc",
+        "build": "npx @11ty/eleventy",
+        "build:production": "npm ci --include=dev && npx @11ty/eleventy",
         "build:css": "tailwindcss -i ./src/styles/main.css -o ./_site/styles/main.css --minify",
-        "dev": "npm run build:ts && eleventy --serve --watch",
+        "dev": "eleventy --serve --watch",
         "start": "npm run dev",
-        "watch:ts": "tsc --watch",
-        "lint": "npm run lint:ts && npm run lint:css && npm run lint:format",
-        "lint:ts": "eslint src/scripts/**/*.ts",
-        "lint:ts:fix": "eslint src/scripts/**/*.ts --fix",
+        "lint": "npm run lint:css && npm run lint:format",
         "lint:css": "stylelint src/styles/**/*.css",
         "lint:css:fix": "stylelint src/styles/**/*.css --fix",
-        "lint:format": "prettier --check \"src/**/*.{ts,css,njk,json,md}\"",
-        "lint:format:fix": "prettier --write \"src/**/*.{ts,css,njk,json,md}\"",
-        "lint:fix": "npm run lint:ts:fix && npm run lint:css:fix && npm run lint:format:fix",
-        "lint:check": "npm run lint"
+        "lint:format": "prettier --check \"src/**/*.{css,njk,json,md}\"",
+        "lint:format:fix": "prettier --write \"src/**/*.{css,njk,json,md}\"",
+        "lint:fix": "npm run lint:css:fix && npm run lint:format:fix"
     },
     "keywords": [
         "portfolio",
         "strategy",
-        "operations",
-        "executive",
-        "business",
-        "consulting"
+        "operations"
     ],
     "author": "Tucker Wieland",
     "license": "MIT",
     "devDependencies": {
         "@11ty/eleventy": "^3.1.2",
-        "@11ty/eleventy-img": "^6.0.4",
-        "@types/node": "^24.3.0",
-        "@typescript-eslint/eslint-plugin": "^8.41.0",
-        "@typescript-eslint/parser": "^8.41.0",
         "autoprefixer": "^10.4.16",
-        "eslint": "^9.34.0",
-        "html-minifier-terser": "^7.2.0",
-        "husky": "^9.1.4",
-        "lint-staged": "^15.2.8",
+        "husky": "^9.1.7",
+        "lint-staged": "^16.2.7",
         "postcss": "^8.4.32",
         "postcss-cli": "^11.0.0",
         "prettier": "^3.3.3",
         "stylelint": "^16.23.1",
         "stylelint-config-standard": "^39.0.0",
         "stylelint-config-tailwindcss": "^1.0.0",
-        "tailwindcss": "^3.4.0",
-        "typescript": "^5.9.2"
+        "tailwindcss": "^3.4.0"
     },
     "engines": {
         "node": ">=18.0.0"
     },
     "lint-staged": {
-        "*.ts": [
-            "eslint --fix",
-            "prettier --write"
-        ],
         "*.css": [
             "stylelint --fix",
             "prettier --write"

@@ -34,24 +34,9 @@
         <meta name="twitter:creator" content="{{ metadata.site.twitterHandle }}" />
         {% endif %}
 
-        <!-- LinkedIn (uses Open Graph) -->
-        <meta property="og:image:secure_url" content="{{ metadata.site.url }}{{ metadata.site.image }}" />
-
-        <!-- WhatsApp & Telegram (uses Open Graph) -->
-        <meta property="og:image:type" content="image/webp" />
-
-        <!-- Additional image for square format (some platforms prefer this) -->
-        <meta property="og:image" content="{{ metadata.site.url }}{{ metadata.site.imageSquare }}" />
-        <meta property="og:image:width" content="1080" />
-        <meta property="og:image:height" content="1080" />
-
-        <!-- Twitter uses both images - platform will choose appropriate one -->
-        <meta name="twitter:image" content="{{ metadata.site.url }}{{ metadata.site.imageSquare }}" />
-
         <!-- Additional SEO meta tags -->
         <meta name="robots" content="index, follow" />
-        <meta name="googlebot" content="index, follow" />
-        <meta name="theme-color" content="#000000" />
+        <meta name="theme-color" content="#242128" />
 
         <!-- Favicons -->
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -67,36 +52,9 @@
                 "jobTitle": "Growth Strategy & Operations Leader",
                 "description": "{{ metadata.site.description }}",
                 "url": "{{ metadata.site.url }}",
-                "image": [
-                    "{{ metadata.site.url }}{{ metadata.site.image }}",
-                    "{{ metadata.site.url }}/assets/images/profile/tuckerwieland.webp"
-                ],
-                "sameAs": ["https://linkedin.com/in/tuckerwieland"],
-                "knowsAbout": [
-                    "Growth Strategy",
-                    "Operations",
-                    "Business Systems",
-                    "Startup Scaling",
-                    "SaaS Platforms",
-                    "AI",
-                    "Business Transformation",
-                    "Revenue Growth",
-                    "Agentic Workflows",
-                    "AI Adoption Strategy"
-                ],
-                "alumniOf": "General Assembly",
-                "worksFor": {
-                    "@type": "Organization",
-                    "name": "Tucker Wieland Consulting"
-                }
+                "sameAs": ["https://linkedin.com/in/tucker-wieland", "https://github.com/TuckerBWieland"]
             }
         </script>
-
-        <!-- Preconnect for CDN -->
-        <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
-        <link rel="preconnect" href="https://logs.tuckerwieland.com" crossorigin />
-
-        <!-- NOTE: Ensure Cloudflare Zaraz PostHog integration is DISABLED to avoid conflicts with custom PostHog proxy -->
 
         <!-- Preload critical fonts -->
         <link
@@ -114,81 +72,15 @@
             crossorigin
         />
 
-        <!-- Non-blocking CSS -->
+        <!-- Styles -->
         <link rel="preload" href="/styles/main.css" as="style" />
         <link rel="stylesheet" href="/styles/main.css" />
-        <!-- Preload hero art for above-the-fold optimization -->
-        <link rel="preload" as="image" href="/assets/icons/Tangled line.svg" />
     </head>
     <body>
         <!-- Main content -->
         <main>{{ content | safe }}</main>
 
-        <!-- Footer -->
-        {% include "components/site-footer.njk" %}
-
-        <!-- Global error handling -->
-        <script>
-            // Handle uncaught promise rejections
-            window.addEventListener('unhandledrejection', function (event) {
-                // Check if it's a browser extension related error
-                if (event.reason && typeof event.reason === 'object') {
-                    const reasonStr = event.reason.toString();
-                    if (
-                        reasonStr.includes('Extension context invalidated') ||
-                        reasonStr.includes('message channel closed') ||
-                        reasonStr.includes('runtime.lastError')
-                    ) {
-                        // Silently handle browser extension errors
-                        event.preventDefault();
-                        return;
-                    }
-                }
-
-                // Log other errors for debugging but don't show to user
-                console.warn('Unhandled promise rejection:', event.reason);
-                event.preventDefault();
-            });
-
-            // Handle general runtime errors
-            window.addEventListener('error', function (event) {
-                // Check if it's a browser extension related error
-                if (
-                    event.message &&
-                    (event.message.includes('Extension context invalidated') ||
-                        event.message.includes('runtime.lastError') ||
-                        (event.filename && event.filename.includes('extension://')))
-                ) {
-                    // Silently handle browser extension errors
-                    return;
-                }
-
-                // Log other errors for debugging
-                console.warn('Runtime error:', event.error || event.message);
-            });
-        </script>
-
-        <!-- Load GSAP conditionally when animations are needed -->
-        <script>
-            // Only load GSAP if we have elements that need animation
-            if (document.querySelector('[data-gsap]') || document.querySelector('.robot-animation')) {
-                const gsapScript = document.createElement('script');
-                gsapScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js';
-                gsapScript.integrity =
-                    'sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug==';
-                gsapScript.crossOrigin = 'anonymous';
-                gsapScript.referrerPolicy = 'no-referrer';
-                document.head.appendChild(gsapScript);
-            }
-        </script>
-
-        <!-- Component JavaScript (compiled from TypeScript) -->
-        <script src="/scripts/components/hero-section.js" defer></script>
-        <script src="/scripts/components/project-table.js" defer></script>
-        <script src="/scripts/components/project-modal.js" defer></script>
-        <script src="/scripts/components/company-tooltip.js" defer></script>
-
-        <!-- PostHog Analytics -->
+        <!-- PostHog Analytics (optional) -->
         <script src="/assets/js/posthog-init.js" defer></script>
     </body>
 </html>

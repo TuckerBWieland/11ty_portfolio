@@ -1,17 +1,324 @@
 ---
 layout: layouts/base.njk
-title: Tucker Wieland - Growth Strategy & Operations Leader
-description: I help companies transform messy ideas into scalable systems that drive growth.
+title: Tucker Wieland
+description: Growth Strategy & Operations Leader
 ---
 
-{# Hero Section #} {% include "components/hero-section.njk" %} {# Project Showcase Section #}
-<section id="project-showcase">{% include "components/project-showcase.njk" %}</section>
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="hero-name">Tucker Wieland</h1>
+        <p class="hero-title">Growth Strategy & Operations</p>
+        <p class="hero-tagline">I help companies transform messy ideas into scalable systems that drive growth.</p>
+    </div>
+</section>
 
-{# Worked With Section #}
-<section id="worked-with">{% include "components/worked-with.njk" %}</section>
+<!-- Projects Section -->
+<section class="projects">
+    <h2 class="section-title">Projects</h2>
 
-{# About Me Section #}
-<section id="about-me">{% include "components/about-section.njk" %}</section>
+    <ul class="project-list">
+        <li class="project-item">
+            <button class="project-header" aria-expanded="false">
+                <span class="project-name">Brand Awareness Campaign</span>
+                <span class="project-meta">
+                    <span class="project-company">Justworks</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </span>
+            </button>
+            <div class="project-details">
+                <ul class="project-bullets">
+                    <li>Led multi-channel awareness campaign including TV, digital, and out-of-home</li>
+                    <li>Managed strategy, budget, and cross-functional execution</li>
+                    <li>Achieved significant lift in brand awareness and ICP targeting</li>
+                </ul>
+                <a
+                    href="https://adage.com/creativity/work/aa-justworks-for-your-people/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="project-link"
+                >
+                    Read in Ad Age →
+                </a>
+            </div>
+        </li>
 
-{# Contact Me Section #}
-<section id="contact-me">{% include "components/contact-section.njk" %}</section>
+        <li class="project-item">
+            <button class="project-header" aria-expanded="false">
+                <span class="project-name">Marketing ROI Measurement</span>
+                <span class="project-meta">
+                    <span class="project-company">Justworks</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </span>
+            </button>
+            <div class="project-details">
+                <ul class="project-bullets">
+                    <li>Rebuilt measurement systems across revenue enablement, BI, and marketing ops</li>
+                    <li>Created transparent reporting tying marketing to business results</li>
+                    <li>Marketing budget grew from 7% to 14% of company revenue</li>
+                </ul>
+            </div>
+        </li>
+
+        <li class="project-item">
+            <button class="project-header" aria-expanded="false">
+                <span class="project-name">Project Tracking Tool</span>
+                <span class="project-meta">
+                    <span class="project-company">Justworks</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </span>
+            </button>
+            <div class="project-details">
+                <ul class="project-bullets">
+                    <li>Built lightweight Slack-based tool with GCP backend</li>
+                    <li>Org-aware workflows with automated reminders</li>
+                    <li>80%+ of projects updated within 14 days, adopted company-wide</li>
+                </ul>
+            </div>
+        </li>
+
+        <li class="project-item">
+            <button class="project-header" aria-expanded="false">
+                <span class="project-name">Dev Degree Program</span>
+                <span class="project-meta">
+                    <span class="project-company">Shopify</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </span>
+            </button>
+            <div class="project-details">
+                <ul class="project-bullets">
+                    <li>Launched university partnership sponsoring CS students</li>
+                    <li>Secured funding, aligned stakeholders, managed university relationships</li>
+                    <li>Thousands of applicants, strong PR, and developer community engagement</li>
+                </ul>
+                <a href="https://devdegree.ca/" target="_blank" rel="noopener noreferrer" class="project-link">
+                    Visit Dev Degree →
+                </a>
+            </div>
+        </li>
+
+        <li class="project-item">
+            <button class="project-header" aria-expanded="false">
+                <span class="project-name">Product Roadmap Validation</span>
+                <span class="project-meta">
+                    <span class="project-company">General Assembly</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </span>
+            </button>
+            <div class="project-details">
+                <ul class="project-bullets">
+                    <li>Created GA's first growth team to validate course demand</li>
+                    <li>Open-sourced roadmap to gather community input before building</li>
+                    <li>Courses launched to built-in demand, reduced failed launches</li>
+                </ul>
+            </div>
+        </li>
+
+        <li class="project-item">
+            <button class="project-header" aria-expanded="false">
+                <span class="project-name">Water Quality Data Viz</span>
+                <span class="project-meta">
+                    <span class="project-company">Billion Oyster Project</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </span>
+            </button>
+            <div class="project-details">
+                <ul class="project-bullets">
+                    <li>Volunteer project to make water quality data accessible</li>
+                    <li>Built web app mapping data via GeoJSON for geographic context</li>
+                    <li>Helped volunteers understand harbor health trends</li>
+                </ul>
+                <a
+                    href="https://tuckerbwieland.github.io/nyc-water-app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="project-link"
+                >
+                    View the app →
+                </a>
+            </div>
+        </li>
+    </ul>
+</section>
+
+<!-- Work Experience Section -->
+<section class="experience">
+    <h2 class="section-title">Experience</h2>
+
+    <ul class="company-list">
+        <li class="company-item">
+            <button class="company-header" aria-expanded="false">
+                <span class="company-name">/dev/agents</span>
+                <span class="company-meta">
+                    <span class="company-role">Current</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </span>
+            </button>
+            <div class="company-details">
+                <ul class="company-bullets">
+                    <li>Leading growth and marketing operations</li>
+                    <li>Building community around AI-powered developer tools</li>
+                </ul>
+                <a href="https://sdsa.ai" target="_blank" rel="noopener noreferrer" class="company-link"> sdsa.ai → </a>
+            </div>
+        </li>
+
+        <li class="company-item">
+            <button class="company-header" aria-expanded="false">
+                <span class="company-name">Justworks</span>
+                <span class="company-meta">
+                    <span class="company-role">Director, GTM Strategy & Ops</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </span>
+            </button>
+            <div class="company-details">
+                <ul class="company-bullets">
+                    <li>Owned $40M marketing budget, achieving 22% YoY growth</li>
+                    <li>Led martech and web experience roadmap, driving 41% MQL growth</li>
+                </ul>
+                <a href="https://justworks.com" target="_blank" rel="noopener noreferrer" class="company-link">
+                    justworks.com →
+                </a>
+            </div>
+        </li>
+
+        <li class="company-item">
+            <button class="company-header" aria-expanded="false">
+                <span class="company-name">Shopify</span>
+                <span class="company-meta">
+                    <span class="company-role">Marketing Lead, Developer Marketing</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </span>
+            </button>
+            <div class="company-details">
+                <ul class="company-bullets">
+                    <li>Directed global developer campaigns across growth and brand</li>
+                    <li>Grew Dev Degree applications 700% YoY while cutting costs</li>
+                </ul>
+                <a href="https://shopify.com" target="_blank" rel="noopener noreferrer" class="company-link">
+                    shopify.com →
+                </a>
+            </div>
+        </li>
+
+        <li class="company-item">
+            <button class="company-header" aria-expanded="false">
+                <span class="company-name">General Assembly</span>
+                <span class="company-meta">
+                    <span class="company-role">Senior Product Manager</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </span>
+            </button>
+            <div class="company-details">
+                <ul class="company-bullets">
+                    <li>Managed $5M product portfolio, driving 16% YoY revenue growth</li>
+                    <li>Launched four new courses, adding $700K first-year revenue</li>
+                </ul>
+                <a href="https://generalassemb.ly" target="_blank" rel="noopener noreferrer" class="company-link">
+                    generalassemb.ly →
+                </a>
+            </div>
+        </li>
+
+        <li class="company-item">
+            <button class="company-header" aria-expanded="false">
+                <span class="company-name">INTO</span>
+                <span class="company-meta">
+                    <span class="company-role">Co-founder & GM</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </span>
+            </button>
+            <div class="company-details">
+                <ul class="company-bullets">
+                    <li>Co-founded and scaled digital marketing agency</li>
+                    <li>Managed $35M in client spend across B2B and B2C campaigns</li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</section>
+
+<!-- Contact Section -->
+<section class="contact">
+    <h2 class="section-title">Get in Touch</h2>
+
+    <div class="contact-links">
+        <a
+            href="https://www.linkedin.com/in/tucker-wieland/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contact-link"
+        >
+            LinkedIn
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17L17 7M17 7H7M17 7V17" />
+            </svg>
+        </a>
+        <a href="https://github.com/TuckerBWieland/" target="_blank" rel="noopener noreferrer" class="contact-link">
+            GitHub
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17L17 7M17 7H7M17 7V17" />
+            </svg>
+        </a>
+    </div>
+</section>
+
+<script>
+    // Projects toggle
+    document.querySelectorAll('.project-header').forEach(button => {
+        button.addEventListener('click', () => {
+            const item = button.parentElement;
+            const isOpen = item.classList.contains('open');
+
+            document.querySelectorAll('.project-item.open').forEach(openItem => {
+                openItem.classList.remove('open');
+                openItem.querySelector('.project-header').setAttribute('aria-expanded', 'false');
+            });
+
+            if (!isOpen) {
+                item.classList.add('open');
+                button.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+
+    // Companies toggle
+    document.querySelectorAll('.company-header').forEach(button => {
+        button.addEventListener('click', () => {
+            const item = button.parentElement;
+            const isOpen = item.classList.contains('open');
+
+            document.querySelectorAll('.company-item.open').forEach(openItem => {
+                openItem.classList.remove('open');
+                openItem.querySelector('.company-header').setAttribute('aria-expanded', 'false');
+            });
+
+            if (!isOpen) {
+                item.classList.add('open');
+                button.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+</script>
