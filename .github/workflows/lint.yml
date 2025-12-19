@@ -26,14 +26,11 @@ jobs:
         env:
           HUSKY: 0
 
-      - name: Run TypeScript type check
-        run: npm run build:ts
-
-      - name: Run ESLint
-        run: npx eslint src/scripts/**/*.ts
-
       - name: Run Stylelint
         run: npx stylelint src/styles/**/*.css
 
       - name: Check Prettier formatting
-        run: npx prettier --check "src/**/*.{ts,css,njk,json,md}"
+        run: npx prettier --check "src/**/*.{css,njk,json,md}"
+
+      - name: Build site
+        run: npm run build
