@@ -1,49 +1,31 @@
-## Cloudflare Pages Headers Configuration
-## This file configures HTTP headers for static assets
+# Cloudflare Pages Headers Configuration
 
-# JavaScript files - set correct MIME type and caching
-/scripts/*
-  Content-Type: application/javascript; charset=utf-8
-  Cache-Control: public, max-age=31536000
-
-# PostHog init JS
-/assets/js/*
-  Content-Type: application/javascript; charset=utf-8
-  Cache-Control: public, max-age=31536000
-
-# CSS files - ensure proper MIME type and caching
+# CSS files
 /styles/*
   Content-Type: text/css; charset=utf-8
   Cache-Control: public, max-age=31536000
 
-# Image files - optimize caching
-/assets/*
+# JavaScript files
+/scripts/*
+  Content-Type: application/javascript; charset=utf-8
   Cache-Control: public, max-age=31536000
 
-# Font files - optimize caching and CORS
+/assets/js/*
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: public, max-age=31536000
+
+# Font files
 /fonts/*
   Cache-Control: public, max-age=31536000
   Access-Control-Allow-Origin: *
 
-# Third-party scripts and assets - longer cache for external resources
-/beacon.min.js/*
-  Cache-Control: public, max-age=31536000, immutable
+# Images
+/assets/*
+  Cache-Control: public, max-age=31536000
 
-# Cloudflare Insights beacon - longer cache for external CDN resources
-https://static.cloudflareinsights.com/*
-  Cache-Control: public, max-age=31536000, immutable
-
-# HTML files - security headers
-# Allows PostHog via Worker proxy + cdnjs + CF Analytics
+# All pages - security headers
 /*
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
-  Content-Security-Policy: 
-    default-src 'self';
-    script-src 'self' https://logs.tuckerwieland.com https://cdnjs.cloudflare.com https://static.cloudflareinsights.com;
-    connect-src 'self' https://logs.tuckerwieland.com https://us.posthog.com;
-    img-src 'self' data:;
-    style-src 'self' 'unsafe-inline';
-    font-src 'self';
-    object-src 'none';
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://logs.tuckerwieland.com https://cdnjs.cloudflare.com https://static.cloudflareinsights.com 'unsafe-inline'; connect-src 'self' https://logs.tuckerwieland.com https://us.posthog.com; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'
