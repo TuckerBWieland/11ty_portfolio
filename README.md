@@ -1,68 +1,76 @@
 # Tucker Wieland Portfolio
 
-Professional portfolio website built with Eleventy, Tailwind CSS, and
-TypeScript.
+A minimal, single-page portfolio built with Eleventy and Tailwind CSS.
 
 ## Quick Start
 
 ```bash
-# Install dependencies
 npm install
-
-# Start development server
 npm run dev
 ```
 
-Visit `http://localhost:8080` - the site auto-reloads on changes.
+Visit `http://localhost:8080`
 
 ## Commands
 
 ```bash
 npm run dev        # Development server with hot reload
 npm run build      # Production build
-npm run lint       # Run all linters
 npm run lint:fix   # Fix linting issues
 ```
 
 ## Tech Stack
 
-- **Static Site Generator**: Eleventy 3.1.2
-- **CSS Framework**: Tailwind CSS 3.4.0 with custom design tokens
-- **TypeScript**: Component logic with type safety
-- **Templates**: Nunjucks components
+- **Eleventy** 3.1.2 - Static site generator
+- **Tailwind CSS** 3.4.0 - Utility-first CSS
+- **IBM Plex Mono** - Typography
 
 ## Project Structure
 
 ```
 src/
-├── _data/           # Content (JSON)
-├── _includes/       # Templates & components
-├── css/             # Styles
-├── js/              # TypeScript components
-└── static/          # Assets
+├── _data/
+│   └── metadata.json    # Site meta (SEO, social)
+├── _includes/
+│   └── layouts/
+│       └── base.njk     # Base HTML template
+├── assets/
+│   ├── images/meta/     # Social sharing images
+│   └── js/              # Analytics
+├── styles/
+│   └── main.css         # All styles
+└── index.njk            # The entire site
 ```
 
-## Adding Content
+## Sections
 
-**New Project**: Edit `src/_data/projects.json`  
-**New Company**: Edit `src/_data/companies.json` + add logo to
-`src/static/company-logos/`  
-**New Section**: Create component in `src/_includes/components/` + include in
-`src/index.njk`
+The site has four sections, all in `index.njk`:
 
-## Analytics
+1. **Hero** - Name, title, tagline
+2. **Projects** - Expandable project list with bullets and links
+3. **Experience** - Expandable work history with bullets and links
+4. **Contact** - LinkedIn and GitHub links
 
-Set `POSTHOG_KEY` in Cloudflare Pages → Settings → Environment variables.
+## Customization
 
-All analytics requests route via https://logs.tuckerwieland.com.
+### Edit Content
+All content lives in `src/index.njk`. Edit the HTML directly.
 
-## Development Guide
+### Edit Styles
+Styles are in `src/styles/main.css`. The site uses:
+- CSS custom properties for colors
+- Tailwind utilities
+- Custom gradient hover effects
 
-See `CODING_GUIDE.md` for comprehensive development patterns, design system, and
-component architecture.
+### Edit Meta
+Update `src/_data/metadata.json` for SEO and social sharing.
+
+## Deployment
+
+Built for Cloudflare Pages. Push to deploy.
+
+Set `POSTHOG_KEY` in environment variables for analytics.
 
 ---
 
-Built with modern web standards and systematic design principles.
-
-# Force rebuild for PostHog environment variable
+Simple. Fast. Effective.
