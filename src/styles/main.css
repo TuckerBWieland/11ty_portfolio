@@ -208,43 +208,88 @@ section {
   transition: all 0.2s ease;
 }
 
-/* Gradient hover effects for projects */
-.project-item:nth-child(6n + 1) .project-header:hover .project-name {
+/* Gradient hover effects for projects - desktop hover */
+@media (hover: hover) {
+  .project-item:nth-child(6n + 1) .project-header:hover .project-name {
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .project-item:nth-child(6n + 2) .project-header:hover .project-name {
+    background: var(--gradient-2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .project-item:nth-child(6n + 3) .project-header:hover .project-name {
+    background: var(--gradient-3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .project-item:nth-child(6n + 4) .project-header:hover .project-name {
+    background: var(--gradient-4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .project-item:nth-child(6n + 5) .project-header:hover .project-name {
+    background: var(--gradient-5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .project-item:nth-child(6n + 6) .project-header:hover .project-name {
+    background: var(--gradient-6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* Gradient when dropdown is open */
+.project-item.open:nth-child(6n + 1) .project-name {
   background: var(--gradient-1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.project-item:nth-child(6n + 2) .project-header:hover .project-name {
+.project-item.open:nth-child(6n + 2) .project-name {
   background: var(--gradient-2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.project-item:nth-child(6n + 3) .project-header:hover .project-name {
+.project-item.open:nth-child(6n + 3) .project-name {
   background: var(--gradient-3);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.project-item:nth-child(6n + 4) .project-header:hover .project-name {
+.project-item.open:nth-child(6n + 4) .project-name {
   background: var(--gradient-4);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.project-item:nth-child(6n + 5) .project-header:hover .project-name {
+.project-item.open:nth-child(6n + 5) .project-name {
   background: var(--gradient-5);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.project-item:nth-child(6n + 6) .project-header:hover .project-name {
+.project-item.open:nth-child(6n + 6) .project-name {
   background: var(--gradient-6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -392,36 +437,74 @@ section {
   transition: all 0.2s ease;
 }
 
-/* Gradient hover effects for companies */
-.company-item:nth-child(6n + 1) .company-header:hover .company-name {
+/* Gradient hover effects for companies - desktop hover */
+@media (hover: hover) {
+  .company-item:nth-child(6n + 1) .company-header:hover .company-name {
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .company-item:nth-child(6n + 2) .company-header:hover .company-name {
+    background: var(--gradient-2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .company-item:nth-child(6n + 3) .company-header:hover .company-name {
+    background: var(--gradient-3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .company-item:nth-child(6n + 4) .company-header:hover .company-name {
+    background: var(--gradient-4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .company-item:nth-child(6n + 5) .company-header:hover .company-name {
+    background: var(--gradient-5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* Gradient when dropdown is open */
+.company-item.open:nth-child(6n + 1) .company-name {
   background: var(--gradient-1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.company-item:nth-child(6n + 2) .company-header:hover .company-name {
+.company-item.open:nth-child(6n + 2) .company-name {
   background: var(--gradient-2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.company-item:nth-child(6n + 3) .company-header:hover .company-name {
+.company-item.open:nth-child(6n + 3) .company-name {
   background: var(--gradient-3);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.company-item:nth-child(6n + 4) .company-header:hover .company-name {
+.company-item.open:nth-child(6n + 4) .company-name {
   background: var(--gradient-4);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.company-item:nth-child(6n + 5) .company-header:hover .company-name {
+.company-item.open:nth-child(6n + 5) .company-name {
   background: var(--gradient-5);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -538,29 +621,33 @@ section {
   transition: all 0.2s ease;
 }
 
-.contact-link:first-child:hover {
-  background: var(--gradient-4);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.contact-link:last-child:hover {
-  background: var(--gradient-5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
 .contact-link .arrow {
   width: 16px;
   height: 16px;
   transition: transform 0.2s ease;
 }
 
-.contact-link:hover .arrow {
-  transform: translate(3px, -3px);
+/* Contact hover effects - desktop hover */
+@media (hover: hover) {
+  .contact-link:first-child:hover {
+    background: var(--gradient-4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .contact-link:last-child:hover {
+    background: var(--gradient-5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .contact-link:hover .arrow {
+    transform: translate(3px, -3px);
+  }
 }
+
 
 /* ===========================================
    RESPONSIVE
