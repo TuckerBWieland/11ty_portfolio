@@ -4,6 +4,19 @@ title: Tucker Wieland
 description: Growth Strategy & Operations Leader
 ---
 
+<!-- Orbiting Shapes -->
+<div class="orbit-container">
+    <div class="orbit-shape shape-circle-1">
+        <div class="shape-inner"></div>
+    </div>
+    <div class="orbit-shape shape-square">
+        <div class="shape-inner"></div>
+    </div>
+    <div class="orbit-shape shape-circle-2">
+        <div class="shape-inner"></div>
+    </div>
+</div>
+
 <!-- Hero Section -->
 <section class="hero">
     <div class="hero-content">
@@ -321,4 +334,102 @@ description: Growth Strategy & Operations Leader
             }
         });
     });
+
+    // Orbiting shapes animation
+    (function() {
+        const shapes = document.querySelectorAll('.orbit-shape');
+        if (shapes.length !== 3) return;
+        
+        const shape1 = shapes[0]; // circle 1
+        const shape2 = shapes[1]; // square
+        const shape3 = shapes[2]; // circle 2
+        
+        function easeInOutCubic(t) {
+            return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        }
+        
+        function updateShapes() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const rawProgress = docHeight > 0 ? Math.min(Math.max(scrollTop / docHeight, 0), 1) : 0;
+            const progress = easeInOutCubic(rawProgress);
+            
+            // Start position: center of viewport
+            const startX = window.innerWidth / 2;
+            const startY = window.innerHeight / 2;
+            
+            // End position: aligned with contact section
+            const contactSection = document.querySelector('.contact');
+            const contactRect = contactSection ? contactSection.getBoundingClientRect() : null;
+            
+            // Calculate end Y position (relative to viewport when scrolled to bottom)
+            const endY = contactRect ? contactRect.top + contactRect.height / 2 : window.innerHeight - 150;
+            const endX = startX; // Keep centered horizontally
+            
+            // Interpolate between start and end positions
+            const currentCenterX = startX + (endX - startX) * progress;
+            const currentCenterY = startY + (endY - startY) * progress;
+            
+            // Orbit radius shrinks from 120px to 0 as we scroll
+            const maxRadius = Math.min(120, window.innerWidth * 0.15);
+            const radius = maxRadius * (1 - progress);
+            
+            // Rotation: 0 to 3 full rotations
+            const rotation = rawProgress * Math.PI * 6;
+            
+            // Vertical stacking offset at the end (spacing between shapes)
+            const stackSpacing = 50; // pixels between each shape when stacked
+            
+            // Calculate positions for each shape
+            // Shape 1 (circle): ends at top of stack
+            const angle1 = rotation + (Math.PI * 2 / 3) * 0;
+            const x1 = currentCenterX + Math.cos(angle1) * radius;
+            const y1 = currentCenterY + Math.sin(angle1) * radius + (progress * -stackSpacing);
+            
+            // Shape 2 (square): ends in middle of stack
+            const angle2 = rotation + (Math.PI * 2 / 3) * 1;
+            const x2 = currentCenterX + Math.cos(angle2) * radius;
+            const y2 = currentCenterY + Math.sin(angle2) * radius;
+            
+            // Shape 3 (circle): ends at bottom of stack
+            const angle3 = rotation + (Math.PI * 2 / 3) * 2;
+            const x3 = currentCenterX + Math.cos(angle3) * radius;
+            const y3 = currentCenterY + Math.sin(angle3) * radius + (progress * stackSpacing);
+            
+            // Apply positions
+            shape1.style.left = `${x1}px`;
+            shape1.style.top = `${y1}px`;
+            shape1.style.transform = `translate(-50%, -50%) rotate(${rotation * 30}deg)`;
+            
+            shape2.style.left = `${x2}px`;
+            shape2.style.top = `${y2}px`;
+            shape2.style.transform = `translate(-50%, -50%) rotate(${rotation * 45}deg)`;
+            
+            shape3.style.left = `${x3}px`;
+            shape3.style.top = `${y3}px`;
+            shape3.style.transform = `translate(-50%, -50%) rotate(${-rotation * 30}deg)`;
+            
+            // Opacity: fade in slightly as they come together
+            const opacity = 0.6 + (progress * 0.4);
+            shapes.forEach(s => s.style.opacity = opacity);
+        }
+        
+        // Update on scroll with throttling
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    updateShapes();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+        
+        // Initial position
+        updateShapes();
+        
+        // Update on resize
+        window.addEventListener('resize', updateShapes);
+    })();
 </script>
