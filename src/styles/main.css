@@ -595,13 +595,13 @@ section {
 
 .contact {
   padding-top: 40px;
-  padding-bottom: 80px;
+  padding-bottom: 180px;
 }
 
 @media (width >= 640px) {
   .contact {
     padding-top: 60px;
-    padding-bottom: 100px;
+    padding-bottom: 220px;
   }
 }
 
@@ -685,4 +685,117 @@ section {
 /* Hide footer */
 footer {
   display: none;
+}
+
+/* ========================================
+   Orbiting Shapes Animation
+   ======================================== */
+
+.orbit-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.orbit-shape {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  pointer-events: none;
+  will-change: left, top, transform, opacity;
+  opacity: 0.7;
+}
+
+.orbit-shape .shape-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* Circle 1 - Purple gradient */
+.shape-circle-1 .shape-inner {
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    #a78bfa 0%,
+    #7c3aed 40%,
+    #4c1d95 100%
+  );
+  box-shadow:
+    inset -4px -4px 12px rgb(0 0 0 / 30%),
+    inset 2px 2px 6px rgb(255 255 255 / 20%),
+    0 8px 24px rgb(124 58 237 / 40%);
+}
+
+/* Square - Cyan/teal gradient */
+.shape-square .shape-inner {
+  border-radius: 6px;
+  background: linear-gradient(
+    135deg,
+    #5eead4 0%,
+    #14b8a6 40%,
+    #0f766e 100%
+  );
+  box-shadow:
+    inset -4px -4px 12px rgb(0 0 0 / 30%),
+    inset 2px 2px 6px rgb(255 255 255 / 20%),
+    0 8px 24px rgb(20 184 166 / 40%);
+}
+
+/* Circle 2 - Pink/rose gradient */
+.shape-circle-2 .shape-inner {
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    #fda4af 0%,
+    #f43f5e 40%,
+    #9f1239 100%
+  );
+  box-shadow:
+    inset -4px -4px 12px rgb(0 0 0 / 30%),
+    inset 2px 2px 6px rgb(255 255 255 / 20%),
+    0 8px 24px rgb(244 63 94 / 40%);
+}
+
+/* Subtle glow effect */
+.orbit-shape::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border-radius: inherit;
+  background: inherit;
+  filter: blur(12px);
+  opacity: 0.3;
+  z-index: -1;
+}
+
+.shape-circle-1::after,
+.shape-circle-2::after {
+  border-radius: 50%;
+}
+
+.shape-square::after {
+  border-radius: 10px;
+}
+
+/* Responsive adjustments */
+@media (width <= 768px) {
+  .orbit-shape {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (width <= 480px) {
+  .orbit-shape {
+    width: 24px;
+    height: 24px;
+  }
 }
