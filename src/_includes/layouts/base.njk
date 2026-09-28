@@ -77,10 +77,13 @@
         <link rel="stylesheet" href="/styles/main.css?v=4" />
     </head>
     <body>
+        <canvas class="strata" id="strata" aria-hidden="true"></canvas>
+
         <!-- Main content -->
         <main>{{ content | safe }}</main>
 
         <!-- PostHog Analytics (optional) -->
         <script src="/assets/js/posthog-init.js" defer></script>
+        <script src="/assets/js/strata.js" defer></script>
     </body>
 </html>

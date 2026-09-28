@@ -1,17 +1,16 @@
 /*
- * Strata: a living contour field for the hero.
- * Layered sine noise drifts like slow water. The pointer
- * parts the lines the way a stone parts a stream. Touch
- * devices get a slow autonomous drift instead of a cursor.
- * Reduced motion renders one composed still frame.
+ * Strata: a living contour field for the whole site.
+ * Layered sine noise drifts like slow water across a fixed
+ * full viewport canvas behind everything. The pointer parts
+ * the lines the way a stone parts a stream. Touch devices get
+ * a slow autonomous drift instead of a cursor. Reduced motion
+ * renders one composed still frame.
  */
 (function () {
     'use strict';
 
     var canvas = document.getElementById('strata');
     if (!canvas || !canvas.getContext) return;
-    var hero = canvas.closest('.hero');
-    if (!hero) return;
 
     var ctx = canvas.getContext('2d');
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -22,7 +21,6 @@
     var lines = [];
     var pointer = { x: -10000, y: -10000, tx: -10000, ty: -10000 };
     var running = false;
-    var visible = true;
     var elapsed = 0;
     var last = 0;
 
@@ -56,8 +54,8 @@
 
     function resize() {
         var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-        W = hero.clientWidth;
-        H = hero.clientHeight;
+        W = window.innerWidth;
+        H = window.innerHeight;
         canvas.width = Math.max(1, Math.round(W * dpr));
         canvas.height = Math.max(1, Math.round(H * dpr));
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -124,11 +122,6 @@
         }
     }
 
-    function fadeOnScroll() {
-        var fade = Math.max(0, 1 - window.scrollY / (H * 1.05));
-        canvas.style.opacity = fade.toFixed(3);
-    }
-
     function frame(now) {
         if (!running) return;
         if (!last) last = now;
@@ -139,12 +132,11 @@
             pointer.ty = H * (0.46 + 0.26 * Math.sin(elapsed * 0.17 + 1.4));
         }
         draw(elapsed);
-        fadeOnScroll();
         requestAnimationFrame(frame);
     }
 
     function play() {
-        if (running || !visible || document.hidden) return;
+        if (running || document.hidden) return;
         running = true;
         last = 0;
         requestAnimationFrame(frame);
@@ -161,32 +153,21 @@
         return;
     }
 
-    if ('IntersectionObserver' in window) {
-        new IntersectionObserver(function (entries) {
-            visible = entries[0].isIntersecting;
-            if (visible) play();
-            else stop();
-        }).observe(hero);
-    }
-
     document.addEventListener('visibilitychange', function () {
         if (document.hidden) stop();
         else play();
     });
 
     if (!coarsePointer) {
-        hero.addEventListener('pointermove', function (event) {
-            var rect = hero.getBoundingClientRect();
-            pointer.tx = event.clientX - rect.left;
-            pointer.ty = event.clientY - rect.top;
+        window.addEventListener('pointermove', function (event) {
+            pointer.tx = event.clientX;
+            pointer.ty = event.clientY;
         });
-        hero.addEventListener('pointerleave', function () {
+        document.documentElement.addEventListener('mouseleave', function () {
             pointer.tx = -10000;
             pointer.ty = -10000;
         });
     }
-
-    window.addEventListener('scroll', fadeOnScroll, { passive: true });
 
     resize();
     play();

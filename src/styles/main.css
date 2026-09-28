@@ -29,7 +29,7 @@
   }
 
   :root {
-    --bg-primary: #242128;
+    --bg-primary: #0b0c11;
     --text-primary: #ffffff;
     --text-secondary: rgb(255 255 255 / 55%);
     --text-tertiary: rgb(255 255 255 / 32%);
@@ -182,15 +182,22 @@ button:focus-visible {
   margin: 0;
   padding: 0 24px;
   overflow: clip;
-  background: #0b0c11;
+}
+
+/* The contour field lives behind everything on the page */
+main {
+  position: relative;
+  z-index: 1;
 }
 
 .strata {
-  position: absolute;
+  position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
   display: block;
+  z-index: 0;
+  pointer-events: none;
 }
 
 /* Vignette plus a rising scrim so the buttons read cleanly */
