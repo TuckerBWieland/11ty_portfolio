@@ -42,17 +42,6 @@
     --gradient-4: linear-gradient(135deg, #11998e, #38ef7d, #00f5d4);
     --gradient-5: linear-gradient(135deg, #fc466b, #3f5efb, #667eea);
     --gradient-6: linear-gradient(135deg, #a8ff78, #78ffd6, #00d9ff);
-
-    /* Orbiting shape palettes */
-    --orb-purple-1: #a78bfa;
-    --orb-purple-2: #7c3aed;
-    --orb-purple-3: #4c1d95;
-    --orb-teal-1: #5eead4;
-    --orb-teal-2: #14b8a6;
-    --orb-teal-3: #0f766e;
-    --orb-rose-1: #fda4af;
-    --orb-rose-2: #f43f5e;
-    --orb-rose-3: #9f1239;
   }
 
   *,
@@ -76,8 +65,8 @@
   }
 
   ::selection {
-    background: var(--orb-purple-2);
-    color: #ffffff;
+    background: #f2efe8;
+    color: #101218;
   }
 }
 
@@ -107,7 +96,7 @@ section {
 /* Visible keyboard focus everywhere */
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid var(--orb-purple-1);
+  outline: 2px solid #f2efe8;
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -117,6 +106,11 @@ button:focus-visible {
    ============================================ */
 
 .site-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -172,49 +166,49 @@ button:focus-visible {
 
 /* ============================================
    HERO
+   Full bleed living contour field. The canvas
+   carries the visual; the buttons sit low over
+   a soft scrim so they stay legible.
    ============================================ */
 
 .hero {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  min-height: 72vh;
-  padding-top: 48px;
-  padding-bottom: 48px;
+  justify-content: flex-end;
+  min-height: 100svh;
+  max-width: none;
+  margin: 0;
+  padding: 0 24px;
   overflow: clip;
+  background: #0b0c11;
+}
+
+.strata {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Vignette plus a rising scrim so the buttons read cleanly */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to top, rgb(11 12 17 / 88%), rgb(11 12 17 / 0%) 36%),
+    radial-gradient(115% 85% at 50% 8%, rgb(11 12 17 / 0%) 52%, rgb(11 12 17 / 60%));
 }
 
 .hero-content {
   position: relative;
   z-index: 1;
   text-align: center;
-}
-
-.hero-name {
-  font-size: clamp(1.75rem, 8vw, 3.5rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  margin-bottom: 10px;
-  line-height: 1.1;
-}
-
-.hero-title {
-  font-size: clamp(0.625rem, 1.5vw, 0.6875rem);
-  font-weight: 500;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.25em;
-  margin-bottom: 20px;
-}
-
-.hero-tagline {
-  font-size: clamp(0.875rem, 2vw, 0.9375rem);
-  font-weight: 400;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  max-width: 380px;
-  margin: 0 auto 32px;
+  padding-bottom: 11vh;
 }
 
 .hero-actions {
@@ -230,263 +224,42 @@ button:focus-visible {
 
 .button {
   display: inline-block;
-  padding: 12px 24px;
+  padding: 13px 28px;
   font-family: inherit;
   font-size: 0.8125rem;
   font-weight: 500;
   letter-spacing: 0.04em;
-  color: #ffffff;
-  background: linear-gradient(135deg, var(--orb-purple-2), var(--orb-rose-2));
+  color: #101218;
+  background: #f2efe8;
   border: none;
   border-radius: 999px;
   text-decoration: none;
   cursor: pointer;
   transition:
     transform 0.2s ease,
-    box-shadow 0.2s ease;
-  box-shadow: 0 8px 24px rgb(124 58 237 / 35%);
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 45%);
 }
 
 .button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgb(124 58 237 / 45%);
+  background: #ffffff;
+  box-shadow: 0 14px 36px rgb(0 0 0 / 50%);
 }
 
 .button-ghost {
-  color: var(--text-primary);
-  background: transparent;
-  border: 1px solid var(--border);
+  color: #f2efe8;
+  background: rgb(255 255 255 / 4%);
+  border: 1px solid rgb(255 255 255 / 22%);
   box-shadow: none;
+  backdrop-filter: blur(6px);
 }
 
 .button-ghost:hover {
-  border-color: var(--text-tertiary);
+  background: rgb(255 255 255 / 9%);
+  border-color: rgb(255 255 255 / 40%);
   box-shadow: none;
-}
-
-/* ============================================
-   ORBITING SHAPES
-   Playful gradient shapes drifting in 3D space.
-   Pure CSS: tilted orbital rings give true
-   elliptical depth, inners tumble slowly.
-   ============================================ */
-
-.orbit-stage {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  perspective: 1100px;
-  pointer-events: none;
-  will-change: transform, opacity;
-}
-
-.orbit {
-  position: absolute;
-  top: calc(50% - 96px);
-  left: 50%;
-  width: 0;
-  height: 0;
-  transform-style: preserve-3d;
-}
-
-.orbit-a {
-  --radius: 168px;
-  animation: orbit-spin-a 26s linear infinite;
-}
-
-.orbit-b {
-  --radius: 224px;
-  animation: orbit-spin-b 38s linear infinite reverse;
-}
-
-.orbit-c {
-  --radius: 112px;
-  animation: orbit-spin-c 32s linear infinite;
-}
-
-@keyframes orbit-spin-a {
-  from {
-    transform: rotateX(64deg) rotateZ(0deg);
-  }
-
-  to {
-    transform: rotateX(64deg) rotateZ(360deg);
-  }
-}
-
-@keyframes orbit-spin-b {
-  from {
-    transform: rotateX(71deg) rotateZ(0deg);
-  }
-
-  to {
-    transform: rotateX(71deg) rotateZ(360deg);
-  }
-}
-
-@keyframes orbit-spin-c {
-  from {
-    transform: rotateX(57deg) rotateZ(0deg);
-  }
-
-  to {
-    transform: rotateX(57deg) rotateZ(360deg);
-  }
-}
-
-.orb {
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translateX(var(--radius)) translateY(-50%);
-  transform-style: preserve-3d;
-}
-
-.orb-inner {
-  transform-style: preserve-3d;
-  will-change: transform;
-  position: relative;
-}
-
-/* Sizing per shape */
-.orbit-a .orb-inner {
-  width: 44px;
-  height: 44px;
-  opacity: 0.7;
-  animation: tumble-a 14s ease-in-out infinite;
-}
-
-.orbit-b .orb-inner {
-  width: 28px;
-  height: 28px;
-  opacity: 0.65;
-  animation: tumble-b 19s ease-in-out infinite;
-}
-
-.orbit-c .orb-inner {
-  width: 54px;
-  height: 54px;
-  animation: tumble-c 24s ease-in-out infinite;
-  filter: blur(0.6px);
-  opacity: 0.6;
-}
-
-/* Slow 3D tumble. Depth comes from the tilted orbital
-   plane under perspective; no translateZ here so the
-   shapes always paint behind the hero content. */
-@keyframes tumble-a {
-  0%,
-  100% {
-    transform: rotateX(8deg) rotateY(0deg) scale(1);
-  }
-
-  50% {
-    transform: rotateX(-12deg) rotateY(180deg) scale(1.12);
-  }
-}
-
-@keyframes tumble-b {
-  0%,
-  100% {
-    transform: rotateX(0deg) rotateY(0deg) scale(1);
-  }
-
-  50% {
-    transform: rotateX(160deg) rotateY(120deg) scale(0.9);
-  }
-}
-
-@keyframes tumble-c {
-  0%,
-  100% {
-    transform: rotateX(-6deg) rotateY(0deg) scale(1);
-  }
-
-  50% {
-    transform: rotateX(10deg) rotateY(-160deg) scale(1.1);
-  }
-}
-
-/* Shape skins */
-.orb-sphere {
-  border-radius: 50%;
-}
-
-.orb-cube {
-  border-radius: 8px;
-}
-
-.orb-purple {
-  background: radial-gradient(
-    circle at 30% 30%,
-    var(--orb-purple-1) 0%,
-    var(--orb-purple-2) 42%,
-    var(--orb-purple-3) 100%
-  );
-  box-shadow:
-    inset -4px -4px 12px rgb(0 0 0 / 30%),
-    inset 2px 2px 6px rgb(255 255 255 / 20%),
-    0 8px 28px rgb(124 58 237 / 40%);
-}
-
-.orb-teal {
-  background: linear-gradient(135deg, var(--orb-teal-1) 0%, var(--orb-teal-2) 45%, var(--orb-teal-3) 100%);
-  box-shadow:
-    inset -4px -4px 12px rgb(0 0 0 / 30%),
-    inset 2px 2px 6px rgb(255 255 255 / 20%),
-    0 8px 28px rgb(20 184 166 / 40%);
-}
-
-.orb-rose {
-  background: radial-gradient(circle at 30% 30%, var(--orb-rose-1) 0%, var(--orb-rose-2) 42%, var(--orb-rose-3) 100%);
-  box-shadow:
-    inset -4px -4px 12px rgb(0 0 0 / 30%),
-    inset 2px 2px 6px rgb(255 255 255 / 20%),
-    0 8px 28px rgb(244 63 94 / 40%);
-}
-
-/* Specular highlight so the spheres read as 3D while tumbling */
-.orb-sphere::before {
-  content: '';
-  position: absolute;
-  top: 16%;
-  left: 18%;
-  width: 26%;
-  height: 26%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgb(255 255 255 / 55%) 0%, rgb(255 255 255 / 0%) 70%);
-}
-
-/* (position: relative for .orb-inner is declared in the main rule above) */
-
-/* Smaller orbits on small screens */
-@media (width <= 640px) {
-  .orbit-a {
-    --radius: 118px;
-  }
-
-  .orbit-b {
-    --radius: 158px;
-  }
-
-  .orbit-c {
-    --radius: 82px;
-  }
-
-  .orbit-a .orb-inner {
-    width: 34px;
-    height: 34px;
-  }
-
-  .orbit-b .orb-inner {
-    width: 22px;
-    height: 22px;
-  }
-
-  .orbit-c .orb-inner {
-    width: 42px;
-    height: 42px;
-  }
 }
 
 /* ============================================
@@ -909,37 +682,13 @@ button:focus-visible {
 
 /* ============================================
    REDUCED MOTION
-   The shapes rest as a calm, composed
-   constellation around the headline.
+   The strata canvas renders one still frame
+   from script; here we just calm the rest.
    ============================================ */
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  .orbit-a,
-  .orbit-b,
-  .orbit-c,
-  .orb-inner {
-    animation: none;
-    transform: none;
-  }
-
-  .orbit {
-    top: 50%;
-  }
-
-  .orbit-a .orb {
-    transform: translate(-196px, -128px);
-  }
-
-  .orbit-b .orb {
-    transform: translate(168px, -72px);
-  }
-
-  .orbit-c .orb {
-    transform: translate(-72px, 128px);
   }
 
   .button,
