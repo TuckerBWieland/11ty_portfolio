@@ -1,15 +1,56 @@
 ---
 layout: layouts/base.njk
 title: Tucker Wieland
-description: Growth Strategy & Operations Leader
+description: Product Marketing, Meta. GTM strategy and operations for Muse, Meta's personal AI agent.
 ---
+
+<!-- Site Nav -->
+<header class="site-nav">
+    <a class="site-nav-name" href="/">Tucker Wieland</a>
+    <nav class="site-nav-links" aria-label="Primary">
+        <a class="site-nav-link" href="/resume/tucker-wieland-resume.pdf" download>Resume</a>
+        <a
+            class="site-nav-link"
+            href="https://www.linkedin.com/in/tucker-wieland/"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            LinkedIn
+        </a>
+        <a class="site-nav-link" href="https://github.com/TuckerBWieland/" target="_blank" rel="noopener noreferrer">
+            GitHub
+        </a>
+    </nav>
+</header>
 
 <!-- Hero Section -->
 <section class="hero">
+    <div class="orbit-stage" aria-hidden="true">
+        <div class="orbit orbit-a">
+            <div class="orb"><div class="orb-inner orb-sphere orb-purple"></div></div>
+        </div>
+        <div class="orbit orbit-b">
+            <div class="orb"><div class="orb-inner orb-cube orb-teal"></div></div>
+        </div>
+        <div class="orbit orbit-c">
+            <div class="orb"><div class="orb-inner orb-sphere orb-rose"></div></div>
+        </div>
+    </div>
     <div class="hero-content">
         <h1 class="hero-name">Tucker Wieland</h1>
-        <p class="hero-title">Growth Strategy & Operations</p>
-        <p class="hero-tagline">I help companies transform messy ideas into scalable systems that drive growth.</p>
+        <p class="hero-title">Product Marketing, Meta</p>
+        <p class="hero-tagline">GTM strategy and operations for Muse, Meta's personal AI agent.</p>
+        <div class="hero-actions">
+            <a class="button" href="/resume/tucker-wieland-resume.pdf" download>Download Resume</a>
+            <a
+                class="button button-ghost"
+                href="https://www.linkedin.com/in/tucker-wieland/"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                LinkedIn
+            </a>
+        </div>
     </div>
 </section>
 
@@ -18,6 +59,87 @@ description: Growth Strategy & Operations Leader
     <h2 class="section-title">Projects</h2>
 
     <ul class="project-list">
+        <li class="project-item">
+            <button class="project-header" aria-expanded="false">
+                <span class="project-name">Muse Launch</span>
+                <span class="project-meta">
+                    <span class="project-company">Meta</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </span>
+            </button>
+            <div class="project-details">
+                <ul class="project-bullets">
+                    <li>
+                        GTM operations and strategy for Meta's personal AI agent, from early access through public
+                        launch
+                    </li>
+                    <li>Positioning and use case development for launch audiences</li>
+                </ul>
+                <a
+                    href="https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="project-link"
+                >
+                    Read the announcement →
+                </a>
+            </div>
+        </li>
+
+        <li class="project-item">
+            <button class="project-header" aria-expanded="false">
+                <span class="project-name">Dreamer Joins Meta</span>
+                <span class="project-meta">
+                    <span class="project-company">Meta Superintelligence Lab</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </span>
+            </button>
+            <div class="project-details">
+                <ul class="project-bullets">
+                    <li>The Dreamer team joined Meta's Superintelligence Lab in March 2026</li>
+                    <li>Meta licensed Dreamer's agentic AI technology as part of the move</li>
+                </ul>
+                <a
+                    href="https://siliconangle.com/2026/03/23/meta-acqui-hires-co-founders-agentic-ai-startup-dreamer/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="project-link"
+                >
+                    Read the coverage →
+                </a>
+            </div>
+        </li>
+
+        <li class="project-item">
+            <button class="project-header" aria-expanded="false">
+                <span class="project-name">Dreamer Beta Launch</span>
+                <span class="project-meta">
+                    <span class="project-company">Dreamer</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </span>
+            </button>
+            <div class="project-details">
+                <ul class="project-bullets">
+                    <li>Public beta of the Dreamer AI agent platform in February 2026</li>
+                    <li>Built so anyone can create agentic AI apps</li>
+                </ul>
+                <a
+                    href="https://www.techmeme.com/260218/p6"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="project-link"
+                >
+                    Read the coverage →
+                </a>
+            </div>
+        </li>
+
         <li class="project-item">
             <button class="project-header" aria-expanded="false">
                 <span class="project-name">Books MCP Server</span>
@@ -30,7 +152,7 @@ description: Growth Strategy & Operations Leader
             </button>
             <div class="project-details">
                 <ul class="project-bullets">
-                    <li>MCP server wrapping Open Library API to create a Goodreads-style book agent</li>
+                    <li>MCP server wrapping the Open Library API, a book agent in the style of Goodreads</li>
                     <li>Search, discover, and get details on books, authors, and subjects</li>
                     <li>Built on Cloudflare Workers with smart caching and Google Books fallback</li>
                 </ul>
@@ -84,9 +206,9 @@ description: Growth Strategy & Operations Leader
             </button>
             <div class="project-details">
                 <ul class="project-bullets">
-                    <li>Drove multi-channel awareness campaign including TV, digital, and out-of-home</li>
-                    <li>Managed budget, timelines, and cross-functional execution</li>
-                    <li>Achieved double-digit lift in brand awareness and ICP targeting</li>
+                    <li>Drove an awareness campaign across TV, digital, and out of home</li>
+                    <li>Managed budget, timelines, and execution across functions</li>
+                    <li>Achieved a lift in the double digits in brand awareness and ICP targeting</li>
                 </ul>
                 <a
                     href="https://adage.com/creativity/work/aa-justworks-for-your-people/"
@@ -130,9 +252,9 @@ description: Growth Strategy & Operations Leader
             </button>
             <div class="project-details">
                 <ul class="project-bullets">
-                    <li>Built lightweight Slack-based tool with GCP backend</li>
-                    <li>Org-aware workflows with automated reminders</li>
-                    <li>Sustained 80%+ project update rate within 14 days, adopted company-wide</li>
+                    <li>Built a lightweight project tracker on Slack with a GCP backend</li>
+                    <li>Workflows aware of the org chart with automated reminders</li>
+                    <li>Sustained 80%+ project update rate within 14 days, adopted across the company</li>
                 </ul>
             </div>
         </li>
@@ -172,8 +294,8 @@ description: Growth Strategy & Operations Leader
             <div class="project-details">
                 <ul class="project-bullets">
                     <li>Founding member of GA's first growth team to validate course demand</li>
-                    <li>Open-sourced roadmap to gather community input before building</li>
-                    <li>Courses launched to built-in demand, increased successful launch rate</li>
+                    <li>Shared the roadmap openly to gather community input before building</li>
+                    <li>Courses launched to an audience already waiting, increased successful launch rate</li>
                 </ul>
             </div>
         </li>
@@ -187,9 +309,9 @@ description: Growth Strategy & Operations Leader
     <ul class="company-list">
         <li class="company-item">
             <button class="company-header" aria-expanded="false">
-                <span class="company-name">Dreamer</span>
+                <span class="company-name">Meta</span>
                 <span class="company-meta">
-                    <span class="company-role">Current</span>
+                    <span class="company-role">Product Marketing Manager, Hatch</span>
                     <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M6 9l6 6 6-6" />
                     </svg>
@@ -197,8 +319,37 @@ description: Growth Strategy & Operations Leader
             </button>
             <div class="company-details">
                 <ul class="company-bullets">
-                    <li>Leading growth and marketing operations, now part of Meta's Super Intelligence Lab</li>
-                    <li>Built agent marketing workflows and community for the Dreamer AI agent platform</li>
+                    <li>
+                        GTM operations and strategy for Muse, Meta's personal AI agent, from early access through public
+                        launch in September 2026
+                    </li>
+                    <li>Leading competitive positioning and GTM use case development for launch</li>
+                    <li>San Francisco, CA. Mar 2026 to Present</li>
+                </ul>
+                <a href="https://www.meta.com" target="_blank" rel="noopener noreferrer" class="company-link">
+                    meta.com →
+                </a>
+            </div>
+        </li>
+
+        <li class="company-item">
+            <button class="company-header" aria-expanded="false">
+                <span class="company-name">Dreamer</span>
+                <span class="company-meta">
+                    <span class="company-role">Growth and Marketing Operations</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </span>
+            </button>
+            <div class="company-details">
+                <ul class="company-bullets">
+                    <li>
+                        Led growth and marketing operations for the Dreamer AI agent platform through its public beta
+                        launch in February 2026
+                    </li>
+                    <li>Built agent marketing workflows and an early user community</li>
+                    <li>Team joined Meta's Superintelligence Lab in March 2026. Nov 2025 to Mar 2026</li>
                 </ul>
                 <a href="https://dreamer.com" target="_blank" rel="noopener noreferrer" class="company-link">
                     dreamer.com →
@@ -210,7 +361,7 @@ description: Growth Strategy & Operations Leader
             <button class="company-header" aria-expanded="false">
                 <span class="company-name">Justworks</span>
                 <span class="company-meta">
-                    <span class="company-role">Director, GTM Strategy & Ops</span>
+                    <span class="company-role">Director, GTM Strategy and Ops</span>
                     <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M6 9l6 6 6-6" />
                     </svg>
@@ -261,7 +412,7 @@ description: Growth Strategy & Operations Leader
             <div class="company-details">
                 <ul class="company-bullets">
                     <li>Managed $5M product portfolio, driving 16% YoY revenue growth</li>
-                    <li>Launched four new courses, adding $700K first-year revenue</li>
+                    <li>Launched four new courses, adding $700K in revenue in the first year</li>
                 </ul>
                 <a href="https://generalassemb.ly" target="_blank" rel="noopener noreferrer" class="company-link">
                     generalassemb.ly →
@@ -273,7 +424,7 @@ description: Growth Strategy & Operations Leader
             <button class="company-header" aria-expanded="false">
                 <span class="company-name">INTO</span>
                 <span class="company-meta">
-                    <span class="company-role">Co-founder & GM</span>
+                    <span class="company-role">Cofounder and GM</span>
                     <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M6 9l6 6 6-6" />
                     </svg>
@@ -281,7 +432,7 @@ description: Growth Strategy & Operations Leader
             </button>
             <div class="company-details">
                 <ul class="company-bullets">
-                    <li>Co-founded and scaled digital marketing agency</li>
+                    <li>Cofounded and scaled a digital marketing agency</li>
                     <li>Managed $35M in client spend across B2B and B2C campaigns</li>
                 </ul>
             </div>
@@ -290,10 +441,16 @@ description: Growth Strategy & Operations Leader
 </section>
 
 <!-- Contact Section -->
-<section class="contact">
+<section class="contact" id="contact">
     <h2 class="section-title">Get in Touch</h2>
 
     <div class="contact-links">
+        <a href="/resume/tucker-wieland-resume.pdf" download class="contact-link">
+            Resume
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 4v12m0 0l-5-5m5 5l5-5M5 20h14" />
+            </svg>
+        </a>
         <a
             href="https://www.linkedin.com/in/tucker-wieland/"
             target="_blank"
@@ -314,16 +471,21 @@ description: Growth Strategy & Operations Leader
     </div>
 </section>
 
+<footer class="site-footer">
+    <p>© 2026 Tucker Wieland. Built with Eleventy.</p>
+</footer>
+
 <script>
-    // Projects toggle
-    document.querySelectorAll('.project-header').forEach(button => {
+    // Accordion toggles for projects and companies
+    document.querySelectorAll('.project-header, .company-header').forEach(button => {
         button.addEventListener('click', () => {
             const item = button.parentElement;
+            const list = item.parentElement;
             const isOpen = item.classList.contains('open');
 
-            document.querySelectorAll('.project-item.open').forEach(openItem => {
+            list.querySelectorAll('.open').forEach(openItem => {
                 openItem.classList.remove('open');
-                openItem.querySelector('.project-header').setAttribute('aria-expanded', 'false');
+                openItem.querySelector('button').setAttribute('aria-expanded', 'false');
             });
 
             if (!isOpen) {
@@ -333,21 +495,65 @@ description: Growth Strategy & Operations Leader
         });
     });
 
-    // Companies toggle
-    document.querySelectorAll('.company-header').forEach(button => {
-        button.addEventListener('click', () => {
-            const item = button.parentElement;
-            const isOpen = item.classList.contains('open');
+    // Floating orbit stage: gentle pointer parallax and scroll fade
+    (function () {
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+        const stage = document.querySelector('.orbit-stage');
+        const hero = document.querySelector('.hero');
+        if (!stage || !hero || reduceMotion) return;
 
-            document.querySelectorAll('.company-item.open').forEach(openItem => {
-                openItem.classList.remove('open');
-                openItem.querySelector('.company-header').setAttribute('aria-expanded', 'false');
-            });
+        let targetX = 0;
+        let targetY = 0;
+        let currentX = 0;
+        let currentY = 0;
+        let ticking = false;
 
-            if (!isOpen) {
-                item.classList.add('open');
-                button.setAttribute('aria-expanded', 'true');
+        function render() {
+            currentX += (targetX - currentX) * 0.06;
+            currentY += (targetY - currentY) * 0.06;
+            stage.style.transform = 'translate3d(' + currentX + 'px,' + currentY + 'px,0)';
+
+            const heroHeight = hero.offsetHeight;
+            const fade = Math.max(0, 1 - window.scrollY / (heroHeight * 1.2));
+            stage.style.opacity = fade.toFixed(3);
+
+            if (Math.abs(targetX - currentX) > 0.1 || Math.abs(targetY - currentY) > 0.1) {
+                requestAnimationFrame(render);
+            } else {
+                ticking = false;
             }
-        });
-    });
+        }
+
+        function kick() {
+            if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(render);
+            }
+        }
+
+        if (!coarsePointer) {
+            hero.addEventListener('pointermove', event => {
+                const rect = hero.getBoundingClientRect();
+                targetX = ((event.clientX - rect.left) / rect.width - 0.5) * 28;
+                targetY = ((event.clientY - rect.top) / rect.height - 0.5) * 20;
+                kick();
+            });
+            hero.addEventListener('pointerleave', () => {
+                targetX = 0;
+                targetY = 0;
+                kick();
+            });
+        }
+
+        window.addEventListener(
+            'scroll',
+            () => {
+                const heroHeight = hero.offsetHeight;
+                const fade = Math.max(0, 1 - window.scrollY / (heroHeight * 1.2));
+                stage.style.opacity = fade.toFixed(3);
+            },
+            { passive: true }
+        );
+    })();
 </script>

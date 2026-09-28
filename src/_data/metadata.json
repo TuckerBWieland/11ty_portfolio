@@ -1,12 +1,12 @@
 {
     "site": {
-        "title": "Tucker Wieland - Growth Strategy & Operations Leader",
-        "description": "I help companies transform messy ideas into scalable systems that drive growth.",
+        "title": "Tucker Wieland - Product Marketing, Meta",
+        "description": "GTM strategy and operations for Muse, Meta's personal AI agent.",
         "url": "https://tuckerwieland.com",
         "author": "Tucker Wieland",
         "image": "/assets/images/meta/meta1.webp",
         "imageSquare": "/assets/images/meta/meta2.webp",
-        "imageAlt": "Tucker Wieland - Growth Strategy & Operations Leader portfolio preview",
+        "imageAlt": "Tucker Wieland - Product Marketing, Meta portfolio preview",
         "twitterHandle": "@tuckerwieland",
         "type": "website",
         "locale": "en"
