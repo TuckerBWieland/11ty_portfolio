@@ -200,9 +200,29 @@ main {
   pointer-events: none;
 }
 
+/* Soft page scrim between the contour field and the content,
+   so body text stays legible over the lines everywhere. */
+.page-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 90% at 50% 18%, rgb(11 12 17 / 16%), rgb(11 12 17 / 0%) 55%),
+    linear-gradient(to bottom, rgb(11 12 17 / 24%), rgb(11 12 17 / 46%) 62%, rgb(11 12 17 / 56%));
+}
+
+/* Gentle lift for text over the field */
+.projects,
+.experience,
+.contact,
+.site-footer {
+  text-shadow: 0 1px 16px rgb(0 0 0 / 55%);
+}
+
 /* Vignette plus a rising scrim so the buttons read cleanly */
 .hero::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -467,7 +487,7 @@ main {
 }
 
 .project-item.open .project-details {
-  max-height: 400px;
+  max-height: 1600px;
   padding-bottom: 16px;
 }
 
@@ -527,6 +547,41 @@ main {
 .project-link:hover,
 .company-link:hover {
   opacity: 0.8;
+}
+
+/* One source per line on small screens */
+@media (width <= 639px) {
+  .project-link,
+  .company-link {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .project-link:last-child,
+  .company-link:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* Embedded media inside project and company details */
+.project-media {
+  margin: 4px 0 14px;
+}
+
+.project-media img,
+.project-media video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid rgb(255 255 255 / 10%);
+  background: rgb(255 255 255 / 3%);
+}
+
+.project-media figcaption {
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
 }
 
 /* ============================================

@@ -19,6 +19,8 @@
     var W = 0;
     var H = 0;
     var lines = [];
+    var baseGrad = null;
+    var accentGrad = null;
     var pointer = { x: -10000, y: -10000, tx: -10000, ty: -10000 };
     var running = false;
     var elapsed = 0;
@@ -28,13 +30,35 @@
         return min + Math.random() * (max - min);
     }
 
+    // Muted spectral sweep, echoing the link gradients at low alpha.
+    // Dusty rose to violet to blue to teal to sage to warm tan.
+    var SPECTRUM = [
+        [0.0, 216, 110, 150],
+        [0.22, 150, 120, 205],
+        [0.45, 110, 130, 230],
+        [0.68, 80, 185, 190],
+        [0.85, 170, 175, 150],
+        [1.0, 225, 200, 160]
+    ];
+
+    function makeSpectrum(alpha) {
+        var g = ctx.createLinearGradient(0, 0, W, 0);
+        for (var i = 0; i < SPECTRUM.length; i++) {
+            var s = SPECTRUM[i];
+            g.addColorStop(s[0], 'rgba(' + s[1] + ', ' + s[2] + ', ' + s[3] + ', ' + alpha.toFixed(3) + ')');
+        }
+        return g;
+    }
+
     function buildLines() {
         lines = [];
-        var gap = H < 520 ? 22 : 30;
-        var count = Math.ceil(H / gap) + 2;
-        for (var i = 0; i < count; i++) {
+        var baseGap = H < 520 ? 22 : 30;
+        // Irregular spacing so the field never reads as mechanical banding.
+        // Accent lines land organically instead of every Nth line.
+        var y = -baseGap;
+        while (y < H + baseGap) {
             lines.push({
-                y: i * gap - gap,
+                y: y,
                 a1: rand(9, 24),
                 f1: rand(0.0015, 0.003),
                 s1: rand(0.08, 0.2),
@@ -47,8 +71,10 @@
                 f3: rand(0.011, 0.022),
                 s3: rand(0.18, 0.4),
                 p3: rand(0, 6.2832),
-                index: i % 5 === 2
+                accent: Math.random() < 0.16,
+                jitter: rand(0.7, 1.25)
             });
+            y += baseGap * rand(0.65, 1.45);
         }
     }
 
@@ -59,6 +85,8 @@
         canvas.width = Math.max(1, Math.round(W * dpr));
         canvas.height = Math.max(1, Math.round(H * dpr));
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        baseGrad = makeSpectrum(0.15);
+        accentGrad = makeSpectrum(0.34);
         buildLines();
         if (reduceMotion) draw(8.0);
     }
@@ -113,12 +141,11 @@
             }
             var dyLine = L.y - py;
             var glow = Math.exp(-(dyLine * dyLine) / (2 * 190 * 190));
-            var alpha = (L.index ? 0.32 : 0.15) + glow * (L.index ? 0.38 : 0.3);
-            ctx.strokeStyle = L.index
-                ? 'rgba(216, 190, 154, ' + alpha.toFixed(3) + ')'
-                : 'rgba(148, 163, 184, ' + alpha.toFixed(3) + ')';
-            ctx.lineWidth = L.index ? 1.5 : 1;
+            ctx.strokeStyle = L.accent ? accentGrad : baseGrad;
+            ctx.globalAlpha = Math.min(1, L.jitter * (0.7 + glow * 1.6));
+            ctx.lineWidth = L.accent ? 1.5 : 1;
             ctx.stroke();
+            ctx.globalAlpha = 1;
         }
     }
 
