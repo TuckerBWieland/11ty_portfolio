@@ -498,4 +498,36 @@ description: Product Marketing, Meta. GTM strategy and operations for Muse, Meta
         });
     });
 
+    // Scroll driven calm: the scrim behind each dense list fades in
+    // as its section arrives on screen, and holds while you read.
+    (function () {
+        var sections = Array.prototype.slice.call(document.querySelectorAll('.projects, .experience'));
+        if (!sections.length) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            sections.forEach(function (el) { el.style.setProperty('--calm', 1); });
+            return;
+        }
+        var ticking = false;
+        function update() {
+            ticking = false;
+            var vh = window.innerHeight;
+            sections.forEach(function (el) {
+                var top = el.getBoundingClientRect().top;
+                // 0 when the section top sits at the viewport bottom,
+                // 1 once it reaches 55% of the viewport height.
+                var t = (vh - top) / (vh * 0.45);
+                t = Math.max(0, Math.min(1, t));
+                el.style.setProperty('--calm', t.toFixed(3));
+            });
+        }
+        function onScroll() {
+            if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(update);
+            }
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        update();
+    })();
 </script>

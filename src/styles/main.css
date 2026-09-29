@@ -62,6 +62,7 @@
     font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
   }
 
   ::selection {
@@ -218,6 +219,33 @@ main {
 .contact,
 .site-footer {
   text-shadow: 0 1px 16px rgb(0 0 0 / 55%);
+}
+
+/* Calm patch behind the dense lists: a soft dark scrim that
+   quiets the contour field where the eye needs to read. */
+.projects,
+.experience {
+  position: relative;
+}
+
+.projects::before,
+.experience::before {
+  content: '';
+  position: absolute;
+  inset: -12px 0;
+  z-index: -1;
+  background: rgb(11 12 17 / 55%);
+  filter: blur(28px);
+  pointer-events: none;
+  /* Driven by scroll: fades from 0 to 1 as the section arrives. */
+  opacity: var(--calm, 0);
+}
+
+@media (width >= 640px) {
+  .projects::before,
+  .experience::before {
+    inset: -16px -48px;
+  }
 }
 
 /* Vignette plus a rising scrim so the buttons read cleanly */
