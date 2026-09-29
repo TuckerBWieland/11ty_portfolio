@@ -1,0 +1,76 @@
+---
+permalink: /experiments/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Experiments, Tucker Wieland</title>
+<meta name="description" content="Motion and atmosphere experiments for the personal site.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0c11;
+    --ink: #ffffff;
+    --ink-2: rgb(255 255 255 / 55%);
+    --ink-3: rgb(255 255 255 / 32%);
+    --line: rgb(255 255 255 / 10%);
+    --warm: #f2e7d3;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: #f2efe8; color: #101218; }
+  a:focus-visible { outline: 2px solid #f2efe8; outline-offset: 3px; border-radius: 2px; }
+  main { max-width: 720px; margin: 0 auto; padding: 18vh 20px 20vh; }
+  .kicker {
+    font-size: 0.78rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-3); margin-bottom: 1.2rem;
+  }
+  h1 { font-size: clamp(1.8rem, 5vw, 2.6rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 3rem; }
+  .exp-list { list-style: none; }
+  .exp-item { border-top: 1px solid var(--line); }
+  .exp-item:last-child { border-bottom: 1px solid var(--line); }
+  .exp-link {
+    display: block; padding: 28px 4px; text-decoration: none; color: inherit;
+  }
+  .exp-name { font-size: 1.1rem; font-weight: 700; color: var(--warm); margin-bottom: 0.5rem; }
+  .exp-desc { color: var(--ink-2); font-size: 0.92rem; max-width: 58ch; }
+  .exp-link:hover .exp-name { text-decoration: underline; text-underline-offset: 4px; }
+  .back { display: inline-block; margin-top: 3rem; color: var(--ink-3); text-decoration: none; font-size: 0.85rem; }
+  .back:hover { color: var(--ink); }
+  footer { text-align: center; padding: 40px 20px 56px; color: var(--ink-3); font-size: 0.78rem; }
+  @media (width >= 640px) { main { padding-left: 40px; padding-right: 40px; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Site experiments</p>
+  <h1>Motion studies</h1>
+  <ul class="exp-list">
+    <li class="exp-item">
+      <a class="exp-link" href="/experiments/atmosphere/">
+        <p class="exp-name">Atmosphere</p>
+        <p class="exp-desc">The full page carried on ambient weather. Dust drifting like sunbeam dust, a breathing light shaft, thin film grain, and scroll choreography that stays out of the way.</p>
+      </a>
+    </li>
+    <li class="exp-item">
+      <a class="exp-link" href="/experiments/flythrough/">
+        <p class="exp-name">Flythrough</p>
+        <p class="exp-desc">A slow camera drift through the Strata field, one composed waypoint per section.</p>
+      </a>
+    </li>
+  </ul>
+  <a class="back" href="/">&#8592; Back to the site</a>
+</main>
+<footer>
+  <p>&copy; 2026 Tucker Wieland.</p>
+</footer>
+</body>
+</html>

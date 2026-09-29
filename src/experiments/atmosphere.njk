@@ -1,0 +1,931 @@
+---
+permalink: /experiments/atmosphere/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tucker Wieland, Atmosphere</title>
+<meta name="description" content="An experiment in ambient weather and scroll choreography.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0c11;
+    --ink: #ffffff;
+    --ink-2: rgb(255 255 255 / 55%);
+    --ink-3: rgb(255 255 255 / 32%);
+    --line: rgb(255 255 255 / 10%);
+    --warm: #f2e7d3;
+    --warm-dim: rgb(242 231 211 / 70%);
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { background: var(--bg); }
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  .lenis.lenis-stopped { overflow: hidden; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  ::selection { background: #f2efe8; color: #101218; }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid #f2efe8; outline-offset: 3px; border-radius: 2px;
+  }
+
+  /* Fixed weather canvas, behind everything */
+  #atmo {
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    z-index: 0; pointer-events: none; display: block;
+  }
+  /* A whisper of legibility over the field */
+  .veil {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(120% 90% at 50% 40%, transparent 55%, rgb(11 12 17 / 38%) 100%);
+  }
+
+  .page { position: relative; z-index: 1; }
+
+  /* Nav */
+  .site-nav {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 20;
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: 800px; margin: 0 auto; padding: 20px;
+  }
+  .site-nav-name { color: var(--ink); text-decoration: none; font-weight: 700; font-size: 0.875rem; }
+  .site-nav-links { display: flex; align-items: center; gap: 20px; }
+  .site-nav-link {
+    color: var(--ink-2); text-decoration: none; font-size: 0.875rem;
+    transition: color .3s ease;
+  }
+  .site-nav-link:hover { color: var(--ink); }
+
+  /* Sections */
+  section { padding: 0 20px; max-width: 720px; margin: 0 auto; }
+  .hero { min-height: 92svh; display: flex; align-items: center; padding-top: 120px; }
+  .projects, .experience, .contact { padding-top: 18vh; padding-bottom: 6vh; }
+  .contact { padding-bottom: 22vh; }
+
+  .hero-name {
+    font-size: clamp(2.6rem, 8vw, 4.4rem);
+    font-weight: 700; letter-spacing: -0.02em; line-height: 1.05;
+    color: var(--ink);
+  }
+  .hero-note { margin-top: 1.1rem; color: var(--ink-2); font-size: 0.95rem; max-width: 46ch; }
+  .hero-actions { display: flex; gap: 12px; margin-top: 2rem; flex-wrap: wrap; }
+
+  .button {
+    display: inline-block; padding: 12px 22px; border-radius: 999px;
+    background: var(--warm); color: #101218; text-decoration: none;
+    font-family: inherit; font-size: 0.875rem; font-weight: 700;
+    transition: transform .35s ease, opacity .35s ease;
+  }
+  .button:hover { transform: translateY(-1px); opacity: .92; }
+  .button-ghost {
+    background: transparent; color: var(--ink);
+    border: 1px solid rgb(255 255 255 / 28%);
+  }
+  .button-ghost:hover { border-color: rgb(255 255 255 / 55%); opacity: 1; }
+
+  .section-title {
+    font-size: 0.8rem; font-weight: 700; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--ink-3);
+    margin-bottom: 1.6rem;
+    will-change: transform, filter, opacity;
+  }
+
+  /* Accordions */
+  .project-list, .company-list { list-style: none; }
+  .project-item, .company-item {
+    position: relative; overflow: hidden;
+    border-top: 1px solid var(--line);
+  }
+  .project-item:last-child, .company-item:last-child { border-bottom: 1px solid var(--line); }
+  .project-header, .company-header {
+    width: 100%; display: flex; align-items: baseline; justify-content: space-between;
+    gap: 16px; padding: 20px 4px; background: none; border: 0; cursor: pointer;
+    font-family: inherit; color: inherit; text-align: left;
+  }
+  .project-name, .company-name { font-size: 1.02rem; font-weight: 700; color: var(--ink); }
+  .project-meta, .company-meta {
+    display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+  }
+  .project-company, .company-role { font-size: 0.78rem; color: var(--ink-3); }
+  .toggle-icon { width: 16px; height: 16px; color: var(--ink-2); transition: transform .45s ease; }
+  .open .toggle-icon { transform: rotate(180deg); }
+
+  .project-details, .company-details {
+    display: grid; grid-template-rows: 0fr;
+    transition: grid-template-rows .55s cubic-bezier(.22, 1, .36, 1);
+  }
+  .open .project-details, .open .company-details { grid-template-rows: 1fr; }
+  .details-inner { overflow: hidden; }
+  .project-bullets, .company-bullets {
+    list-style: none; padding: 0 4px 8px; color: var(--ink-2); font-size: 0.92rem;
+  }
+  .project-bullets li, .company-bullets li { margin-bottom: 0.55rem; max-width: 62ch; }
+  .project-link, .company-link {
+    display: inline-block; margin: 0 18px 22px 4px;
+    color: var(--warm-dim); text-decoration: none; font-size: 0.85rem;
+    border-bottom: 1px solid rgb(242 231 211 / 30%); padding-bottom: 2px;
+    transition: color .3s ease, border-color .3s ease;
+  }
+  .project-link:hover, .company-link:hover { color: var(--warm); border-color: var(--warm); }
+  .open .project-item, .open .company-item { }
+
+  /* Warm shimmer that passes over an accordion item once, on open */
+  .shimmer::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(105deg, transparent 42%, rgb(255 214 165 / 0.075) 50%, transparent 58%);
+    background-size: 260% 100%;
+    animation: shimmer-pass 1.6s cubic-bezier(.22, 1, .36, 1) 1;
+  }
+  @keyframes shimmer-pass {
+    from { background-position: 130% 0; }
+    to { background-position: -130% 0; }
+  }
+
+  /* Contact */
+  .contact-links { display: flex; flex-direction: column; gap: 4px; }
+  .contact-link {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 4px; color: var(--ink); text-decoration: none;
+    border-top: 1px solid var(--line); font-size: 1rem;
+    transition: padding .35s ease, color .35s ease;
+  }
+  .contact-link:last-child { border-bottom: 1px solid var(--line); }
+  .contact-link:hover { color: var(--warm); padding-left: 10px; }
+  .arrow { width: 18px; height: 18px; color: var(--ink-3); }
+
+  .site-footer {
+    position: relative; z-index: 1; text-align: center;
+    padding: 40px 20px 56px; color: var(--ink-3); font-size: 0.78rem;
+  }
+  .site-footer a { color: var(--ink-2); text-decoration: none; }
+  .site-footer a:hover { color: var(--ink); }
+
+  @media (width >= 640px) {
+    section { padding-left: 40px; padding-right: 40px; }
+    .site-nav { padding: 24px 40px; }
+  }
+  @media (width >= 1024px) {
+    section { max-width: 800px; padding-left: 24px; padding-right: 24px; }
+  }
+  @media (width <= 640px) {
+    .site-nav { padding: 16px 20px; }
+    .site-nav-links { gap: 14px; }
+    .site-nav-link { font-size: 0.75rem; }
+    .project-company, .company-role { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .shimmer::after { display: none; }
+    .project-details, .company-details { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="atmo" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+
+<div class="page">
+  <header class="site-nav">
+    <a class="site-nav-name" href="/">Tucker Wieland</a>
+    <nav class="site-nav-links" aria-label="Primary">
+      <a class="site-nav-link" href="/resume/tucker-wieland-resume.pdf" download>Resume</a>
+      <a class="site-nav-link" href="https://www.linkedin.com/in/tucker-wieland/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a class="site-nav-link" href="https://github.com/TuckerBWieland/" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <h1 class="hero-name reveal">Tucker Wieland</h1>
+        <p class="hero-note reveal">An experiment in ambient weather. The same page, carried on drifting dust and slow light.</p>
+        <div class="hero-actions reveal">
+          <a class="button" href="/resume/tucker-wieland-resume.pdf" download>Download Resume</a>
+          <a class="button button-ghost" href="https://www.linkedin.com/in/tucker-wieland/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="projects">
+      <h2 class="section-title reveal">Projects</h2>
+      <ul class="project-list">
+        <li class="project-item">
+          <button class="project-header" aria-expanded="false">
+            <span class="project-name">Muse Launch</span>
+            <span class="project-meta"><span class="project-company">Meta</span>
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="project-details"><div class="details-inner">
+            <ul class="project-bullets">
+              <li>GTM operations and strategy for Meta's personal AI agent, from early access through public launch</li>
+              <li>Positioning and use case development for launch audiences</li>
+              <li>Reached No. 1 on the U.S. App Store within 10 days of launch</li>
+            </ul>
+            <a href="https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/" target="_blank" rel="noopener noreferrer" class="project-link">Read the announcement &#8594;</a>
+            <a href="https://www.nytimes.com/2026/09/08/technology/meta-muse-ai-agent.html" target="_blank" rel="noopener noreferrer" class="project-link">Read the New York Times coverage &#8594;</a>
+            <a href="https://techcrunch.com/2026/09/25/meta-is-putting-its-muscle-behind-muse-as-the-ai-app-takes-off/" target="_blank" rel="noopener noreferrer" class="project-link">Read about the No. 1 App Store launch in TechCrunch &#8594;</a>
+          </div></div>
+        </li>
+        <li class="project-item">
+          <button class="project-header" aria-expanded="false">
+            <span class="project-name">Dreamer Joins Meta</span>
+            <span class="project-meta"><span class="project-company">Meta Superintelligence Lab</span>
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="project-details"><div class="details-inner">
+            <ul class="project-bullets">
+              <li>The Dreamer team joined Meta's Superintelligence Lab in March 2026</li>
+              <li>Meta licensed Dreamer's agentic AI technology as part of the move</li>
+            </ul>
+            <a href="https://siliconangle.com/2026/03/23/meta-acqui-hires-co-founders-agentic-ai-startup-dreamer/" target="_blank" rel="noopener noreferrer" class="project-link">Read the coverage &#8594;</a>
+          </div></div>
+        </li>
+        <li class="project-item">
+          <button class="project-header" aria-expanded="false">
+            <span class="project-name">Dreamer Beta Launch</span>
+            <span class="project-meta"><span class="project-company">Dreamer</span>
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="project-details"><div class="details-inner">
+            <ul class="project-bullets">
+              <li>Public beta of the Dreamer AI agent platform in February 2026</li>
+              <li>Built so anyone can create agentic AI apps</li>
+            </ul>
+            <a href="https://www.techmeme.com/260218/p6" target="_blank" rel="noopener noreferrer" class="project-link">Read the coverage &#8594;</a>
+          </div></div>
+        </li>
+        <li class="project-item">
+          <button class="project-header" aria-expanded="false">
+            <span class="project-name">Books MCP Server</span>
+            <span class="project-meta"><span class="project-company">Dreamer</span>
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="project-details"><div class="details-inner">
+            <ul class="project-bullets">
+              <li>MCP server wrapping the Open Library API, a book agent in the style of Goodreads</li>
+              <li>Search, discover, and get details on books, authors, and subjects</li>
+              <li>Built on Cloudflare Workers with smart caching and Google Books fallback</li>
+            </ul>
+            <a href="https://github.com/TuckerBWieland/OpenLibraryMCP" target="_blank" rel="noopener noreferrer" class="project-link">View on GitHub &#8594;</a>
+          </div></div>
+        </li>
+        <li class="project-item">
+          <button class="project-header" aria-expanded="false">
+            <span class="project-name">Water Quality Data Viz</span>
+            <span class="project-meta"><span class="project-company">Billion Oyster Project</span>
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="project-details"><div class="details-inner">
+            <ul class="project-bullets">
+              <li>Volunteer project to make water quality data accessible</li>
+              <li>Built web app mapping data via GeoJSON for geographic context</li>
+              <li>Helped volunteers understand harbor health trends</li>
+            </ul>
+            <a href="https://tuckerbwieland.github.io/nyc-water-app/" target="_blank" rel="noopener noreferrer" class="project-link">View the app &#8594;</a>
+          </div></div>
+        </li>
+        <li class="project-item">
+          <button class="project-header" aria-expanded="false">
+            <span class="project-name">Brand Awareness Campaign</span>
+            <span class="project-meta"><span class="project-company">Justworks</span>
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="project-details"><div class="details-inner">
+            <ul class="project-bullets">
+              <li>Drove an awareness campaign across TV, digital, and out of home</li>
+              <li>Managed budget, timelines, and execution across functions</li>
+              <li>Achieved a lift in the double digits in brand awareness and ICP targeting</li>
+            </ul>
+            <a href="https://adage.com/creativity/work/aa-justworks-for-your-people/" target="_blank" rel="noopener noreferrer" class="project-link">Read in Ad Age &#8594;</a>
+          </div></div>
+        </li>
+        <li class="project-item">
+          <button class="project-header" aria-expanded="false">
+            <span class="project-name">Marketing ROI Measurement</span>
+            <span class="project-meta"><span class="project-company">Justworks</span>
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="project-details"><div class="details-inner">
+            <ul class="project-bullets">
+              <li>Rebuilt measurement systems across revenue enablement, BI, and marketing ops</li>
+              <li>Created transparent reporting tying marketing spend to revenue impact</li>
+              <li>New visibility and reporting led to doubling of marketing investment</li>
+            </ul>
+          </div></div>
+        </li>
+        <li class="project-item">
+          <button class="project-header" aria-expanded="false">
+            <span class="project-name">Project Tracking Tool</span>
+            <span class="project-meta"><span class="project-company">Justworks</span>
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="project-details"><div class="details-inner">
+            <ul class="project-bullets">
+              <li>Built a lightweight project tracker on Slack with a GCP backend</li>
+              <li>Workflows aware of the org chart with automated reminders</li>
+              <li>Sustained 80%+ project update rate within 14 days, adopted across the company</li>
+            </ul>
+          </div></div>
+        </li>
+        <li class="project-item">
+          <button class="project-header" aria-expanded="false">
+            <span class="project-name">Dev Degree Program</span>
+            <span class="project-meta"><span class="project-company">Shopify</span>
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="project-details"><div class="details-inner">
+            <ul class="project-bullets">
+              <li>Designed and built full marketing operations system from acquisition to nurture</li>
+              <li>Scaled email, events, and community programs to record application volume</li>
+              <li>Thousands of applicants, strong PR, and developer community engagement</li>
+            </ul>
+            <a href="https://devdegree.ca/" target="_blank" rel="noopener noreferrer" class="project-link">Visit Dev Degree &#8594;</a>
+          </div></div>
+        </li>
+        <li class="project-item">
+          <button class="project-header" aria-expanded="false">
+            <span class="project-name">Product Roadmap Validation</span>
+            <span class="project-meta"><span class="project-company">General Assembly</span>
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="project-details"><div class="details-inner">
+            <ul class="project-bullets">
+              <li>Founding member of GA's first growth team to validate course demand</li>
+              <li>Shared the roadmap openly to gather community input before building</li>
+              <li>Courses launched to an audience already waiting, increased successful launch rate</li>
+            </ul>
+          </div></div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="experience">
+      <h2 class="section-title reveal">Experience</h2>
+      <ul class="company-list">
+        <li class="company-item">
+          <button class="company-header" aria-expanded="false">
+            <span class="company-name">Meta</span>
+            <span class="company-meta"><span class="company-role">Product Marketing Manager, Muse</span>
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="company-details"><div class="details-inner">
+            <ul class="company-bullets">
+              <li>GTM operations and strategy for Muse, Meta's personal AI agent, from early access through public launch in September 2026</li>
+              <li>Leading competitive positioning and GTM use case development for launch</li>
+              <li>San Francisco, CA. Mar 2026 to Present</li>
+            </ul>
+            <a href="https://www.meta.com" target="_blank" rel="noopener noreferrer" class="company-link">meta.com &#8594;</a>
+          </div></div>
+        </li>
+        <li class="company-item">
+          <button class="company-header" aria-expanded="false">
+            <span class="company-name">Dreamer</span>
+            <span class="company-meta"><span class="company-role">Growth and Marketing Operations</span>
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="company-details"><div class="details-inner">
+            <ul class="company-bullets">
+              <li>Led growth and marketing operations for the Dreamer AI agent platform through its public beta launch in February 2026</li>
+              <li>Built agent marketing workflows and an early user community</li>
+              <li>Team joined Meta's Superintelligence Lab in March 2026. Nov 2025 to Mar 2026</li>
+            </ul>
+            <a href="https://dreamer.com" target="_blank" rel="noopener noreferrer" class="company-link">dreamer.com &#8594;</a>
+          </div></div>
+        </li>
+        <li class="company-item">
+          <button class="company-header" aria-expanded="false">
+            <span class="company-name">Justworks</span>
+            <span class="company-meta"><span class="company-role">Director, GTM Strategy and Ops</span>
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="company-details"><div class="details-inner">
+            <ul class="company-bullets">
+              <li>Owned $40M marketing budget, achieving 26% YoY growth</li>
+              <li>Aligned full marketing team on roadmap, driving MQL and revenue growth</li>
+            </ul>
+            <a href="https://justworks.com" target="_blank" rel="noopener noreferrer" class="company-link">justworks.com &#8594;</a>
+          </div></div>
+        </li>
+        <li class="company-item">
+          <button class="company-header" aria-expanded="false">
+            <span class="company-name">Shopify</span>
+            <span class="company-meta"><span class="company-role">Marketing Lead, Developer Marketing</span>
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="company-details"><div class="details-inner">
+            <ul class="company-bullets">
+              <li>Directed global developer campaigns across growth and brand</li>
+              <li>Grew Dev Degree applications to record application volume while cutting costs</li>
+            </ul>
+            <a href="https://shopify.com" target="_blank" rel="noopener noreferrer" class="company-link">shopify.com &#8594;</a>
+          </div></div>
+        </li>
+        <li class="company-item">
+          <button class="company-header" aria-expanded="false">
+            <span class="company-name">General Assembly</span>
+            <span class="company-meta"><span class="company-role">Senior Product Manager</span>
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="company-details"><div class="details-inner">
+            <ul class="company-bullets">
+              <li>Managed $5M product portfolio, driving 16% YoY revenue growth</li>
+              <li>Launched four new courses, adding $700K in revenue in the first year</li>
+            </ul>
+            <a href="https://generalassemb.ly" target="_blank" rel="noopener noreferrer" class="company-link">generalassemb.ly &#8594;</a>
+          </div></div>
+        </li>
+        <li class="company-item">
+          <button class="company-header" aria-expanded="false">
+            <span class="company-name">INTO</span>
+            <span class="company-meta"><span class="company-role">Cofounder and GM</span>
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="company-details"><div class="details-inner">
+            <ul class="company-bullets">
+              <li>Cofounded and scaled a digital marketing agency</li>
+              <li>Managed $35M in client spend across B2B and B2C campaigns</li>
+            </ul>
+          </div></div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="contact" id="contact">
+      <h2 class="section-title reveal">Get in Touch</h2>
+      <div class="contact-links reveal">
+        <a href="/resume/tucker-wieland-resume.pdf" download class="contact-link">
+          Resume
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m0 0l-5-5m5 5l5-5M5 20h14"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/tucker-wieland/" target="_blank" rel="noopener noreferrer" class="contact-link">
+          LinkedIn
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+        </a>
+        <a href="https://github.com/TuckerBWieland/" target="_blank" rel="noopener noreferrer" class="contact-link">
+          GitHub
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 Tucker Wieland. An <a href="/experiments/">experiment</a> in ambient weather.</p>
+  </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var params = new URLSearchParams(location.search);
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches || params.get('reduced') === '1';
+  var coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+  var smallScreen = Math.min(window.innerWidth, window.innerHeight) < 700;
+
+  /* ============ Scroll authority: Lenis owned by the GSAP ticker ============ */
+  var lenis = null;
+  var hasGsap = typeof gsap !== 'undefined';
+  if (hasGsap && typeof ScrollTrigger !== 'undefined') gsap.registerPlugin(ScrollTrigger);
+
+  if (!reduceMotion && typeof Lenis !== 'undefined') {
+    lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
+    if (hasGsap) {
+      lenis.on('scroll', function () {
+        if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.update();
+      });
+      gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+      gsap.ticker.lagSmoothing(0);
+    } else {
+      (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(0);
+    }
+  }
+
+  function currentScroll() {
+    if (lenis) return lenis.scroll;
+    return window.scrollY || window.pageYOffset || 0;
+  }
+
+  /* ============ Accordions: same toggle, plus a faint warm shimmer ============ */
+  document.querySelectorAll('.project-header, .company-header').forEach(function (button) {
+    button.addEventListener('click', function () {
+      var item = button.parentElement;
+      var list = item.parentElement;
+      var isOpen = item.classList.contains('open');
+      list.querySelectorAll('.open').forEach(function (openItem) {
+        openItem.classList.remove('open');
+        openItem.querySelector('button').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        button.setAttribute('aria-expanded', 'true');
+        if (!reduceMotion) {
+          item.classList.remove('shimmer');
+          void item.offsetWidth;
+          item.classList.add('shimmer');
+          if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+        }
+      } else if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.refresh();
+      }
+    });
+  });
+  document.querySelectorAll('.shimmer').forEach(function (el) {
+    el.addEventListener('animationend', function () { el.classList.remove('shimmer'); });
+  });
+
+  /* ============ Section reveals: slow blur to focus, small settle ============ */
+  if (!reduceMotion && hasGsap && typeof ScrollTrigger !== 'undefined') {
+    gsap.utils.toArray('.reveal').forEach(function (el) {
+      gsap.from(el, {
+        y: 18,
+        opacity: 0,
+        filter: 'blur(6px)',
+        duration: 0.95,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 88%',
+          toggleActions: 'play none none reverse'
+        }
+      });
+    });
+  }
+
+  /* ============================================================
+     Atmosphere canvas: one fixed field, four depth planes.
+     Back to front: warm haze and light shaft (plane 1),
+     Strata contour lines (plane 2), dust motes (plane 3),
+     film grain (plane 4). Each plane drifts at its own
+     parallax rate against scroll, so the DOM sits in depth.
+     ============================================================ */
+  var canvas = document.getElementById('atmo');
+  var ctx = canvas.getContext('2d');
+  var W = 0, H = 0, DPR = 1;
+  var lines = [];
+  var motes = [];
+  var grainTile = null, grainPattern = null;
+  var moteSprite = null;
+  var pointer = { x: -10000, y: -10000, tx: -10000, ty: -10000 };
+  var scrollY = 0, lastScrollY = 0;
+  var stir = 0; /* damped scroll velocity, stirs the dust then settles */
+  var elapsed = 0, lastT = 0;
+  var running = true;
+
+  function rand(min, max) { return min + Math.random() * (max - min); }
+  function pick(arr) { return arr[(Math.random() * arr.length) | 0]; }
+  function rgba(c, a) { return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a.toFixed(3) + ')'; }
+  function mix(c1, c2) {
+    return [Math.round((c1[0] + c2[0]) / 2), Math.round((c1[1] + c2[1]) / 2), Math.round((c1[2] + c2[2]) / 2)];
+  }
+
+  /* Muted spectral sweep, same family as the live Strata field */
+  var PALETTE = [
+    [216, 110, 150], [150, 120, 205], [110, 130, 230],
+    [80, 185, 190], [170, 175, 150], [225, 200, 160]
+  ];
+
+  function makeLineGradient(c1, c2, alpha) {
+    var g = ctx.createLinearGradient(0, 0, W, 0);
+    g.addColorStop(0, rgba(c1, alpha));
+    g.addColorStop(0.5, rgba(mix(c1, c2), alpha));
+    g.addColorStop(1, rgba(c2, alpha));
+    return g;
+  }
+
+  function buildLines() {
+    lines = [];
+    var baseGap = H < 520 ? 22 : 30;
+    var y = -baseGap;
+    while (y < H + baseGap) {
+      var c1 = pick(PALETTE), c2 = pick(PALETTE);
+      lines.push({
+        y: y,
+        a1: rand(9, 24), f1: rand(0.0015, 0.003), s1: rand(0.08, 0.2), p1: rand(0, 6.2832),
+        a2: rand(5, 14), f2: rand(0.004, 0.0085), s2: rand(0.12, 0.28), p2: rand(0, 6.2832),
+        a3: rand(2, 7), f3: rand(0.011, 0.022), s3: rand(0.18, 0.4), p3: rand(0, 6.2832),
+        accent: Math.random() < 0.16,
+        jitter: rand(0.7, 1.25),
+        grad: makeLineGradient(c1, c2, 0.15),
+        gradAccent: makeLineGradient(c1, c2, 0.34)
+      });
+      y += baseGap * rand(0.65, 1.45);
+    }
+  }
+
+  function makeMoteSprite() {
+    var s = 64;
+    moteSprite = document.createElement('canvas');
+    moteSprite.width = s; moteSprite.height = s;
+    var c = moteSprite.getContext('2d');
+    var g = c.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2);
+    g.addColorStop(0, 'rgba(255,244,228,1)');
+    g.addColorStop(0.35, 'rgba(255,240,220,0.42)');
+    g.addColorStop(1, 'rgba(255,240,220,0)');
+    c.fillStyle = g;
+    c.fillRect(0, 0, s, s);
+  }
+
+  function buildMotes() {
+    motes = [];
+    var count = smallScreen ? 130 : 400;
+    for (var i = 0; i < count; i++) {
+      motes.push({
+        x: rand(0, W), y: rand(0, H),
+        r: rand(1.1, 3.4),
+        depth: rand(0.3, 1),
+        phase: rand(0, 6.2832),
+        speed: rand(0.6, 1.4),
+        ox: 0, oy: 0
+      });
+    }
+  }
+
+  function makeGrain() {
+    var s = 128;
+    grainTile = document.createElement('canvas');
+    grainTile.width = s; grainTile.height = s;
+    var c = grainTile.getContext('2d');
+    var img = c.createImageData(s, s);
+    var d = img.data;
+    for (var i = 0; i < d.length; i += 4) {
+      var v = 108 + Math.random() * 40;
+      d[i] = v; d[i + 1] = v; d[i + 2] = v; d[i + 3] = 255;
+    }
+    c.putImageData(img, 0, 0);
+    grainPattern = ctx.createPattern(grainTile, 'repeat');
+  }
+
+  function field(x, L, t) {
+    return (
+      L.a1 * Math.sin(x * L.f1 + t * L.s1 + L.p1) +
+      L.a2 * Math.sin(x * L.f2 - t * L.s2 + L.p2) +
+      L.a3 * Math.sin(x * L.f3 + t * L.s3 + L.p3)
+    );
+  }
+
+  function resize() {
+    DPR = Math.min(window.devicePixelRatio || 1, 1.5);
+    W = window.innerWidth;
+    H = window.innerHeight;
+    smallScreen = Math.min(W, H) < 700;
+    canvas.width = Math.max(1, Math.round(W * DPR));
+    canvas.height = Math.max(1, Math.round(H * DPR));
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    buildLines();
+    buildMotes();
+    if (grainOn()) makeGrain();
+  }
+
+  function grainOn() { return !smallScreen && !reduceMotion; }
+
+  /* ---- Plane 1: warm haze plus a breathing light shaft ---- */
+  function drawHaze(t, scroll) {
+    var off = scroll * 0.10;
+
+    var hz = ctx.createRadialGradient(W * 0.72, H * 0.9 - off * 0.4, 0, W * 0.72, H * 0.9 - off * 0.4, W * 0.45);
+    hz.addColorStop(0, 'rgba(255,190,140,0.045)');
+    hz.addColorStop(1, 'rgba(255,190,140,0)');
+    ctx.fillStyle = hz;
+    ctx.fillRect(0, 0, W, H);
+
+    /* Light shaft, diagonal, breathing on a ~26s cycle */
+    var breathe = 0.030 + 0.020 * Math.sin((t * 6.2832) / 26 + 1.0);
+    var sx = W * 0.30 + Math.sin(t * 0.03) * 40 + scroll * 0.08;
+    ctx.save();
+    ctx.translate(sx, H * 0.42 - off);
+    ctx.rotate(-0.32);
+    var band = ctx.createLinearGradient(-W * 0.28, 0, W * 0.28, 0);
+    band.addColorStop(0, 'rgba(255,196,130,0)');
+    band.addColorStop(0.5, 'rgba(255,196,130,' + breathe.toFixed(4) + ')');
+    band.addColorStop(1, 'rgba(255,196,130,0)');
+    ctx.fillStyle = band;
+    ctx.fillRect(-W * 0.28, -H * 0.75, W * 0.56, H * 1.5);
+    ctx.restore();
+  }
+
+  /* ---- Plane 2: Strata contour lines, slowest plane ---- */
+  function drawLines(t, scroll) {
+    pointer.x += (pointer.tx - pointer.x) * 0.07;
+    pointer.y += (pointer.ty - pointer.y) * 0.07;
+    var px = pointer.x, py = pointer.y;
+    var off = scroll * 0.06;
+
+    if (px > -9000) {
+      var glowR = Math.max(260, W * 0.2);
+      var g = ctx.createRadialGradient(px, py, 0, px, py, glowR);
+      g.addColorStop(0, 'rgba(232,206,168,0.16)');
+      g.addColorStop(0.5, 'rgba(216,190,154,0.07)');
+      g.addColorStop(1, 'rgba(216,190,154,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(px - glowR, py - glowR, glowR * 2, glowR * 2);
+    }
+
+    var sigma = Math.max(130, W * 0.1);
+    var twoSigmaSq = 2 * sigma * sigma;
+    var step = W < 640 ? 9 : 7;
+
+    for (var i = 0; i < lines.length; i++) {
+      var L = lines[i];
+      var baseY = L.y - off;
+      ctx.beginPath();
+      for (var x = -10; x <= W + 10; x += step) {
+        var y = baseY + field(x, L, t);
+        var dx = x - px;
+        var fall = Math.exp(-(dx * dx) / twoSigmaSq);
+        if (fall > 0.01) {
+          var dy = y - py;
+          var bend = dy / (60 + Math.abs(dy));
+          y += bend * fall * 60 * Math.exp(-Math.abs(dy) / 200);
+        }
+        if (x === -10) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      var dyLine = baseY - py;
+      var glow = Math.exp(-(dyLine * dyLine) / (2 * 190 * 190));
+      ctx.strokeStyle = L.accent ? L.gradAccent : L.grad;
+      ctx.globalAlpha = Math.min(1, L.jitter * (0.7 + glow * 1.6));
+      ctx.lineWidth = L.accent ? 1.5 : 1;
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  /* ---- Plane 3: dust motes drifting like sunbeam dust ---- */
+  function drawMotes(t, scroll, dt) {
+    var px = pointer.x, py = pointer.y;
+    var off = scroll * 0.14;
+    var half = 32;
+
+    for (var i = 0; i < motes.length; i++) {
+      var m = motes[i];
+      /* Slow sine drift, afternoon light pace */
+      var wx = m.x + Math.sin(t * 0.07 * m.speed + m.phase) * 30 * m.depth;
+      var wy = m.y + Math.cos(t * 0.05 * m.speed + m.phase * 1.7) * 24 * m.depth - off * m.depth;
+
+      /* Scroll stir, damped by the stir value */
+      wy += stir * 46 * m.depth;
+
+      /* Cursor nudge, very low force */
+      var dx = wx - px, dy = wy - py;
+      var dist = Math.sqrt(dx * dx + dy * dy);
+      var targetOX = 0, targetOY = 0;
+      if (dist < 170 && dist > 1) {
+        var push = (1 - dist / 170) * 7 * m.depth;
+        targetOX = (dx / dist) * push;
+        targetOY = (dy / dist) * push;
+      }
+      m.ox += (targetOX - m.ox) * 0.04;
+      m.oy += (targetOY - m.oy) * 0.04;
+      wx += m.ox; wy += m.oy;
+
+      /* Wrap vertically within a margin so motes never vanish */
+      if (wy < -40) wy += H + 80;
+      if (wy > H + 40) wy -= H + 80;
+      if (wx < -40) wx += W + 80;
+      if (wx > W + 40) wx -= W + 80;
+
+      var twinkle = 0.72 + 0.28 * Math.sin(t * 0.5 * m.speed + m.phase * 3);
+      var size = m.r * m.depth * 7;
+      ctx.globalAlpha = (0.05 + 0.055 * m.depth) * twinkle;
+      ctx.drawImage(moteSprite, wx - size / 2, wy - size / 2, size, size);
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  /* ---- Plane 4: whisper thin film grain ---- */
+  function drawGrain() {
+    if (!grainPattern) return;
+    ctx.save();
+    ctx.globalCompositeOperation = 'overlay';
+    ctx.globalAlpha = 0.055;
+    ctx.translate(rand(0, 128), rand(0, 128));
+    ctx.fillStyle = grainPattern;
+    ctx.fillRect(-128, -128, W + 256, H + 256);
+    ctx.restore();
+    ctx.globalAlpha = 1;
+  }
+
+  function draw(t) {
+    scrollY = currentScroll();
+    ctx.clearRect(0, 0, W, H);
+    drawHaze(t, scrollY);
+    drawLines(t, scrollY);
+    drawMotes(t, scrollY, 0);
+    if (grainOn()) drawGrain();
+  }
+
+  function frame(now) {
+    if (!running) return;
+    if (!lastT) lastT = now;
+    var dt = Math.min((now - lastT) / 1000, 0.1);
+    lastT = now;
+    elapsed += dt;
+
+    /* Damped scroll velocity stirs the dust, then settles */
+    var s = currentScroll();
+    var vel = dt > 0 ? (s - lastScrollY) / dt : 0;
+    lastScrollY = s;
+    stir += ((vel / 2400) - stir) * (1 - Math.pow(0.02, dt));
+    if (Math.abs(stir) < 0.0005) stir = 0;
+    stir = Math.max(-1.2, Math.min(1.2, stir));
+
+    if (coarsePointer) {
+      pointer.tx = W * (0.5 + 0.3 * Math.sin(elapsed * 0.11));
+      pointer.ty = H * (0.46 + 0.26 * Math.sin(elapsed * 0.17 + 1.4));
+    }
+    draw(elapsed);
+  }
+
+  /* Single rAF loop, owned by the GSAP ticker when available */
+  function loop(now) {
+    frame(now);
+    if (!reduceMotion) requestAnimationFrame(loop);
+  }
+
+  makeMoteSprite();
+  resize();
+
+  function handleResize() {
+    resize();
+    if (reduceMotion) {
+      /* A resize wipes the canvas; repaint the single static frame */
+      pointer.x = W * 0.62; pointer.y = H * 0.4;
+      pointer.tx = pointer.x; pointer.ty = pointer.y;
+      stir = 0;
+      draw(8.0);
+    }
+  }
+  window.addEventListener('resize', handleResize);
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) { running = false; }
+    else {
+      running = true;
+      lastT = 0;
+      if (!reduceMotion) requestAnimationFrame(loop);
+    }
+  });
+
+  if (!coarsePointer && !reduceMotion) {
+    window.addEventListener('pointermove', function (e) {
+      pointer.tx = e.clientX;
+      pointer.ty = e.clientY;
+    });
+    document.documentElement.addEventListener('mouseleave', function () {
+      pointer.tx = -10000; pointer.ty = -10000;
+    });
+  }
+
+  if (reduceMotion) {
+    /* One composed static frame, then stop */
+    pointer.x = W * 0.62; pointer.y = H * 0.4;
+    pointer.tx = pointer.x; pointer.ty = pointer.y;
+    stir = 0;
+    draw(8.0);
+  } else {
+    if (hasGsap) { gsap.ticker.add(function () { frame(performance.now()); }); }
+    else { requestAnimationFrame(loop); }
+  }
+
+  /* Screenshot helper: ?shot=mid lands on Projects */
+  if (params.get('shot') === 'mid') {
+    var target = document.querySelector('.projects');
+    if (target) {
+      if (lenis) lenis.scrollTo(target, { immediate: true, offset: -60 });
+      else window.scrollTo(0, Math.max(0, target.offsetTop - 60));
+    }
+  }
+})();
+</script>
+</body>
+</html>
