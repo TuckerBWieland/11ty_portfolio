@@ -506,6 +506,23 @@ main {
   transform: rotate(180deg);
 }
 
+/* Open accordions get their own quiet backdrop, a touch deeper than
+   the section calm, so the expanded details read cleanly. */
+.project-item,
+.company-item {
+  transition: background-color 0.25s ease;
+}
+
+.project-item.open,
+.company-item.open {
+  background: rgb(11 12 17 / 62%);
+  border-radius: 12px;
+  padding-left: 18px;
+  padding-right: 18px;
+  margin-left: -18px;
+  margin-right: -18px;
+}
+
 .project-details {
   max-height: 0;
   overflow: hidden;

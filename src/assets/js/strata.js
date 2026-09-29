@@ -19,8 +19,6 @@
     var W = 0;
     var H = 0;
     var lines = [];
-    var baseGrad = null;
-    var accentGrad = null;
     var pointer = { x: -10000, y: -10000, tx: -10000, ty: -10000 };
     var running = false;
     var elapsed = 0;
@@ -41,13 +39,33 @@
         [1.0, 225, 200, 160]
     ];
 
-    function makeSpectrum(alpha) {
+    var PALETTE = SPECTRUM.map(function (s) { return [s[1], s[2], s[3]]; });
+
+    function pick(arr) {
+        return arr[(Math.random() * arr.length) | 0];
+    }
+
+    function rgba(c, alpha) {
+        return 'rgba(' + c[0] + ', ' + c[1] + ', ' + c[2] + ', ' + alpha.toFixed(3) + ')';
+    }
+
+    // Per line gradient: two randomly assigned palette colors fading
+    // into each other along the line, so lines no longer march through
+    // the same spectrum in lockstep.
+    function makeLineGradient(c1, c2, alpha) {
         var g = ctx.createLinearGradient(0, 0, W, 0);
-        for (var i = 0; i < SPECTRUM.length; i++) {
-            var s = SPECTRUM[i];
-            g.addColorStop(s[0], 'rgba(' + s[1] + ', ' + s[2] + ', ' + s[3] + ', ' + alpha.toFixed(3) + ')');
-        }
+        g.addColorStop(0, rgba(c1, alpha));
+        g.addColorStop(0.5, rgba(mix(c1, c2), alpha));
+        g.addColorStop(1, rgba(c2, alpha));
         return g;
+    }
+
+    function mix(c1, c2) {
+        return [
+            Math.round((c1[0] + c2[0]) / 2),
+            Math.round((c1[1] + c2[1]) / 2),
+            Math.round((c1[2] + c2[2]) / 2)
+        ];
     }
 
     function buildLines() {
@@ -55,8 +73,11 @@
         var baseGap = H < 520 ? 22 : 30;
         // Irregular spacing so the field never reads as mechanical banding.
         // Accent lines land organically instead of every Nth line.
+        // Each line gets its own randomly assigned color pair.
         var y = -baseGap;
         while (y < H + baseGap) {
+            var c1 = pick(PALETTE);
+            var c2 = pick(PALETTE);
             lines.push({
                 y: y,
                 a1: rand(9, 24),
@@ -72,7 +93,9 @@
                 s3: rand(0.18, 0.4),
                 p3: rand(0, 6.2832),
                 accent: Math.random() < 0.16,
-                jitter: rand(0.7, 1.25)
+                jitter: rand(0.7, 1.25),
+                grad: makeLineGradient(c1, c2, 0.15),
+                gradAccent: makeLineGradient(c1, c2, 0.34)
             });
             y += baseGap * rand(0.65, 1.45);
         }
@@ -85,8 +108,6 @@
         canvas.width = Math.max(1, Math.round(W * dpr));
         canvas.height = Math.max(1, Math.round(H * dpr));
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        baseGrad = makeSpectrum(0.15);
-        accentGrad = makeSpectrum(0.34);
         buildLines();
         if (reduceMotion) draw(8.0);
     }
@@ -141,7 +162,7 @@
             }
             var dyLine = L.y - py;
             var glow = Math.exp(-(dyLine * dyLine) / (2 * 190 * 190));
-            ctx.strokeStyle = L.accent ? accentGrad : baseGrad;
+            ctx.strokeStyle = L.accent ? L.gradAccent : L.grad;
             ctx.globalAlpha = Math.min(1, L.jitter * (0.7 + glow * 1.6));
             ctx.lineWidth = L.accent ? 1.5 : 1;
             ctx.stroke();
