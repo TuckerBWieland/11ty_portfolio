@@ -1,0 +1,1088 @@
+---
+permalink: /experiments/flythrough/index.html
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tucker Wieland, Flythrough Experiment</title>
+<meta name="description" content="Product Marketing, Meta. GTM strategy and operations for Muse, Meta's personal AI agent.">
+<style>
+{% raw %}
+@font-face {
+    font-family: 'IBM Plex Mono';
+    font-weight: 400;
+    font-style: normal;
+    font-display: optional;
+    src: url('../../fonts/ibm-plex-mono-latin-400-normal.woff2') format('woff2'),
+         url('../../fonts/ibm-plex-mono-latin-400-normal.woff') format('woff');
+}
+@font-face {
+    font-family: 'IBM Plex Mono';
+    font-weight: 700;
+    font-style: normal;
+    font-display: optional;
+    src: url('../../fonts/ibm-plex-mono-latin-700-normal.woff2') format('woff2'),
+         url('../../fonts/ibm-plex-mono-latin-700-normal.woff') format('woff');
+}
+
+:root {
+    --bg-primary: #0b0c11;
+    --text-primary: #ffffff;
+    --text-secondary: rgb(255 255 255 / 55%);
+    --text-tertiary: rgb(255 255 255 / 32%);
+    --border: rgb(255 255 255 / 10%);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+}
+
+::selection { background: #f2efe8; color: #101218; }
+
+a:focus-visible, button:focus-visible {
+    outline: 2px solid #f2efe8;
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
+/* The 3D strata field, fixed behind everything */
+#fly {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Soft page scrim between the field and the content */
+.page-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(120% 90% at 50% 18%, rgb(11 12 17 / 16%), rgb(11 12 17 / 0%) 55%),
+        linear-gradient(to bottom, rgb(11 12 17 / 24%), rgb(11 12 17 / 46%) 62%, rgb(11 12 17 / 56%));
+}
+
+.content { position: relative; z-index: 1; }
+
+section { padding: 0 20px; max-width: 720px; margin: 0 auto; }
+@media (width >= 640px) { section { padding: 0 40px; } }
+@media (width >= 1024px) { section { padding: 0 24px; max-width: 800px; } }
+
+/* Gentle lift for text over the field */
+.projects, .experience, .contact, .site-footer { text-shadow: 0 1px 16px rgb(0 0 0 / 55%); }
+
+/* Calm patch behind the dense lists */
+.projects, .experience { position: relative; }
+.projects::before, .experience::before {
+    content: '';
+    position: absolute;
+    inset: -12px 0;
+    z-index: -1;
+    background: rgb(11 12 17 / 55%);
+    filter: blur(28px);
+    pointer-events: none;
+    opacity: var(--calm, 0);
+}
+@media (width >= 640px) { .projects::before, .experience::before { inset: -16px -48px; } }
+
+/* ---------- nav ---------- */
+.site-nav {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+@media (width >= 640px) { .site-nav { padding: 24px 40px; } }
+.site-nav-name {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: -0.01em;
+}
+.site-nav-links { display: flex; align-items: center; gap: 20px; }
+.site-nav-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.8125rem;
+    transition: color 0.2s ease;
+}
+.site-nav-link:hover { color: var(--text-primary); }
+@media (width <= 640px) {
+    .site-nav { padding: 16px 20px; }
+    .site-nav-links { gap: 14px; }
+    .site-nav-link { font-size: 0.75rem; }
+}
+
+/* ---------- hero ---------- */
+.hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100svh;
+    max-width: none;
+    margin: 0;
+    padding: 0 24px;
+    overflow: clip;
+}
+.hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(to top, rgb(11 12 17 / 72%), rgb(11 12 17 / 0%) 34%),
+        radial-gradient(115% 85% at 50% 8%, rgb(11 12 17 / 0%) 52%, rgb(11 12 17 / 55%));
+}
+.hero-content { position: relative; z-index: 1; text-align: center; }
+.hero-name {
+    font-size: clamp(2.75rem, 9vw, 5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 34px;
+    text-shadow: 0 2px 30px rgb(0 0 0 / 60%);
+}
+.hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+.button {
+    display: inline-block;
+    padding: 13px 28px;
+    font-family: inherit;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: #101218;
+    background: #f2efe8;
+    border: none;
+    border-radius: 999px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    box-shadow: 0 10px 30px rgb(0 0 0 / 45%);
+}
+.button:hover { transform: translateY(-2px); background: #ffffff; box-shadow: 0 14px 36px rgb(0 0 0 / 50%); }
+.button-ghost {
+    color: #f2efe8;
+    background: rgb(255 255 255 / 4%);
+    border: 1px solid rgb(255 255 255 / 22%);
+    box-shadow: none;
+    backdrop-filter: blur(6px);
+}
+.button-ghost:hover { background: rgb(255 255 255 / 9%); border-color: rgb(255 255 255 / 40%); box-shadow: none; }
+
+/* ---------- section titles ---------- */
+.section-title {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 20px;
+}
+@media (width >= 640px) { .section-title { margin-bottom: 28px; } }
+
+/* ---------- accordions ---------- */
+.projects, .experience { padding-top: 40px; padding-bottom: 40px; }
+@media (width >= 640px) { .projects, .experience { padding-top: 60px; padding-bottom: 60px; } }
+
+.project-list, .company-list { list-style: none; }
+.project-item, .company-item { border-bottom: 1px solid var(--border); }
+.project-item:first-child, .company-item:first-child { border-top: 1px solid var(--border); }
+
+.project-header, .company-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    width: 100%;
+    padding: 14px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    color: inherit;
+}
+@media (width >= 640px) { .project-header, .company-header { padding: 18px 0; } }
+
+.project-name, .company-name {
+    font-size: clamp(1rem, 2.5vw, 1.125rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+.project-meta, .company-meta { display: flex; align-items: baseline; gap: 16px; flex-shrink: 0; }
+.project-company, .company-role {
+    font-size: 0.8125rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    text-align: right;
+}
+.toggle-icon {
+    width: 16px; height: 16px;
+    color: var(--text-tertiary);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+.project-item.open .toggle-icon, .company-item.open .toggle-icon { transform: rotate(180deg); }
+
+.project-item, .company-item { transition: background-color 0.25s ease; }
+.project-item.open, .company-item.open {
+    background: rgb(11 12 17 / 62%);
+    border-radius: 12px;
+    padding-left: 18px;
+    padding-right: 18px;
+    margin-left: -18px;
+    margin-right: -18px;
+}
+
+.project-details, .company-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+}
+.project-item.open .project-details { max-height: 1600px; padding-bottom: 16px; }
+.company-item.open .company-details { max-height: 400px; padding-bottom: 16px; }
+@media (width >= 640px) {
+    .project-item.open .project-details, .company-item.open .company-details { padding-bottom: 20px; }
+}
+
+.project-bullets, .company-bullets { list-style: none; margin-bottom: 12px; }
+.project-bullets li, .company-bullets li {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    padding-left: 16px;
+    margin-bottom: 6px;
+    position: relative;
+    line-height: 1.5;
+}
+@media (width >= 640px) {
+    .project-bullets li, .company-bullets li { font-size: 0.875rem; margin-bottom: 8px; }
+}
+.project-bullets li::before, .company-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0.6em;
+    width: 5px; height: 5px;
+    background: var(--text-tertiary);
+}
+.project-link, .company-link {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #f2efe8;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+.project-link:hover, .company-link:hover { opacity: 0.75; }
+@media (width <= 639px) {
+    .project-link, .company-link { display: block; margin-bottom: 10px; }
+    .project-link:last-child, .company-link:last-child { margin-bottom: 0; }
+}
+
+/* ---------- contact ---------- */
+.contact { padding-top: 40px; padding-bottom: 60px; }
+@media (width >= 640px) { .contact { padding-top: 60px; padding-bottom: 80px; } }
+.contact-links { display: flex; flex-direction: column; gap: 4px; }
+.contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    width: fit-content;
+    transition: color 0.2s ease;
+}
+.contact-link:hover { color: var(--text-secondary); }
+.contact-link .arrow { width: 16px; height: 16px; transition: transform 0.2s ease; }
+.contact-link:hover .arrow { transform: translate(2px, -2px); }
+
+/* ---------- footer ---------- */
+.site-footer { max-width: 800px; margin: 0 auto; padding: 0 20px 32px; }
+@media (width >= 640px) { .site-footer { padding: 0 40px 40px; } }
+.site-footer p { font-size: 0.75rem; color: var(--text-tertiary); }
+
+/* ---------- experiment tag ---------- */
+.exp-tag {
+    position: fixed;
+    left: 16px; bottom: 14px;
+    z-index: 5;
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .button, .contact-link .arrow, .toggle-icon,
+    .project-item, .company-item, .project-details, .company-details { transition: none; }
+}
+{% endraw %}
+</style>
+</head>
+<body>
+<canvas id="fly" aria-hidden="true"></canvas>
+<div class="page-scrim" aria-hidden="true"></div>
+
+<div class="content">
+<header class="site-nav">
+    <a class="site-nav-name" href="../../../">Tucker Wieland</a>
+    <nav class="site-nav-links" aria-label="Primary">
+        <a class="site-nav-link" href="../../../resume/tucker-wieland-resume.pdf" download>Resume</a>
+        <a class="site-nav-link" href="https://www.linkedin.com/in/tucker-wieland/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a class="site-nav-link" href="https://github.com/TuckerBWieland/" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </nav>
+</header>
+
+<main>
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="hero-name">Tucker Wieland</h1>
+        <div class="hero-actions">
+            <a class="button" href="../../../resume/tucker-wieland-resume.pdf" download>Download Resume</a>
+            <a class="button button-ghost" href="https://www.linkedin.com/in/tucker-wieland/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+    </div>
+</section>
+
+<section class="projects">
+    <h2 class="section-title">Projects</h2>
+    <ul class="project-list">
+        <li class="project-item">
+            <button class="project-header" aria-expanded="false">
+                <span class="project-name">Muse Launch</span>
+                <span class="project-meta">
+                    <span class="project-company">Meta</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
+                </span>
+            </button>
+            <div class="project-details">
+                <ul class="project-bullets">
+                    <li>GTM operations and strategy for Meta's personal AI agent, from early access through public launch</li>
+                    <li>Positioning and use case development for launch audiences</li>
+                    <li>Reached No. 1 on the U.S. App Store within 10 days of launch</li>
+                </ul>
+                <a href="https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/" target="_blank" rel="noopener noreferrer" class="project-link">Read the announcement →</a>
+                <a href="https://www.nytimes.com/2026/09/08/technology/meta-muse-ai-agent.html" target="_blank" rel="noopener noreferrer" class="project-link">Read the New York Times coverage →</a>
+                <a href="https://techcrunch.com/2026/09/25/meta-is-putting-its-muscle-behind-muse-as-the-ai-app-takes-off/" target="_blank" rel="noopener noreferrer" class="project-link">Read about the No. 1 App Store launch in TechCrunch →</a>
+            </div>
+        </li>
+        <li class="project-item">
+            <button class="project-header" aria-expanded="false">
+                <span class="project-name">Dreamer Joins Meta</span>
+                <span class="project-meta">
+                    <span class="project-company">Meta Superintelligence Lab</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
+                </span>
+            </button>
+            <div class="project-details">
+                <ul class="project-bullets">
+                    <li>The Dreamer team joined Meta's Superintelligence Lab in March 2026</li>
+                    <li>Meta licensed Dreamer's agentic AI technology as part of the move</li>
+                </ul>
+                <a href="https://siliconangle.com/2026/03/23/meta-acqui-hires-co-founders-agentic-ai-startup-dreamer/" target="_blank" rel="noopener noreferrer" class="project-link">Read the coverage →</a>
+            </div>
+        </li>
+        <li class="project-item">
+            <button class="project-header" aria-expanded="false">
+                <span class="project-name">Dreamer Beta Launch</span>
+                <span class="project-meta">
+                    <span class="project-company">Dreamer</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
+                </span>
+            </button>
+            <div class="project-details">
+                <ul class="project-bullets">
+                    <li>Public beta of the Dreamer AI agent platform in February 2026</li>
+                    <li>Built so anyone can create agentic AI apps</li>
+                </ul>
+                <a href="https://www.techmeme.com/260218/p6" target="_blank" rel="noopener noreferrer" class="project-link">Read the coverage →</a>
+            </div>
+        </li>
+        <li class="project-item">
+            <button class="project-header" aria-expanded="false">
+                <span class="project-name">Books MCP Server</span>
+                <span class="project-meta">
+                    <span class="project-company">Dreamer</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
+                </span>
+            </button>
+            <div class="project-details">
+                <ul class="project-bullets">
+                    <li>MCP server wrapping the Open Library API, a book agent in the style of Goodreads</li>
+                    <li>Search, discover, and get details on books, authors, and subjects</li>
+                    <li>Built on Cloudflare Workers with smart caching and Google Books fallback</li>
+                </ul>
+                <a href="https://github.com/TuckerBWieland/OpenLibraryMCP" target="_blank" rel="noopener noreferrer" class="project-link">View on GitHub →</a>
+            </div>
+        </li>
+        <li class="project-item">
+            <button class="project-header" aria-expanded="false">
+                <span class="project-name">Water Quality Data Viz</span>
+                <span class="project-meta">
+                    <span class="project-company">Billion Oyster Project</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
+                </span>
+            </button>
+            <div class="project-details">
+                <ul class="project-bullets">
+                    <li>Volunteer project to make water quality data accessible</li>
+                    <li>Built web app mapping data via GeoJSON for geographic context</li>
+                    <li>Helped volunteers understand harbor health trends</li>
+                </ul>
+                <a href="https://tuckerbwieland.github.io/nyc-water-app/" target="_blank" rel="noopener noreferrer" class="project-link">View the app →</a>
+            </div>
+        </li>
+        <li class="project-item">
+            <button class="project-header" aria-expanded="false">
+                <span class="project-name">Brand Awareness Campaign</span>
+                <span class="project-meta">
+                    <span class="project-company">Justworks</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
+                </span>
+            </button>
+            <div class="project-details">
+                <ul class="project-bullets">
+                    <li>Drove an awareness campaign across TV, digital, and out of home</li>
+                    <li>Managed budget, timelines, and execution across functions</li>
+                    <li>Achieved a lift in the double digits in brand awareness and ICP targeting</li>
+                </ul>
+                <a href="https://adage.com/creativity/work/aa-justworks-for-your-people/" target="_blank" rel="noopener noreferrer" class="project-link">Read in Ad Age →</a>
+            </div>
+        </li>
+        <li class="project-item">
+            <button class="project-header" aria-expanded="false">
+                <span class="project-name">Marketing ROI Measurement</span>
+                <span class="project-meta">
+                    <span class="project-company">Justworks</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
+                </span>
+            </button>
+            <div class="project-details">
+                <ul class="project-bullets">
+                    <li>Rebuilt measurement systems across revenue enablement, BI, and marketing ops</li>
+                    <li>Created transparent reporting tying marketing spend to revenue impact</li>
+                    <li>New visibility and reporting led to doubling of marketing investment</li>
+                </ul>
+            </div>
+        </li>
+        <li class="project-item">
+            <button class="project-header" aria-expanded="false">
+                <span class="project-name">Project Tracking Tool</span>
+                <span class="project-meta">
+                    <span class="project-company">Justworks</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
+                </span>
+            </button>
+            <div class="project-details">
+                <ul class="project-bullets">
+                    <li>Built a lightweight project tracker on Slack with a GCP backend</li>
+                    <li>Workflows aware of the org chart with automated reminders</li>
+                    <li>Sustained 80%+ project update rate within 14 days, adopted across the company</li>
+                </ul>
+            </div>
+        </li>
+        <li class="project-item">
+            <button class="project-header" aria-expanded="false">
+                <span class="project-name">Dev Degree Program</span>
+                <span class="project-meta">
+                    <span class="project-company">Shopify</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
+                </span>
+            </button>
+            <div class="project-details">
+                <ul class="project-bullets">
+                    <li>Designed and built full marketing operations system from acquisition to nurture</li>
+                    <li>Scaled email, events, and community programs to record application volume</li>
+                    <li>Thousands of applicants, strong PR, and developer community engagement</li>
+                </ul>
+                <a href="https://devdegree.ca/" target="_blank" rel="noopener noreferrer" class="project-link">Visit Dev Degree →</a>
+            </div>
+        </li>
+        <li class="project-item">
+            <button class="project-header" aria-expanded="false">
+                <span class="project-name">Product Roadmap Validation</span>
+                <span class="project-meta">
+                    <span class="project-company">General Assembly</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
+                </span>
+            </button>
+            <div class="project-details">
+                <ul class="project-bullets">
+                    <li>Founding member of GA's first growth team to validate course demand</li>
+                    <li>Shared the roadmap openly to gather community input before building</li>
+                    <li>Courses launched to an audience already waiting, increased successful launch rate</li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</section>
+
+<section class="experience">
+    <h2 class="section-title">Experience</h2>
+    <ul class="company-list">
+        <li class="company-item">
+            <button class="company-header" aria-expanded="false">
+                <span class="company-name">Meta</span>
+                <span class="company-meta">
+                    <span class="company-role">Product Marketing Manager, Muse</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
+                </span>
+            </button>
+            <div class="company-details">
+                <ul class="company-bullets">
+                    <li>GTM operations and strategy for Muse, Meta's personal AI agent, from early access through public launch in September 2026</li>
+                    <li>Leading competitive positioning and GTM use case development for launch</li>
+                    <li>San Francisco, CA. Mar 2026 to Present</li>
+                </ul>
+                <a href="https://www.meta.com" target="_blank" rel="noopener noreferrer" class="company-link">meta.com →</a>
+            </div>
+        </li>
+        <li class="company-item">
+            <button class="company-header" aria-expanded="false">
+                <span class="company-name">Dreamer</span>
+                <span class="company-meta">
+                    <span class="company-role">Growth and Marketing Operations</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
+                </span>
+            </button>
+            <div class="company-details">
+                <ul class="company-bullets">
+                    <li>Led growth and marketing operations for the Dreamer AI agent platform through its public beta launch in February 2026</li>
+                    <li>Built agent marketing workflows and an early user community</li>
+                    <li>Team joined Meta's Superintelligence Lab in March 2026. Nov 2025 to Mar 2026</li>
+                </ul>
+                <a href="https://dreamer.com" target="_blank" rel="noopener noreferrer" class="company-link">dreamer.com →</a>
+            </div>
+        </li>
+        <li class="company-item">
+            <button class="company-header" aria-expanded="false">
+                <span class="company-name">Justworks</span>
+                <span class="company-meta">
+                    <span class="company-role">Director, GTM Strategy and Ops</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
+                </span>
+            </button>
+            <div class="company-details">
+                <ul class="company-bullets">
+                    <li>Owned $40M marketing budget, achieving 26% YoY growth</li>
+                    <li>Aligned full marketing team on roadmap, driving MQL and revenue growth</li>
+                </ul>
+                <a href="https://justworks.com" target="_blank" rel="noopener noreferrer" class="company-link">justworks.com →</a>
+            </div>
+        </li>
+        <li class="company-item">
+            <button class="company-header" aria-expanded="false">
+                <span class="company-name">Shopify</span>
+                <span class="company-meta">
+                    <span class="company-role">Marketing Lead, Developer Marketing</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
+                </span>
+            </button>
+            <div class="company-details">
+                <ul class="company-bullets">
+                    <li>Directed global developer campaigns across growth and brand</li>
+                    <li>Grew Dev Degree applications to record application volume while cutting costs</li>
+                </ul>
+                <a href="https://shopify.com" target="_blank" rel="noopener noreferrer" class="company-link">shopify.com →</a>
+            </div>
+        </li>
+        <li class="company-item">
+            <button class="company-header" aria-expanded="false">
+                <span class="company-name">General Assembly</span>
+                <span class="company-meta">
+                    <span class="company-role">Senior Product Manager</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
+                </span>
+            </button>
+            <div class="company-details">
+                <ul class="company-bullets">
+                    <li>Managed $5M product portfolio, driving 16% YoY revenue growth</li>
+                    <li>Launched four new courses, adding $700K in revenue in the first year</li>
+                </ul>
+                <a href="https://generalassemb.ly" target="_blank" rel="noopener noreferrer" class="company-link">generalassemb.ly →</a>
+            </div>
+        </li>
+        <li class="company-item">
+            <button class="company-header" aria-expanded="false">
+                <span class="company-name">INTO</span>
+                <span class="company-meta">
+                    <span class="company-role">Cofounder and GM</span>
+                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
+                </span>
+            </button>
+            <div class="company-details">
+                <ul class="company-bullets">
+                    <li>Cofounded and scaled a digital marketing agency</li>
+                    <li>Managed $35M in client spend across B2B and B2C campaigns</li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</section>
+
+<section class="contact" id="contact">
+    <h2 class="section-title">Get in Touch</h2>
+    <div class="contact-links">
+        <a href="../../../resume/tucker-wieland-resume.pdf" download class="contact-link">
+            Resume
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m0 0l-5-5m5 5l5-5M5 20h14" /></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/tucker-wieland/" target="_blank" rel="noopener noreferrer" class="contact-link">
+            LinkedIn
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17" /></svg>
+        </a>
+        <a href="https://github.com/TuckerBWieland/" target="_blank" rel="noopener noreferrer" class="contact-link">
+            GitHub
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17" /></svg>
+        </a>
+    </div>
+</section>
+</main>
+
+<footer class="site-footer">
+    <p>© 2026 Tucker Wieland. Built with Eleventy.</p>
+</footer>
+</div>
+
+<div class="exp-tag" aria-hidden="true">Flythrough experiment</div>
+
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+<script type="module">
+{% raw %}
+import * as THREE from 'three';
+
+/*
+ * Flythrough: the Strata contour field extruded into depth.
+ * Scroll drives a camera along a curved rail through layered
+ * contour geometry. The DOM never moves; only the background
+ * travels. Reduced motion locks to the hero waypoint.
+ */
+
+window.__flythrough = { ready: false, frames: 0, webgl: false, error: null };
+
+(function () {
+    'use strict';
+
+    var canvas = document.getElementById('fly');
+    var qs = new URLSearchParams(window.location.search);
+    var reduceMotion =
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches || qs.has('reduced');
+    var coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+
+    var TAU = Math.PI * 2;
+    function rand(min, max) { return min + Math.random() * (max - min); }
+    function pick(arr) { return arr[(Math.random() * arr.length) | 0]; }
+
+    // Muted spectral palette, same family as the 2D Strata field:
+    // dusty rose, violet, blue, teal, sage, warm tan.
+    // Slightly deepened so the hues survive the averaging of many
+    // overlapping translucent lines; alpha stays low so the field
+    // keeps its contemplative register.
+    var PALETTE = [
+        [224, 102, 142],
+        [148, 112, 218],
+        [104, 124, 238],
+        [ 72, 190, 196],
+        [176, 182, 142],
+        [232, 196, 152]
+    ];
+
+    var renderer;
+    try {
+        renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false, powerPreference: 'default' });
+    } catch (err) {
+        window.__flythrough.error = 'renderer: ' + (err && err.message);
+        canvas.style.display = 'none';
+        return;
+    }
+    window.__flythrough.webgl = true;
+
+    var scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0b0c11);
+
+    var camera = new THREE.PerspectiveCamera(55, 1, 0.5, 1400);
+
+    var portrait = window.innerWidth < window.innerHeight;
+    var DEPTH = portrait ? 0.55 : 1.0; // shortened rail on portrait screens
+
+    scene.fog = new THREE.Fog(0x0b0c11, 60 * DEPTH, 380 * DEPTH);
+
+    // One shared time uniform; the vertex wobble phases off world position
+    // so every layer drifts on its own slow rhythm.
+    var timeU = { value: 0 };
+    function strataMaterial(opacity) {
+        var m = new THREE.LineBasicMaterial({
+            vertexColors: true,
+            transparent: true,
+            opacity: opacity,
+            fog: true
+        });
+        m.onBeforeCompile = function (shader) {
+            shader.uniforms.uTime = timeU;
+            shader.vertexShader =
+                'uniform float uTime;\n' +
+                shader.vertexShader.replace(
+                    '#include <begin_vertex>',
+                    '#include <begin_vertex>\n' +
+                    'transformed.y += sin(transformed.x * 0.021 + transformed.z * 0.045 + uTime * 0.12) * 1.15;'
+                );
+        };
+        return m;
+    }
+
+    // Contour canyon: vertical strata walls receding into depth, each a dense
+    // band of wavy contour polylines with the sine field flavor of the 2D
+    // page. The camera weaves through the volume; fog dissolves the far
+    // walls into haze the color of the page base.
+    var LAYERS = 15;
+    var layerGroup = new THREE.Group();
+    function buildLayers() {
+        for (var li = 0; li < LAYERS; li++) {
+            var z = (60 - li * 26) * DEPTH;
+            var bandBase = 26 - li * 0.9 + rand(-6, 6);
+            var linesPerBand = 24;
+            var xMin = -190, xMax = 190, step = 4;
+            var positions = [];
+            var colors = [];
+            for (var l = 0; l < linesPerBand; l++) {
+                var c1 = pick(PALETTE), c2 = pick(PALETTE);
+                var accent = Math.random() < 0.16;
+                var bright = accent ? 1.0 : 0.85;
+                var baseY = bandBase + (l - linesPerBand / 2) * 4.5 + rand(-1.5, 1.5);
+                var a1 = rand(10, 26), f1 = rand(0.0015, 0.0035), p1 = rand(0, TAU);
+                var a2 = rand(5, 14),  f2 = rand(0.004, 0.0085),  p2 = rand(0, TAU);
+                var a3 = rand(2, 7),   f3 = rand(0.011, 0.022),   p3 = rand(0, TAU);
+                var px = null, py = null, pr = 0, pg = 0, pb = 0;
+                for (var x = xMin; x <= xMax; x += step) {
+                    var y = baseY
+                        + a1 * Math.sin(x * f1 + p1)
+                        + a2 * Math.sin(x * f2 + p2)
+                        + a3 * Math.sin(x * f3 + p3);
+                    var mixT = (x - xMin) / (xMax - xMin);
+                    var r = ((c1[0] * (1 - mixT) + c2[0] * mixT) / 255) * bright;
+                    var g = ((c1[1] * (1 - mixT) + c2[1] * mixT) / 255) * bright;
+                    var b = ((c1[2] * (1 - mixT) + c2[2] * mixT) / 255) * bright;
+                    if (px !== null) {
+                        positions.push(px, py, z, x, y, z);
+                        colors.push(pr, pg, pb, r, g, b);
+                    }
+                    px = x; py = y; pr = r; pg = g; pb = b;
+                }
+            }
+            var geo = new THREE.BufferGeometry();
+            geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+            var mesh = new THREE.LineSegments(geo, strataMaterial(0.14));
+            mesh.frustumCulled = false;
+            layerGroup.add(mesh);
+        }
+    }
+    buildLayers();
+    scene.add(layerGroup);
+
+    // Soft radial glow texture for the cursor light and the end of the rail.
+    function glowTexture() {
+        var c = document.createElement('canvas');
+        c.width = c.height = 256;
+        var ctx = c.getContext('2d');
+        var g = ctx.createRadialGradient(128, 128, 0, 128, 128, 128);
+        g.addColorStop(0, 'rgba(232, 206, 168, 0.55)');
+        g.addColorStop(0.45, 'rgba(216, 190, 154, 0.18)');
+        g.addColorStop(1, 'rgba(216, 190, 154, 0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, 256, 256);
+        var tex = new THREE.CanvasTexture(c);
+        return tex;
+    }
+    var glowTex = glowTexture();
+
+    // Brighter patch of light waiting at the end of the rail (contact).
+    var endGlow = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: glowTex, blending: THREE.AdditiveBlending,
+        depthWrite: false, transparent: true, opacity: 0.5, fog: false
+    }));
+    endGlow.scale.set(90, 90, 1);
+    endGlow.position.set(0, 60, -335 * DEPTH);
+    scene.add(endGlow);
+
+    // Warm cursor light that drifts through the field, like the 2D page.
+    var cursorGlow = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: glowTex, blending: THREE.AdditiveBlending,
+        depthWrite: false, transparent: true, opacity: 0.12, fog: false
+    }));
+    cursorGlow.scale.set(70, 70, 1);
+    scene.add(cursorGlow);
+
+    // The camera rail: one composed waypoint per content section.
+    // Hero wide and high over the field, projects down inside it with
+    // lines passing at the frame edges, experience at the calmest open
+    // waypoint, contact rising gently toward the brighter patch of light.
+    var rail;
+    function buildRail() {
+        function v(x, y, z) { return new THREE.Vector3(x, y, z * DEPTH); }
+        var pts = [
+            v(0, 58, 105),
+            v(32, 44, 30),
+            v(-30, 32, -50),
+            v(-6, 36, -130),
+            v(12, 38, -208),
+            v(0, 54, -284)
+        ];
+        rail = new THREE.CatmullRomCurve3(pts, false, 'centripetal', 0.5);
+    }
+    buildRail();
+
+    // Scroll authority: raw scroll target, double smoothed per frame.
+    var rawT = 0, smoothT = 0;
+    function readScroll() {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        rawT = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    }
+    window.addEventListener('scroll', readScroll, { passive: true });
+    window.addEventListener('resize', function () {
+        readScroll();
+        resize();
+    });
+    readScroll();
+
+    // Pointer parallax target, additive and small.
+    var par = { x: 0, y: 0, tx: 0, ty: 0 };
+    if (!coarsePointer) {
+        window.addEventListener('pointermove', function (e) {
+            par.tx = (e.clientX / window.innerWidth - 0.5) * 2;
+            par.ty = (e.clientY / window.innerHeight - 0.5) * 2;
+        });
+        document.documentElement.addEventListener('mouseleave', function () {
+            par.tx = 0; par.ty = 0;
+        });
+    }
+
+    function resize() {
+        var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        var w = window.innerWidth, h = window.innerHeight;
+        renderer.setPixelRatio(dpr);
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        var nowPortrait = w < h;
+        if (nowPortrait !== portrait) {
+            portrait = nowPortrait;
+            DEPTH = portrait ? 0.55 : 1.0;
+            scene.fog.near = 60 * DEPTH;
+            scene.fog.far = 380 * DEPTH;
+            while (layerGroup.children.length) {
+                var child = layerGroup.children.pop();
+                child.geometry.dispose();
+                child.material.dispose();
+            }
+            buildLayers();
+            buildRail();
+            endGlow.position.set(0, 60, -335 * DEPTH);
+        }
+    }
+    resize();
+
+    var camPos = new THREE.Vector3();
+    var camAhead = new THREE.Vector3();
+    var lookTarget = new THREE.Vector3();
+    var glowTarget = new THREE.Vector3();
+
+    function renderFrame(time, dt) {
+        // Cinematic lag: lerp toward the scroll target every frame.
+        var k = 1 - Math.exp(-dt * 4.0);
+        smoothT += (rawT - smoothT) * k;
+        var t = Math.min(1, Math.max(0, smoothT));
+
+        rail.getPointAt(t, camPos);
+        // Look along the rail tangent for a natural forward lean.
+        // Tangent stays well defined at the end of the rail, where a
+        // lookAt point on the curve would go degenerate.
+        rail.getTangentAt(Math.min(0.999, t), camAhead);
+        lookTarget.copy(camPos).addScaledVector(camAhead, 30);
+        lookTarget.y += 2;
+
+        // Slow idle sway plus a small pointer parallax layer, both additive.
+        par.x += (par.tx - par.x) * (1 - Math.exp(-dt * 2.5));
+        par.y += (par.ty - par.y) * (1 - Math.exp(-dt * 2.5));
+        var swayX = Math.sin(time * 0.073 + 1.7) * 2.2;
+        var swayY = Math.sin(time * 0.11) * 1.6;
+
+        camera.position.set(
+            camPos.x + swayX + par.x * 5,
+            camPos.y + swayY - par.y * 3.5,
+            camPos.z
+        );
+        camera.lookAt(lookTarget);
+
+        // Cursor light drifts ahead of the camera through the field.
+        var gpx = coarsePointer ? Math.sin(time * 0.11) * 0.6 : par.x;
+        var gpy = coarsePointer ? Math.sin(time * 0.17 + 1.4) * 0.5 : -par.y;
+        glowTarget.set(
+            camera.position.x + gpx * 60,
+            camera.position.y + gpy * 40 + 6,
+            camera.position.z - 130 * DEPTH
+        );
+        cursorGlow.position.lerp(glowTarget, 1 - Math.exp(-dt * 3));
+
+        // The far light breathes almost imperceptibly.
+        endGlow.material.opacity = 0.5 + Math.sin(time * 0.23) * 0.08;
+
+        timeU.value = time;
+        renderer.render(scene, camera);
+        window.__flythrough.frames++;
+    }
+
+    // Synchronous pixel read for composition checks: renders one frame,
+    // then reads the RGBA byte at a normalized viewport position before
+    // the drawing buffer is released.
+    window.__flythrough.readPixel = function (nx, ny) {
+        renderFrame(8.0, 1 / 60);
+        var gl = renderer.getContext();
+        var px = new Uint8Array(4);
+        gl.readPixels(
+            Math.floor(nx * gl.drawingBufferWidth),
+            Math.floor((1 - ny) * gl.drawingBufferHeight),
+            1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px
+        );
+        return [px[0], px[1], px[2], px[3]];
+    };
+
+    // Live scene access for deeper debugging from the console.
+    window.__flythrough.debug = {
+        THREE: THREE, scene: scene, camera: camera,
+        rail: rail, endGlow: endGlow, cursorGlow: cursorGlow,
+        smoothT: function () { return smoothT; }
+    };
+
+    if (reduceMotion) {
+        // One composed static frame locked to the hero waypoint.
+        smoothT = 0; rawT = 0;
+        renderFrame(8.0, 1 / 60);
+        window.__flythrough.ready = true;
+        return;
+    }
+
+    var running = true;
+    var last = performance.now();
+    function loop(now) {
+        if (!running) return;
+        var dt = Math.min((now - last) / 1000, 0.1);
+        last = now;
+        renderFrame(now / 1000, dt);
+        window.__flythrough.ready = true;
+        requestAnimationFrame(loop);
+    }
+
+    document.addEventListener('visibilitychange', function () {
+        if (document.hidden) {
+            running = false;
+        } else if (!reduceMotion) {
+            running = true;
+            last = performance.now();
+            requestAnimationFrame(loop);
+        }
+    });
+
+    // Debug hook for waypoint screenshots: ?scrollfrac=0.5
+    if (qs.has('scrollfrac')) {
+        var f = parseFloat(qs.get('scrollfrac'));
+        if (isFinite(f)) {
+            requestAnimationFrame(function () {
+                var max = document.documentElement.scrollHeight - window.innerHeight;
+                window.scrollTo(0, Math.min(1, Math.max(0, f)) * max);
+                readScroll();
+                smoothT = rawT;
+            });
+        }
+    }
+
+    requestAnimationFrame(loop);
+})();
+{% endraw %}
+</script>
+
+<script>
+{% raw %}
+(function () {
+    'use strict';
+
+    // Accordion toggles for projects and companies
+    document.querySelectorAll('.project-header, .company-header').forEach(function (button) {
+        button.addEventListener('click', function () {
+            var item = button.parentElement;
+            var list = item.parentElement;
+            var isOpen = item.classList.contains('open');
+
+            list.querySelectorAll('.open').forEach(function (openItem) {
+                openItem.classList.remove('open');
+                openItem.querySelector('button').setAttribute('aria-expanded', 'false');
+            });
+
+            if (!isOpen) {
+                item.classList.add('open');
+                button.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+
+    // Scroll driven calm: the scrim behind each dense list fades in
+    // as its section arrives on screen, and holds while you read.
+    var sections = Array.prototype.slice.call(document.querySelectorAll('.projects, .experience'));
+    if (sections.length) {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            sections.forEach(function (el) { el.style.setProperty('--calm', 1); });
+        } else {
+            var ticking = false;
+            var update = function () {
+                ticking = false;
+                var vh = window.innerHeight;
+                sections.forEach(function (el) {
+                    var top = el.getBoundingClientRect().top;
+                    var t = (vh - top) / (vh * 0.45);
+                    t = Math.max(0, Math.min(1, t));
+                    el.style.setProperty('--calm', t.toFixed(3));
+                });
+            };
+            var onScroll = function () {
+                if (!ticking) { ticking = true; requestAnimationFrame(update); }
+            };
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', onScroll);
+            update();
+        }
+    }
+})();
+{% endraw %}
+</script>
+</body>
+</html>
