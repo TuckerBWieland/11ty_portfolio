@@ -797,8 +797,11 @@ permalink: /experiments/wireframe/index.html
   function stageProgress(i) {
     var vh = window.innerHeight;
     var sy = window.scrollY || window.pageYOffset || 0;
+    var maxScroll = Math.max(1, document.documentElement.scrollHeight - vh);
     var start = Math.max(0, stageTops[i] - vh * 0.9);
-    var end = start + vh * 0.55;
+    /* Clamp the window so the last stage can always finish rendering. */
+    var end = Math.min(start + vh * 0.55, maxScroll);
+    if (end <= start) return sy >= start ? 1 : 0;
     return smoothstep(start, end, sy);
   }
 
