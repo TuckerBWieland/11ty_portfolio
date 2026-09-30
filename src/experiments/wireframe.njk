@@ -1,0 +1,925 @@
+---
+permalink: /experiments/wireframe/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tucker Wieland, Wireframe</title>
+<meta name="description" content="Tucker Wieland. Product marketing for the personal AI era.">
+<style>
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-weight: 400;
+    font-style: normal;
+    font-display: optional;
+    src: url('/assets/fonts/ibm-plex-mono-latin-400-normal.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-weight: 700;
+    font-style: normal;
+    font-display: optional;
+    src: url('/assets/fonts/ibm-plex-mono-latin-700-normal.woff2') format('woff2');
+  }
+  :root {
+    --bg: #0b0c11;
+    --paper: #f2e7d3;
+    --paper-ink: #15171d;
+    --ink: #f4f2ec;
+    --ink-2: rgb(244 242 236 / 62%);
+    --ink-3: rgb(244 242 236 / 38%);
+    --wire: rgb(255 255 255 / 40%);
+    --wire-soft: rgb(255 255 255 / 22%);
+    --wire-faint: rgb(255 255 255 / 11%);
+    --accent: #c97b3d;
+    --accent-soft: rgb(201 123 61 / 55%);
+    --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --serif: Georgia, 'Times New Roman', Times, serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { background: var(--bg); scroll-behavior: auto; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  ::selection { background: var(--paper); color: #101218; }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--paper); outline-offset: 3px; border-radius: 2px;
+  }
+
+  /* Fixed construction grid, fades as the page renders */
+  .construction-grid {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      repeating-linear-gradient(to right, var(--wire-faint) 0 1px, transparent 1px 28px),
+      repeating-linear-gradient(to bottom, var(--wire-faint) 0 1px, transparent 1px 28px),
+      repeating-linear-gradient(to right, var(--wire-soft) 0 1px, transparent 1px 140px),
+      repeating-linear-gradient(to bottom, var(--wire-soft) 0 1px, transparent 1px 140px);
+    opacity: 0.55;
+  }
+  /* Crosshair registration marks at the viewport corners */
+  .viewport-marks { position: fixed; inset: 14px; z-index: 0; pointer-events: none; opacity: 0.5; }
+  .viewport-marks i { position: absolute; width: 18px; height: 18px; }
+  .viewport-marks i::before, .viewport-marks i::after {
+    content: ""; position: absolute; background: var(--wire);
+  }
+  .viewport-marks i::before { left: 8px; top: 0; width: 1px; height: 18px; }
+  .viewport-marks i::after { top: 8px; left: 0; width: 18px; height: 1px; }
+  .viewport-marks .tl { top: 0; left: 0; } .viewport-marks .tr { top: 0; right: 0; }
+  .viewport-marks .bl { bottom: 0; left: 0; } .viewport-marks .br { bottom: 0; right: 0; }
+
+  /* HUD: persistent render readout */
+  .hud {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 40; pointer-events: none;
+    display: flex; align-items: center; justify-content: flex-end;
+    padding: 14px 20px;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em;
+    color: var(--ink-3);
+  }
+  .hud .hud-right { color: var(--accent-soft); font-variant-numeric: tabular-nums; }
+  .hud .hud-right.done { color: var(--accent); }
+  .hud-progress {
+    position: fixed; top: 0; left: 0; z-index: 41; pointer-events: none;
+    height: 2px; width: 0; background: var(--accent);
+  }
+
+  /* Reduce motion toggle: small, visible, always available */
+  .motion-toggle {
+    position: fixed; right: 16px; bottom: 16px; z-index: 40;
+    padding: 10px 18px; border-radius: 999px;
+    background: rgb(11 12 17 / 72%); color: var(--ink-2);
+    border: 1px solid rgb(255 255 255 / 18%);
+    font-family: var(--mono); font-size: 0.75rem; cursor: pointer;
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    transition: color .3s ease, border-color .3s ease;
+  }
+  .motion-toggle:hover { color: var(--ink); border-color: rgb(255 255 255 / 38%); }
+
+  .page { position: relative; z-index: 1; }
+
+  /* ===== Stage machinery: two stacked layers, wireframe over finished ===== */
+  .stage { position: relative; }
+  .stage .layer-fin { position: relative; visibility: hidden; }
+  .stage .layer-wf {
+    position: absolute; inset: 0; z-index: 2;
+    pointer-events: none;
+    font-family: var(--mono);
+  }
+  .stage.rendered .layer-wf { visibility: hidden; }
+  .stage.rendering .layer-fin, .stage.rendered .layer-fin { visibility: visible; }
+  .stage .layer-fin { opacity: 0; }
+
+  /* ===== Wireframe primitives ===== */
+  .wf-frame {
+    position: relative;
+    border: 1px dashed var(--wire-soft);
+    border-radius: 2px;
+  }
+  .wf-frame i.c { position: absolute; width: 12px; height: 12px; }
+  .wf-frame i.c::before, .wf-frame i.c::after {
+    content: ""; position: absolute; background: var(--wire);
+  }
+  .wf-frame i.c::before { width: 12px; height: 1px; }
+  .wf-frame i.c::after { width: 1px; height: 12px; }
+  .wf-frame i.c.tl { top: -1px; left: -1px; }
+  .wf-frame i.c.tr { top: -1px; right: -1px; transform: scaleX(-1); }
+  .wf-frame i.c.bl { bottom: -1px; left: -1px; transform: scaleY(-1); }
+  .wf-frame i.c.br { bottom: -1px; right: -1px; transform: scale(-1); }
+
+  .spec {
+    font-family: var(--mono);
+    font-size: 0.66rem; letter-spacing: 0.18em;
+    color: var(--ink-3); text-transform: lowercase;
+    white-space: nowrap;
+  }
+  .spec b { color: var(--accent-soft); font-weight: 400; }
+
+  .bar {
+    height: 9px; border-radius: 2px;
+    background: var(--wire-soft);
+  }
+  .bar.thin { height: 7px; }
+  .w100 { width: 100%; } .w90 { width: 90%; } .w80 { width: 80%; }
+  .w70 { width: 70%; } .w60 { width: 60%; } .w50 { width: 50%; }
+  .w40 { width: 40%; } .w30 { width: 30%; } .w25 { width: 25%; } .w20 { width: 20%; }
+
+  .xbox {
+    position: relative;
+    border: 1px dashed var(--wire-soft);
+    background:
+      linear-gradient(to top right, transparent calc(50% - 0.5px), var(--wire-faint) calc(50% - 0.5px), var(--wire-faint) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+      linear-gradient(to bottom right, transparent calc(50% - 0.5px), var(--wire-faint) calc(50% - 0.5px), var(--wire-faint) calc(50% + 0.5px), transparent calc(50% + 0.5px));
+    display: flex; align-items: center; justify-content: center;
+  }
+  .xbox .spec { background: var(--bg); padding: 2px 8px; }
+
+  .pill {
+    border: 1px dashed var(--wire-soft); border-radius: 999px;
+    height: 38px; display: inline-flex; align-items: center; justify-content: center;
+    padding: 0 26px;
+  }
+
+  /* Dimension lines: thin rule, end ticks, centered label */
+  .dim { position: relative; font-size: 0.62rem; letter-spacing: 0.16em; color: var(--ink-3); }
+  .dim-h { height: 14px; border-left: 1px solid var(--wire-soft); border-right: 1px solid var(--wire-soft); }
+  .dim-h::before {
+    content: ""; position: absolute; top: 6px; left: 0; right: 0;
+    border-top: 1px solid var(--wire-soft);
+  }
+  .dim-h span {
+    position: absolute; top: -2px; left: 50%; transform: translateX(-50%);
+    background: var(--bg); padding: 0 8px;
+  }
+  .dim-v { width: 14px; border-top: 1px solid var(--wire-soft); border-bottom: 1px solid var(--wire-soft); }
+  .dim-v::before {
+    content: ""; position: absolute; left: 6px; top: 0; bottom: 0;
+    border-left: 1px solid var(--wire-soft);
+  }
+  .dim-v span {
+    position: absolute; left: -2px; top: 50%; transform: translateY(-50%) rotate(-90deg);
+    transform-origin: center; background: var(--bg); padding: 0 8px; white-space: nowrap;
+  }
+
+  .columns-12 {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: repeating-linear-gradient(
+      to right,
+      transparent 0 calc(100% / 12 - 1px),
+      var(--wire-faint) calc(100% / 12 - 1px) calc(100% / 12)
+    );
+  }
+
+  .fig-tag {
+    position: absolute; top: -9px; left: 18px;
+    background: var(--bg); padding: 0 10px;
+    font-size: 0.64rem; letter-spacing: 0.2em; color: var(--accent-soft);
+  }
+
+  .do-not-print {
+    position: absolute; bottom: 10px; right: 14px;
+    font-size: 0.6rem; letter-spacing: 0.22em; color: var(--ink-3);
+    transform: rotate(-90deg); transform-origin: right bottom;
+  }
+
+  /* ===== Finished layer: genuinely polished portfolio ===== */
+  .fin-inner { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+  .overline {
+    font-family: var(--mono); font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.24em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 1.8rem;
+  }
+  .serif-display {
+    font-family: var(--serif); font-weight: 400;
+    letter-spacing: -0.015em; line-height: 1.04; color: var(--ink);
+  }
+  .fin-body { color: var(--ink-2); font-size: 1rem; line-height: 1.7; }
+
+  /* Nav */
+  .stage-nav .layer-fin { padding-top: 64px; }
+  .site-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 0;
+  }
+  .site-nav-name {
+    font-family: var(--serif); font-size: 1.05rem; color: var(--ink);
+    text-decoration: none; letter-spacing: 0.01em;
+  }
+  .site-nav-links { display: flex; align-items: center; gap: 22px; }
+  .site-nav-link {
+    color: var(--ink-2); text-decoration: none; font-size: 0.85rem;
+    transition: color .3s ease;
+  }
+  .site-nav-link:hover { color: var(--ink); }
+  .stage-nav .layer-wf { padding: 64px 20px 0; }
+  .wf-nav-bar {
+    max-width: 1080px; margin: 0 auto; padding: 22px 0;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .wf-nav-logo { width: 180px; height: 24px; }
+  .wf-nav-links { display: flex; gap: 14px; }
+  .wf-nav-links .pill { height: 26px; padding: 0 18px; }
+
+  /* Hero */
+  .stage-hero .layer-fin { padding: 9vh 0 4vh; min-height: 78svh; display: flex; align-items: center; }
+  .hero-name { font-size: clamp(3rem, 9vw, 5.6rem); }
+  .hero-note { margin-top: 1.4rem; max-width: 44ch; font-size: 1.02rem; }
+  .hero-actions { display: flex; gap: 12px; margin-top: 2.4rem; flex-wrap: wrap; }
+  .button {
+    display: inline-block; padding: 13px 26px; border-radius: 999px;
+    background: var(--paper); color: var(--paper-ink); text-decoration: none;
+    font-size: 0.88rem; font-weight: 600;
+    transition: transform .35s ease, opacity .35s ease;
+  }
+  .button:hover { transform: translateY(-1px); opacity: .92; }
+  .button-ghost {
+    background: transparent; color: var(--ink);
+    border: 1px solid rgb(255 255 255 / 28%); font-weight: 400;
+  }
+  .button-ghost:hover { border-color: rgb(255 255 255 / 55%); opacity: 1; }
+  .stage-hero .layer-wf { padding: 9vh 20px 4vh; }
+  .wf-hero-frame {
+    position: relative; max-width: 1080px; margin: 0 auto;
+    min-height: 78svh; display: flex; align-items: center; overflow: hidden;
+    padding: 64px 48px;
+  }
+  .wf-hero-copy { flex: 1; display: flex; flex-direction: column; gap: 14px; max-width: 560px; }
+  .wf-hero-media { width: 300px; height: 380px; margin-left: 48px; flex-shrink: 0; }
+  .wf-hero-actions { display: flex; gap: 12px; margin-top: 12px; }
+  .wf-hero-dims { position: absolute; left: 0; right: 0; top: 34px; padding: 0 48px; }
+  .wf-hero-dims-b { position: absolute; left: 0; right: 0; bottom: 22px; padding: 0 48px; }
+
+  /* About */
+  .stage-about .layer-fin, .stage-about .layer-wf { padding: 14vh 0 6vh; }
+  .about-body p { margin-bottom: 1.1rem; max-width: 62ch; }
+  .about-body p:last-child { margin-bottom: 0; }
+  .wf-copy-frame { max-width: 1080px; margin: 0 auto; padding: 44px 48px; position: relative; }
+  .wf-copy-frame .overline-bar { width: 120px; height: 10px; margin-bottom: 28px; }
+  .wf-copy-frame .bar { margin-bottom: 12px; }
+
+  /* Projects */
+  .stage-projects .layer-fin, .stage-projects .layer-wf { padding: 12vh 0 6vh; }
+  .project-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+  .project-card {
+    background: var(--paper); color: var(--paper-ink);
+    border-radius: 14px; padding: 30px 30px 26px;
+    position: relative; overflow: hidden;
+  }
+  .project-index {
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em;
+    color: rgb(21 23 29 / 48%); margin-bottom: 1rem; display: block;
+  }
+  .project-name { font-family: var(--serif); font-size: 1.55rem; letter-spacing: -0.01em; line-height: 1.15; }
+  .project-org { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgb(21 23 29 / 55%); margin-top: 0.6rem; }
+  .project-toggle {
+    width: 100%; background: none; border: 0; cursor: pointer; text-align: left;
+    font-family: inherit; color: inherit; padding: 0; margin-top: 1.1rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .project-toggle-label { font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em; }
+  .project-toggle .toggle-icon { width: 15px; height: 15px; transition: transform .45s ease; flex-shrink: 0; }
+  .project-card.open .toggle-icon { transform: rotate(180deg); }
+  .project-details { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .55s cubic-bezier(.22, 1, .36, 1); }
+  .project-card.open .project-details { grid-template-rows: 1fr; }
+  .project-details .details-inner { overflow: hidden; }
+  .project-bullets { list-style: none; padding-top: 1rem; font-size: 0.92rem; line-height: 1.65; color: rgb(21 23 29 / 78%); }
+  .project-bullets li { margin-bottom: 0.5rem; padding-left: 1.1em; position: relative; }
+  .project-bullets li::before { content: "—"; position: absolute; left: 0; color: rgb(21 23 29 / 40%); }
+  .project-link {
+    display: inline-block; margin: 0.9rem 1.1rem 0.2rem 0;
+    color: var(--paper-ink); text-decoration: none; font-size: 0.84rem; font-weight: 600;
+    border-bottom: 1px solid rgb(21 23 29 / 30%); padding-bottom: 2px;
+  }
+  .project-link:hover { border-color: var(--paper-ink); }
+  .wf-project-grid { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 18px; position: relative; padding: 56px 48px 48px; }
+  .wf-project-card { padding: 26px; display: flex; flex-direction: column; gap: 12px; }
+  .wf-project-card .xbox { height: 120px; }
+
+  /* Experience */
+  .stage-experience .layer-fin, .stage-experience .layer-wf { padding: 12vh 0 6vh; }
+  .company-list { list-style: none; }
+  .company-item { border-top: 1px solid rgb(255 255 255 / 12%); }
+  .company-item:last-child { border-bottom: 1px solid rgb(255 255 255 / 12%); }
+  .company-header {
+    width: 100%; display: flex; align-items: baseline; justify-content: space-between;
+    gap: 16px; padding: 24px 4px; background: none; border: 0; cursor: pointer;
+    font-family: inherit; color: inherit; text-align: left;
+  }
+  .company-name { font-family: var(--serif); font-size: 1.3rem; color: var(--ink); }
+  .company-meta { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+  .company-period { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.1em; color: var(--ink-3); }
+  .company-header .toggle-icon { width: 15px; height: 15px; color: var(--ink-2); transition: transform .45s ease; }
+  .company-item.open .toggle-icon { transform: rotate(180deg); }
+  .company-details { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .55s cubic-bezier(.22, 1, .36, 1); }
+  .company-item.open .company-details { grid-template-rows: 1fr; }
+  .company-bullets { list-style: none; padding: 0 4px 10px; color: var(--ink-2); font-size: 0.94rem; line-height: 1.65; }
+  .company-bullets li { margin-bottom: 0.5rem; max-width: 64ch; }
+  .wf-exp-frame { max-width: 1080px; margin: 0 auto; position: relative; padding: 56px 48px 48px; }
+  .wf-exp-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 24px 4px; border-top: 1px dashed var(--wire-faint); }
+  .wf-exp-row:last-child { border-bottom: 1px dashed var(--wire-faint); }
+  .wf-exp-row .bar { height: 12px; }
+
+  /* Contact: the payoff, a printed paper panel */
+  .stage-contact .layer-fin, .stage-contact .layer-wf { padding: 14vh 0 10vh; }
+  .contact-panel {
+    background: var(--paper); color: var(--paper-ink);
+    border-radius: 18px; padding: clamp(36px, 6vw, 72px);
+  }
+  .contact-title { font-family: var(--serif); font-size: clamp(2.2rem, 5.5vw, 3.6rem); letter-spacing: -0.015em; line-height: 1.05; }
+  .contact-sub { margin-top: 1rem; color: rgb(21 23 29 / 65%); max-width: 46ch; font-size: 1rem; }
+  .contact-links { margin-top: 2.2rem; }
+  .contact-link {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 2px; color: var(--paper-ink); text-decoration: none;
+    border-top: 1px solid rgb(21 23 29 / 16%); font-size: 1.05rem; font-weight: 500;
+    transition: padding .35s ease;
+  }
+  .contact-link:last-child { border-bottom: 1px solid rgb(21 23 29 / 16%); }
+  .contact-link:hover { padding-left: 12px; }
+  .contact-link .arrow { width: 18px; height: 18px; color: rgb(21 23 29 / 45%); }
+  .wf-contact-frame { max-width: 1080px; margin: 0 auto; position: relative; padding: 64px 48px; }
+  .wf-contact-frame .xbox { height: 64px; margin-top: 28px; }
+
+  /* Footer */
+  .stage-footer .layer-fin, .stage-footer .layer-wf { padding: 6vh 0 10vh; }
+  .site-footer { text-align: center; color: var(--ink-3); font-size: 0.8rem; font-family: var(--mono); letter-spacing: 0.06em; }
+  .site-footer a { color: var(--ink-2); text-decoration: none; }
+  .site-footer a:hover { color: var(--ink); }
+  .wf-footer-line { max-width: 1080px; margin: 0 auto; text-align: center; padding: 24px 0; position: relative; }
+
+  @media (width >= 640px) {
+    .fin-inner { padding-left: 40px; padding-right: 40px; }
+    .stage-nav .layer-wf, .stage-hero .layer-wf { padding-left: 40px; padding-right: 40px; }
+    .project-grid { grid-template-columns: repeat(2, 1fr); }
+    .wf-project-grid { grid-template-columns: repeat(2, 1fr); }
+    .hud { padding-left: 40px; padding-right: 40px; }
+  }
+  @media (width >= 1024px) {
+    .project-grid { grid-template-columns: repeat(2, 1fr); }
+    .wf-project-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (width <= 640px) {
+    .site-nav-links { gap: 14px; }
+    .site-nav-link { font-size: 0.74rem; }
+    .wf-hero-media { display: none; }
+    .wf-hero-frame, .wf-copy-frame, .wf-project-grid, .wf-exp-frame, .wf-contact-frame { padding-left: 24px; padding-right: 24px; }
+    .wf-nav-links .pill:nth-child(n+3) { display: none; }
+    .company-period { display: none; }
+    .do-not-print { display: none; }
+  }
+
+  /* Reduced motion: every stage renders finished, no transitions */
+  .rm .stage .layer-wf { display: none; }
+  .rm .stage .layer-fin { opacity: 1; transform: none; visibility: visible; transition: none; }
+  .rm .construction-grid { opacity: 0.06; }
+  .rm .viewport-marks, .rm .hud-progress { display: none; }
+  .rm .project-details, .rm .company-details { transition: none; }
+  .rm .button, .rm .button:hover, .rm .contact-link, .rm .site-nav-link { transition: none; }
+  .rm .hud .hud-right { color: var(--accent); }
+  @media (prefers-reduced-motion: reduce) {
+    .stage .layer-wf { display: none; }
+    .stage .layer-fin { opacity: 1; transform: none; visibility: visible; transition: none; }
+    .construction-grid { opacity: 0.06; }
+    .viewport-marks, .hud-progress { display: none; }
+    .project-details, .company-details { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="construction-grid" id="construction-grid" aria-hidden="true"></div>
+<div class="viewport-marks" aria-hidden="true"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div>
+
+<header class="hud" aria-hidden="true">
+  <span class="hud-right" id="render-readout">rendering&hellip; 000%</span>
+</header>
+<div class="hud-progress" id="hud-progress" aria-hidden="true"></div>
+
+<button class="motion-toggle" id="motion-toggle" aria-pressed="false">Reduce motion</button>
+
+<div class="page">
+
+  <!-- ================= NAV ================= -->
+  <header class="stage stage-nav" data-stage>
+    <div class="layer layer-fin">
+      <div class="fin-inner">
+        <nav class="site-nav" aria-label="Primary">
+          <a class="site-nav-name" href="/">Tucker Wieland</a>
+          <div class="site-nav-links">
+            <a class="site-nav-link" href="/resume/tucker-wieland-resume.pdf" download>Resume</a>
+            <a class="site-nav-link" href="https://www.linkedin.com/in/tucker-wieland/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a class="site-nav-link" href="https://github.com/TuckerBWieland/" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div class="layer layer-wf" aria-hidden="true">
+      <div class="wf-nav-bar wf-frame">
+        <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
+        <span class="fig-tag">fig. 00 &mdash; nav</span>
+        <div class="wf-nav-logo wf-frame"><span class="spec" style="position:absolute;top:4px;left:10px;">logo / <b>180 x 24</b></span></div>
+        <div class="wf-nav-links">
+          <span class="pill"><span class="spec">link</span></span>
+          <span class="pill"><span class="spec">link</span></span>
+          <span class="pill"><span class="spec">link</span></span>
+        </div>
+      </div>
+      <div class="dim dim-h" style="max-width:1080px;margin:10px auto 0;"><span>full bleed</span></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= HERO ================= -->
+    <section class="stage stage-hero" data-stage>
+      <div class="layer layer-fin">
+        <div class="fin-inner">
+          <h1 class="serif-display hero-name">Tucker Wieland</h1>
+          <p class="fin-body hero-note">I build go-to-market for products that earn their place.</p>
+          <div class="hero-actions">
+            <a class="button" href="/resume/tucker-wieland-resume.pdf" download>Download Resume</a>
+            <a class="button button-ghost" href="https://www.linkedin.com/in/tucker-wieland/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+      <div class="layer layer-wf" aria-hidden="true">
+        <div class="wf-hero-frame wf-frame">
+          <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
+          <span class="fig-tag">fig. 01 &mdash; hero</span>
+          <div class="columns-12"></div>
+          <div class="wf-hero-dims"><div class="dim dim-h"><span>1200</span></div></div>
+          <div class="wf-hero-copy">
+            <div class="bar w25 thin"></div>
+            <div class="bar w90" style="height:34px;"></div>
+            <div class="bar w70" style="height:34px;"></div>
+            <div class="bar w80 thin"></div>
+            <div class="bar w60 thin"></div>
+            <div class="wf-hero-actions">
+              <span class="pill"><span class="spec">cta / <b>primary</b></span></span>
+              <span class="pill"><span class="spec">cta / <b>ghost</b></span></span>
+            </div>
+            <span class="spec" style="margin-top:14px;">h1 / <b>clamp(48, 8vw, 88)</b> &middot; grid / <b>12 col</b></span>
+          </div>
+          <div class="wf-hero-media xbox"><span class="spec">portrait / <b>480 x 600</b></span></div>
+          <div class="wf-hero-dims-b"><div class="dim dim-h"><span>hero / 1200 x 630</span></div></div>
+          <span class="do-not-print">do not print</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ABOUT ================= -->
+    <section class="stage stage-about" data-stage>
+      <div class="layer layer-fin">
+        <div class="fin-inner">
+          <h2 class="overline">About</h2>
+          <div class="fin-body about-body">
+            <p>Product marketing at Meta, working on Muse, the personal AI agent. Previously with the Dreamer team through its public beta and the move to Meta&rsquo;s Superintelligence Lab.</p>
+            <p>Before that, growth and GTM roles at Justworks, Shopify, and General Assembly. I like building things that earn their place: clear positioning, honest measurement, small teams that ship.</p>
+          </div>
+        </div>
+      </div>
+      <div class="layer layer-wf" aria-hidden="true">
+        <div class="fin-inner">
+          <div class="wf-copy-frame wf-frame">
+            <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
+            <span class="fig-tag">fig. 02 &mdash; about</span>
+            <div class="bar overline-bar thin"></div>
+            <div class="bar w100"></div>
+            <div class="bar w90"></div>
+            <div class="bar w95"></div>
+            <div class="bar w70"></div>
+            <div style="height:18px;"></div>
+            <div class="bar w100"></div>
+            <div class="bar w85"></div>
+            <div class="bar w60"></div>
+            <span class="spec" style="display:block;margin-top:20px;">copy block / <b>62ch</b> &middot; measure / <b>1.7</b></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PROJECTS ================= -->
+    <section class="stage stage-projects" data-stage>
+      <div class="layer layer-fin">
+        <div class="fin-inner">
+          <h2 class="overline">Projects</h2>
+          <div class="project-grid">
+            <article class="project-card">
+              <span class="project-index">01</span>
+              <h3 class="project-name">Muse Launch</h3>
+              <p class="project-org">Meta</p>
+              <button class="project-toggle" aria-expanded="false">
+                <span class="project-toggle-label">Details</span>
+                <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="project-details"><div class="details-inner">
+                <ul class="project-bullets">
+                  <li>GTM operations and strategy for Meta&rsquo;s personal AI agent, from early access through public launch</li>
+                  <li>Positioning and use case development for launch audiences</li>
+                  <li>Reached No. 1 on the U.S. App Store within 10 days of launch</li>
+                </ul>
+                <a href="https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/" target="_blank" rel="noopener noreferrer" class="project-link">Read the announcement &#8594;</a>
+              </div></div>
+            </article>
+            <article class="project-card">
+              <span class="project-index">02</span>
+              <h3 class="project-name">Dreamer Joins Meta</h3>
+              <p class="project-org">Meta Superintelligence Lab</p>
+              <button class="project-toggle" aria-expanded="false">
+                <span class="project-toggle-label">Details</span>
+                <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="project-details"><div class="details-inner">
+                <ul class="project-bullets">
+                  <li>The Dreamer team joined Meta&rsquo;s Superintelligence Lab in March 2026</li>
+                  <li>Meta licensed Dreamer&rsquo;s agentic AI technology as part of the move</li>
+                </ul>
+                <a href="https://siliconangle.com/2026/03/23/meta-acqui-hires-co-founders-agentic-ai-startup-dreamer/" target="_blank" rel="noopener noreferrer" class="project-link">Read the coverage &#8594;</a>
+              </div></div>
+            </article>
+            <article class="project-card">
+              <span class="project-index">03</span>
+              <h3 class="project-name">Books MCP Server</h3>
+              <p class="project-org">Dreamer</p>
+              <button class="project-toggle" aria-expanded="false">
+                <span class="project-toggle-label">Details</span>
+                <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="project-details"><div class="details-inner">
+                <ul class="project-bullets">
+                  <li>MCP server wrapping the Open Library API, a book agent in the style of Goodreads</li>
+                  <li>Search, discover, and get details on books, authors, and subjects</li>
+                </ul>
+                <a href="https://github.com/TuckerBWieland/OpenLibraryMCP" target="_blank" rel="noopener noreferrer" class="project-link">View on GitHub &#8594;</a>
+              </div></div>
+            </article>
+            <article class="project-card">
+              <span class="project-index">04</span>
+              <h3 class="project-name">Brand Awareness Campaign</h3>
+              <p class="project-org">Justworks</p>
+              <button class="project-toggle" aria-expanded="false">
+                <span class="project-toggle-label">Details</span>
+                <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="project-details"><div class="details-inner">
+                <ul class="project-bullets">
+                  <li>Drove an awareness campaign across TV, digital, and out of home</li>
+                  <li>Achieved a lift in the double digits in brand awareness and ICP targeting</li>
+                </ul>
+                <a href="https://adage.com/creativity/work/aa-justworks-for-your-people/" target="_blank" rel="noopener noreferrer" class="project-link">Read in Ad Age &#8594;</a>
+              </div></div>
+            </article>
+          </div>
+        </div>
+      </div>
+      <div class="layer layer-wf" aria-hidden="true">
+        <div class="fin-inner">
+          <div class="wf-project-grid wf-frame">
+            <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
+            <span class="fig-tag">fig. 03 &mdash; projects</span>
+            <div class="wf-project-card wf-frame"><div class="xbox"><span class="spec">thumb / <b>400 x 300</b></span></div><div class="bar w70" style="height:16px;"></div><div class="bar w40 thin"></div><div class="bar w90 thin"></div></div>
+            <div class="wf-project-card wf-frame"><div class="xbox"><span class="spec">thumb / <b>400 x 300</b></span></div><div class="bar w60" style="height:16px;"></div><div class="bar w50 thin"></div><div class="bar w85 thin"></div></div>
+            <div class="wf-project-card wf-frame"><div class="xbox"><span class="spec">thumb / <b>400 x 300</b></span></div><div class="bar w75" style="height:16px;"></div><div class="bar w35 thin"></div><div class="bar w90 thin"></div></div>
+            <div class="wf-project-card wf-frame"><div class="xbox"><span class="spec">thumb / <b>400 x 300</b></span></div><div class="bar w65" style="height:16px;"></div><div class="bar w45 thin"></div><div class="bar w80 thin"></div></div>
+            <span class="spec" style="position:absolute;bottom:14px;left:48px;">cards / <b>2 col</b> &middot; gap / <b>18</b> &middot; radius / <b>14</b></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= EXPERIENCE ================= -->
+    <section class="stage stage-experience" data-stage>
+      <div class="layer layer-fin">
+        <div class="fin-inner">
+          <h2 class="overline">Experience</h2>
+          <ul class="company-list">
+            <li class="company-item">
+              <button class="company-header" aria-expanded="false">
+                <span class="company-name">Meta</span>
+                <span class="company-meta"><span class="company-period">2026 &mdash; present</span>
+                  <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </span>
+              </button>
+              <div class="company-details"><div class="details-inner">
+                <ul class="company-bullets">
+                  <li>GTM operations and strategy for Muse, Meta&rsquo;s personal AI agent, from early access through public launch</li>
+                  <li>Leading competitive positioning and GTM use case development for launch</li>
+                </ul>
+              </div></div>
+            </li>
+            <li class="company-item">
+              <button class="company-header" aria-expanded="false">
+                <span class="company-name">Dreamer</span>
+                <span class="company-meta"><span class="company-period">2025 &mdash; 2026</span>
+                  <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </span>
+              </button>
+              <div class="company-details"><div class="details-inner">
+                <ul class="company-bullets">
+                  <li>Led growth and marketing operations through the public beta launch in February 2026</li>
+                  <li>Team joined Meta&rsquo;s Superintelligence Lab in March 2026</li>
+                </ul>
+              </div></div>
+            </li>
+            <li class="company-item">
+              <button class="company-header" aria-expanded="false">
+                <span class="company-name">Justworks</span>
+                <span class="company-meta"><span class="company-period">2021 &mdash; 2025</span>
+                  <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </span>
+              </button>
+              <div class="company-details"><div class="details-inner">
+                <ul class="company-bullets">
+                  <li>Owned $40M marketing budget, achieving 26% YoY growth</li>
+                  <li>Aligned the full marketing team on roadmap, driving MQL and revenue growth</li>
+                </ul>
+              </div></div>
+            </li>
+            <li class="company-item">
+              <button class="company-header" aria-expanded="false">
+                <span class="company-name">Shopify</span>
+                <span class="company-meta"><span class="company-period">2018 &mdash; 2021</span>
+                  <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </span>
+              </button>
+              <div class="company-details"><div class="details-inner">
+                <ul class="company-bullets">
+                  <li>Directed global developer campaigns across growth and brand</li>
+                  <li>Grew Dev Degree applications to record volume while cutting costs</li>
+                </ul>
+              </div></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="layer layer-wf" aria-hidden="true">
+        <div class="fin-inner">
+          <div class="wf-exp-frame wf-frame">
+            <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
+            <span class="fig-tag">fig. 04 &mdash; experience</span>
+            <div class="wf-exp-row"><div class="bar w30"></div><div class="bar w20 thin"></div></div>
+            <div class="wf-exp-row"><div class="bar w25"></div><div class="bar w25 thin"></div></div>
+            <div class="wf-exp-row"><div class="bar w35"></div><div class="bar w20 thin"></div></div>
+            <div class="wf-exp-row"><div class="bar w28"></div><div class="bar w22 thin"></div></div>
+            <span class="spec" style="position:absolute;bottom:14px;left:48px;">rows / <b>1 col</b> &middot; rule / <b>1px</b> &middot; pad / <b>24</b></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+    <section class="stage stage-contact" data-stage>
+      <div class="layer layer-fin">
+        <div class="fin-inner">
+          <div class="contact-panel">
+            <h2 class="contact-title">Get in touch</h2>
+            <p class="contact-sub">Open to consulting, speaking, and good arguments about positioning.</p>
+            <div class="contact-links">
+              <a href="/resume/tucker-wieland-resume.pdf" download class="contact-link">
+                Resume
+                <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m0 0l-5-5m5 5l5-5M5 20h14"/></svg>
+              </a>
+              <a href="https://www.linkedin.com/in/tucker-wieland/" target="_blank" rel="noopener noreferrer" class="contact-link">
+                LinkedIn
+                <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+              </a>
+              <a href="https://github.com/TuckerBWieland/" target="_blank" rel="noopener noreferrer" class="contact-link">
+                GitHub
+                <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layer layer-wf" aria-hidden="true">
+        <div class="fin-inner">
+          <div class="wf-contact-frame wf-frame">
+            <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
+            <span class="fig-tag">fig. 05 &mdash; contact</span>
+            <div class="bar w40" style="height:28px;"></div>
+            <div class="bar w55 thin" style="margin-top:14px;"></div>
+            <div class="xbox"><span class="spec">link row / <b>full bleed</b></span></div>
+            <div class="xbox"><span class="spec">link row / <b>full bleed</b></span></div>
+            <div class="xbox"><span class="spec">link row / <b>full bleed</b></span></div>
+            <span class="spec" style="display:block;margin-top:20px;">cta / <b>full bleed</b> &middot; surface / <b>paper</b></span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="stage stage-footer" data-stage>
+    <div class="layer layer-fin">
+      <div class="fin-inner site-footer">
+        <p>&copy; 2026 Tucker Wieland.</p>
+      </div>
+    </div>
+    <div class="layer layer-wf" aria-hidden="true">
+      <div class="wf-footer-line wf-frame">
+        <span class="fig-tag">fig. 06 &mdash; footer</span>
+        <span class="spec">footer / <b>1 col</b> &middot; &copy; 2026</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var params = new URLSearchParams(location.search);
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var reduced = prefersReduced.matches || params.get('reduced') === '1';
+
+  var motionToggle = document.getElementById('motion-toggle');
+  var readout = document.getElementById('render-readout');
+  var hudProgress = document.getElementById('hud-progress');
+  var grid = document.getElementById('construction-grid');
+  var stages = Array.prototype.slice.call(document.querySelectorAll('.stage[data-stage]'));
+
+  function smoothstep(a, b, x) {
+    var t = Math.min(1, Math.max(0, (x - a) / (b - a)));
+    return t * t * (3 - 2 * t);
+  }
+  function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
+
+  function setMotionUI() {
+    document.documentElement.classList.toggle('rm', reduced);
+    if (motionToggle) {
+      motionToggle.setAttribute('aria-pressed', reduced ? 'true' : 'false');
+      motionToggle.textContent = reduced ? 'Restore motion' : 'Reduce motion';
+    }
+    if (readout) {
+      readout.textContent = reduced ? 'render complete' : 'rendering\u2026 000%';
+      readout.classList.toggle('done', reduced);
+    }
+    if (hudProgress) hudProgress.style.width = reduced ? '100%' : '0';
+  }
+
+  /* Per-stage render progress, driven by scroll position against each
+     stage's document offset. At load (scrollY = 0) every stage is
+     wireframe; scrolling sweeps the render down the page. */
+  var stageTops = [];
+  function measure() {
+    var sy = window.scrollY || window.pageYOffset || 0;
+    stageTops = stages.map(function (st) {
+      return st.getBoundingClientRect().top + sy;
+    });
+  }
+
+  function stageProgress(i) {
+    var vh = window.innerHeight;
+    var sy = window.scrollY || window.pageYOffset || 0;
+    var start = Math.max(0, stageTops[i] - vh * 0.9);
+    var end = start + vh * 0.55;
+    return smoothstep(start, end, sy);
+  }
+
+  function update() {
+    if (reduced) return;
+    var vh = window.innerHeight;
+    var maxScroll = Math.max(1, document.documentElement.scrollHeight - vh);
+    var sy = window.scrollY || window.pageYOffset || 0;
+    var overall = clamp(sy / maxScroll, 0, 1);
+
+    stages.forEach(function (st, i) {
+      var p = stageProgress(i);
+      var wf = st.querySelector('.layer-wf');
+      var fin = st.querySelector('.layer-fin');
+      if (!wf || !fin) return;
+      if (p <= 0.001) {
+        st.classList.remove('rendering', 'rendered');
+        wf.style.opacity = '1'; wf.style.transform = '';
+        fin.style.opacity = '0'; fin.style.transform = '';
+      } else if (p >= 0.999) {
+        st.classList.remove('rendering');
+        st.classList.add('rendered');
+        wf.style.opacity = '0';
+        fin.style.opacity = '1'; fin.style.transform = '';
+      } else {
+        st.classList.add('rendering');
+        st.classList.remove('rendered');
+        wf.style.opacity = String(1 - p);
+        wf.style.transform = 'translateY(' + (-10 * p).toFixed(1) + 'px)';
+        fin.style.opacity = String(p);
+        fin.style.transform = 'translateY(' + (22 * (1 - p)).toFixed(1) + 'px)';
+      }
+    });
+
+    /* Persistent progress: the readout and the construction grid. */
+    var pct = Math.round(overall * 100);
+    if (readout) {
+      var done = overall >= 0.995;
+      readout.textContent = done ? 'render complete'
+        : 'rendering\u2026 ' + String(pct).padStart(3, '0') + '%';
+      readout.classList.toggle('done', done);
+    }
+    if (hudProgress) hudProgress.style.width = (overall * 100).toFixed(1) + '%';
+    if (grid) grid.style.opacity = (0.55 - overall * 0.47).toFixed(3);
+  }
+
+  /* Accordions in the finished layer: click, touch-native, no hover. */
+  document.querySelectorAll('.project-card, .company-item').forEach(function (item) {
+    var button = item.querySelector('.project-toggle, .company-header');
+    if (!button) return;
+    button.addEventListener('click', function () {
+      var isOpen = item.classList.contains('open');
+      var siblings = item.parentElement.querySelectorAll('.open');
+      siblings.forEach(function (sib) {
+        sib.classList.remove('open');
+        var b = sib.querySelector('.project-toggle, .company-header');
+        if (b) b.setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        button.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  /* Scroll drives everything: rAF-throttled, transform/opacity only. */
+  var ticking = false;
+  function requestUpdate() {
+    if (ticking || reduced) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      ticking = false;
+      update();
+    });
+  }
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  var resizeTimer = 0;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () { measure(); requestUpdate(); }, 120);
+  });
+  window.addEventListener('load', function () { measure(); requestUpdate(); });
+
+  if (motionToggle) {
+    motionToggle.addEventListener('click', function () {
+      reduced = !reduced;
+      setMotionUI();
+      stages.forEach(function (st) {
+        var wf = st.querySelector('.layer-wf');
+        var fin = st.querySelector('.layer-fin');
+        if (wf) { wf.style.opacity = ''; wf.style.transform = ''; }
+        if (fin) { fin.style.opacity = ''; fin.style.transform = ''; }
+        st.classList.remove('rendering', 'rendered');
+      });
+      if (reduced && grid) grid.style.opacity = '';
+      if (!reduced) requestUpdate();
+    });
+  }
+  if (prefersReduced.addEventListener) {
+    prefersReduced.addEventListener('change', function (e) {
+      if (e.matches && !reduced) {
+        reduced = true;
+        setMotionUI();
+      }
+    });
+  }
+
+  setMotionUI();
+  measure();
+  update();
+
+  /* Screenshot helpers: ?shot=mid lands on Projects, ?shot=end on Contact */
+  var shot = params.get('shot');
+  if (shot === 'mid' || shot === 'end') {
+    var target = document.querySelector(shot === 'mid' ? '.stage-projects' : '.stage-contact');
+    if (target) {
+      window.scrollTo(0, Math.max(0, target.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.25));
+      requestAnimationFrame(update);
+    }
+  }
+})();
+</script>
+</body>
+</html>
