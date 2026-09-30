@@ -136,9 +136,9 @@ permalink: /experiments/tangle/index.html
   .project-list, .company-list { list-style: none; }
   .project-item, .company-item {
     position: relative; overflow: hidden;
-    border-top: 1px solid var(--line);
+    border-top: 1px solid rgb(214 196 164 / 26%);
   }
-  .project-item:last-child, .company-item:last-child { border-bottom: 1px solid var(--line); }
+  .project-item:last-child, .company-item:last-child { border-bottom: 1px solid rgb(214 196 164 / 26%); }
   .project-header, .company-header {
     width: 100%; display: flex; align-items: baseline; justify-content: space-between;
     gap: 16px; padding: 20px 4px; background: none; border: 0; cursor: pointer;
@@ -175,10 +175,10 @@ permalink: /experiments/tangle/index.html
   .contact-link {
     display: flex; align-items: center; justify-content: space-between;
     padding: 18px 4px; color: var(--ink); text-decoration: none;
-    border-top: 1px solid var(--line); font-size: 1rem;
+    border-top: 1px solid rgb(214 196 164 / 26%); font-size: 1rem;
     transition: padding .35s ease, color .35s ease;
   }
-  .contact-link:last-child { border-bottom: 1px solid var(--line); }
+  .contact-link:last-child { border-bottom: 1px solid rgb(214 196 164 / 26%); }
   .contact-link:hover { color: var(--warm); padding-left: 10px; }
   .arrow { width: 18px; height: 18px; color: var(--ink-3); }
 
@@ -487,10 +487,12 @@ permalink: /experiments/tangle/index.html
 
   /* ================= Tangle canvas: knot to weave =================
      N threads, each with two states: a chaotic knot (a seeded ball of yarn
-     in the hero) and an ordered state (a woven warp and weft lattice).
-     Scroll progress drives per-thread interpolation, staggered so threads
-     resolve one after another. The order travels along each thread like a
-     hand pulling it taut. Pointer and taps gently disturb the field. */
+     in the hero) and an ordered state (a woven warp and weft lattice that
+     registers to the real card rows: warp threads sit on row dividers, weft
+     threads frame the content column). Scroll progress, smoothed, drives
+     per-thread interpolation, staggered so threads resolve one after
+     another. The order travels along each thread like a hand pulling it
+     taut. Pointer and taps gently disturb the field. */
   var canvas = document.getElementById('tangle');
   var ctx = canvas.getContext('2d');
   var W = 0, H = 0, DPR = 1;
@@ -513,8 +515,30 @@ permalink: /experiments/tangle/index.html
   }
   function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
   function lerp(a, b, k) { return a + (b - a) * k; }
-  function easeInOutCubic(x) {
-    return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+  function smootherstep(x) {
+    x = clamp(x, 0, 1);
+    return x * x * x * (x * (x * 6 - 15) + 10);
+  }
+
+  /* Live content layout: the ordered lattice registers to the real card
+     rows. Dividers are the viewport Y of every project/experience row edge;
+     warp threads snap to them so lattice lines continue the card borders
+     across the full width. Weft rails frame the content column. */
+  var layout = { dividers: [] };
+  function measureLayout() {
+    var items = document.querySelectorAll('.project-item, .company-item');
+    var divs = [];
+    for (var n = 0; n < items.length; n++) {
+      var r = items[n].getBoundingClientRect();
+      divs.push(r.top);
+      if (n === items.length - 1) divs.push(r.bottom);
+    }
+    layout.dividers = divs;
+  }
+  function edgeFade(v, max) {
+    var m = 160;
+    var d = v < 0 ? -v : (v > max ? v - max : 0);
+    return clamp(1 - d / m, 0, 1);
   }
 
   function buildThreads() {
@@ -527,6 +551,10 @@ permalink: /experiments/tangle/index.html
     var horiz = Math.ceil(count / 2);
     var vert = count - horiz;
     var margin = s * 0.08;
+    /* Content column: weft rails will frame it, warp threads will snap to
+       its row dividers, so the finished weave and the cards read as one. */
+    var colRect = document.querySelector('.projects').getBoundingClientRect();
+    var colL = colRect.left, colR = colRect.right;
 
     for (var i = 0; i < count; i++) {
       var rng = mulberry32(1000 + i * 7919);
@@ -554,25 +582,31 @@ permalink: /experiments/tangle/index.html
         x = nx; y = ny;
       }
 
-      /* Ordered state: a woven lattice, half warp, half weft */
-      var oxs = new Float32Array(M), oys = new Float32Array(M);
-      var k;
-      if (i < horiz) {
-        var yy = ((i % horiz) + 0.5) / horiz * H;
-        for (k = 0; k < M; k++) {
-          oxs[k] = lerp(-margin, W + margin, k / (M - 1));
-          oys[k] = yy;
-        }
+      /* Ordered state: warp threads register to card-row dividers (their
+         exact Y is resolved live per frame); weft threads become rails,
+         two pinned to the content column edges, the rest routed around it. */
+      var kind = i < horiz ? 0 : 1;
+      var di = 0, jit = 0, weftX = 0;
+      if (kind === 0) {
+        di = horiz <= 1 ? 0 : i / (horiz - 1);
+        jit = (rng() - 0.5) * 6;
       } else {
-        var xx = (((i - horiz) % vert + 0.5) / vert) * W;
-        for (k = 0; k < M; k++) {
-          oxs[k] = xx;
-          oys[k] = lerp(-margin, H + margin, k / (M - 1));
+        var vi = i - horiz;
+        if (vi === 0) { weftX = colL; }
+        else if (vi === 1) { weftX = colR; }
+        else {
+          var slots = vert - 2;
+          var si = vi - 2;
+          weftX = lerp(-margin, W + margin, slots <= 1 ? 0.5 : si / (slots - 1));
+          if (weftX > colL - 34 && weftX < colR + 34) {
+            weftX = weftX < (colL + colR) / 2 ? colL - 34 : colR + 34;
+          }
         }
       }
 
       threads.push({
-        cx: cxs, cy: cys, ox: oxs, oy: oys, M: M,
+        kind: kind, di: di, jit: jit, weftX: weftX,
+        cx: cxs, cy: cys, M: M,
         start: rng() * 0.52,
         span: 0.48,
         sweep: 0.5 + rng() * 0.4,
@@ -621,10 +655,25 @@ permalink: /experiments/tangle/index.html
   function drawThreads() {
     var PR = 200, PR2 = PR * PR;
     var stirAmp = Math.min(1.5, Math.abs(stir) * 3);
+    var divs = layout.dividers;
+    var nDiv = divs.length;
+    var margin = Math.min(W, H) * 0.08;
     for (var i = 0; i < threads.length; i++) {
       var th = threads[i];
-      var tp = easeInOutCubic(clamp((progress - th.start) / th.span, 0, 1));
+      var tp = smootherstep((progress - th.start) / th.span);
+      /* Ordered anchor, resolved live: warp threads sit on card-row
+         dividers so lattice lines continue the card borders; weft threads
+         sit on the column rails. */
+      var ax, ay;
+      if (th.kind === 0) {
+        ax = W / 2;
+        ay = nDiv ? divs[Math.round(th.di * (nDiv - 1))] + th.jit : H * th.di;
+      } else {
+        ax = th.weftX;
+        ay = H / 2;
+      }
       var a = lerp(th.alpha, 0.55, tp);
+      a *= 0.25 + 0.75 * Math.min(edgeFade(ax, W), edgeFade(ay, H));
       ctx.strokeStyle = th.bright
         ? 'rgba(240,228,202,' + a.toFixed(3) + ')'
         : 'rgba(214,196,164,' + a.toFixed(3) + ')';
@@ -635,11 +684,14 @@ permalink: /experiments/tangle/index.html
         var u = j / (M - 1);
         var su = th.flip ? 1 - u : u;
         /* Order travels along the thread, like pulling it taut */
-        var wj = easeInOutCubic(clamp(tp * (1 + th.sweep) - th.sweep * su, 0, 1));
-        var x = lerp(th.cx[j], th.ox[j], wj);
-        var y = lerp(th.cy[j], th.oy[j], wj);
+        var wj = smootherstep(tp * (1 + th.sweep) - th.sweep * su);
+        var exx, eyy;
+        if (th.kind === 0) { exx = lerp(-margin, W + margin, u); eyy = ay; }
+        else { exx = ax; eyy = lerp(-margin, H + margin, u); }
+        var x = lerp(th.cx[j], exx, wj);
+        var y = lerp(th.cy[j], eyy, wj);
         /* Quiver: the thread keeps a memory of the tangle, decays into order */
-        var qa = (1 - wj) * 5 * th.wob + 0.7 + stirAmp;
+        var qa = (1 - wj) * 5 * th.wob + 0.45 + stirAmp;
         x += Math.sin(t * 1.3 + th.phase + j * 0.55) * qa;
         y += Math.cos(t * 1.1 + th.phase * 1.3 + j * 0.42) * qa;
         /* Pointer gently pushes nearby thread */
@@ -708,6 +760,7 @@ permalink: /experiments/tangle/index.html
   }
 
   function draw(dt) {
+    measureLayout();
     ctx.fillStyle = '#0b0c11';
     ctx.fillRect(0, 0, W, H);
     drawHalo();
@@ -717,11 +770,10 @@ permalink: /experiments/tangle/index.html
     drawVignette();
   }
 
-  function readScroll() {
+  function targetProgress() {
     var s = window.scrollY || window.pageYOffset || 0;
     var maxScroll = Math.max(1, document.documentElement.scrollHeight - H);
-    progress = clamp(s / maxScroll, 0, 1);
-    return s;
+    return clamp(s / maxScroll, 0, 1);
   }
 
   function frame(now) {
@@ -731,7 +783,10 @@ permalink: /experiments/tangle/index.html
     lastT = now;
     t += dt;
 
-    var s = readScroll();
+    var s = window.scrollY || window.pageYOffset || 0;
+    /* Smooth the scroll-to-progress mapping: the weave eases toward the
+       scroll target instead of snapping to it. Frame-rate independent. */
+    progress += (targetProgress() - progress) * (1 - Math.pow(0.002, dt));
     var vel = dt > 0 ? (s - lastScrollY) / dt : 0;
     lastScrollY = s;
     stir += ((vel / 2600) - stir) * (1 - Math.pow(0.02, dt));
@@ -770,7 +825,7 @@ permalink: /experiments/tangle/index.html
   /* One frozen composition for reduced motion. Scroll still drives the
      transformation, but only re rendered once the page settles. */
   function renderStatic() {
-    readScroll();
+    progress = targetProgress();
     t = 4.2;
     pointer.x = -9999; pointer.y = -9999;
     pointer.tx = -9999; pointer.ty = -9999;
