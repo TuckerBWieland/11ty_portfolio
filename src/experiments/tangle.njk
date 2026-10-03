@@ -485,7 +485,7 @@ permalink: /experiments/tangle/index.html
   var grainPattern = null;
 
   var pointer = { x: -9999, y: -9999, tx: -9999, ty: -9999, lastMove: 0 };
-  var lastScrollY = 0, scrollNow = 0, progress = 0, stir = 0;
+  var lastScrollY = 0, scrollNow = 0, smoothScroll = 0, progress = 0, stir = 0;
   var t = 0, lastT = 0, running = true, rafId = 0;
 
   function mulberry32(a) {
@@ -637,7 +637,7 @@ permalink: /experiments/tangle/index.html
   }
 
   function drawThreads() {
-    var PR = 200, PR2 = PR * PR;
+    var PR = 150, PR2 = PR * PR;
     var stirAmp = Math.min(0.6, Math.abs(stir) * 1.5);
     var divs = layout.dividers;
     var nDiv = divs.length;
@@ -674,8 +674,9 @@ permalink: /experiments/tangle/index.html
         else { exx = ax; eyy = lerp(-margin, H + margin, u); }
         var x = lerp(th.cx[j], exx, wj);
         var y = lerp(th.cy[j], eyy, wj);
-        /* Quiver: the thread keeps a memory of the tangle, decays into order */
-        var qa = (1 - wj) * 5 * th.wob + 0.45 + stirAmp;
+        /* Quiver: strong while tangled, settles to still as the thread
+           orders, so finished lines sit straight and calm */
+        var qa = (1 - wj) * (5 * th.wob + stirAmp) + 0.05;
         x += Math.sin(t * 1.3 + th.phase + j * 0.55) * qa;
         y += Math.cos(t * 1.1 + th.phase * 1.3 + j * 0.42) * qa;
         /* Pointer gently pushes nearby thread */
@@ -684,7 +685,7 @@ permalink: /experiments/tangle/index.html
         if (pd < PR2 && pd > 4) {
           var pdd = Math.sqrt(pd);
           var push = (1 - pdd / PR);
-          push = push * push * 30;
+          push = push * push * 12;
           x += (pdx / pdd) * push;
           y += (pdy / pdd) * push;
         }
@@ -695,7 +696,7 @@ permalink: /experiments/tangle/index.html
           var rdd = Math.sqrt(rdx * rdx + rdy * rdy) || 1;
           var band = Math.abs(rdd - rp.r);
           if (band < 110) {
-            var imp = (1 - band / 110) * rp.strength * 22;
+            var imp = (1 - band / 110) * rp.strength * 9;
             x += (rdx / rdd) * imp;
             y += (rdy / rdd) * imp;
           }
@@ -714,7 +715,7 @@ permalink: /experiments/tangle/index.html
       if (k >= 1) { ripples.splice(i, 1); continue; }
       r.r = r.maxR * (1 - Math.pow(1 - k, 3));
       r.strength = 1 - k;
-      ctx.strokeStyle = 'rgba(242,231,211,' + (0.10 * (1 - k)).toFixed(3) + ')';
+      ctx.strokeStyle = 'rgba(242,231,211,' + (0.06 * (1 - k)).toFixed(3) + ')';
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.arc(r.x, r.y, Math.max(1, r.r), 0, 6.2832);
@@ -754,9 +755,8 @@ permalink: /experiments/tangle/index.html
   }
 
   function targetProgress() {
-    var s = window.scrollY || window.pageYOffset || 0;
     var maxScroll = Math.max(1, document.documentElement.scrollHeight - H);
-    return clamp(s / maxScroll, 0, 1);
+    return clamp(smoothScroll / maxScroll, 0, 1);
   }
 
   function frame(now) {
@@ -767,9 +767,12 @@ permalink: /experiments/tangle/index.html
     t += dt;
 
     var s = window.scrollY || window.pageYOffset || 0;
-    scrollNow = s;
-    /* Smooth exponential tracking: the undo begins with the first pixel of
-       scroll and glides rather than stepping. Frame-rate independent. */
+    /* Smooth the scroll position itself first, then derive everything
+       (progress and the row positions) from that smoothed value, so the
+       whole weave glides on one clock instead of stepping with raw
+       scroll events. Frame-rate independent. */
+    smoothScroll += (s - smoothScroll) * (1 - Math.exp(-dt * 10));
+    scrollNow = smoothScroll;
     progress += (targetProgress() - progress) * (1 - Math.exp(-dt * 12));
     var vel = dt > 0 ? (s - lastScrollY) / dt : 0;
     lastScrollY = s;
@@ -777,11 +780,8 @@ permalink: /experiments/tangle/index.html
     stir = clamp(stir, -1, 1);
     if (Math.abs(stir) < 0.0005) stir = 0;
 
-    /* An idle pointer drifts on its own slow orbit, dimpling the weave */
-    if ((now - pointer.lastMove) > 5000) {
-      pointer.tx = W * (0.5 + 0.32 * Math.sin(t * 0.09));
-      pointer.ty = H * (0.44 + 0.28 * Math.sin(t * 0.13 + 1.7));
-    }
+    /* The pointer only affects the weave while it is actually moving;
+       at rest it drifts offscreen so the lines sit still. */
     var ease = 1 - Math.pow(0.08, dt);
     pointer.x += (pointer.tx - pointer.x) * ease;
     pointer.y += (pointer.ty - pointer.y) * ease;
@@ -809,8 +809,9 @@ permalink: /experiments/tangle/index.html
   /* One frozen composition for reduced motion. Scroll still drives the
      transformation, but only re rendered once the page settles. */
   function renderStatic() {
+    smoothScroll = window.scrollY || window.pageYOffset || 0;
+    scrollNow = smoothScroll;
     progress = targetProgress();
-    scrollNow = window.scrollY || window.pageYOffset || 0;
     t = 4.2;
     pointer.x = -9999; pointer.y = -9999;
     pointer.tx = -9999; pointer.ty = -9999;
@@ -898,8 +899,8 @@ permalink: /experiments/tangle/index.html
   if (reduced) {
     renderStatic();
   } else {
-    pointer.x = W * 0.62; pointer.y = H * 0.40;
-    pointer.tx = pointer.x; pointer.ty = pointer.y;
+    pointer.x = -9999; pointer.y = -9999;
+    pointer.tx = -9999; pointer.ty = -9999;
     pointer.lastMove = performance.now();
     startLoop();
   }
