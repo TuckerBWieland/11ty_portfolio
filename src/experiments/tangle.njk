@@ -64,18 +64,6 @@ permalink: /experiments/tangle/index.html
 
   .page { position: relative; z-index: 1; }
 
-  /* Reduce motion toggle: small, visible, always available */
-  .motion-toggle {
-    position: fixed; right: 16px; bottom: 16px; z-index: 40;
-    padding: 10px 18px; border-radius: 999px;
-    background: rgb(11 12 17 / 72%); color: var(--ink-2);
-    border: 1px solid rgb(255 255 255 / 18%);
-    font-family: inherit; font-size: 0.75rem; cursor: pointer;
-    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    transition: color .3s ease, border-color .3s ease;
-  }
-  .motion-toggle:hover { color: var(--ink); border-color: rgb(255 255 255 / 38%); }
-
   /* Nav */
   .site-nav {
     position: absolute; top: 0; left: 0; right: 0; z-index: 20;
@@ -218,7 +206,6 @@ permalink: /experiments/tangle/index.html
 <canvas id="tangle" aria-hidden="true"></canvas>
 <div class="veil" aria-hidden="true"></div>
 <div class="veil-core" aria-hidden="true"></div>
-<button class="motion-toggle" id="motion-toggle" aria-pressed="false">Reduce motion</button>
 
 <div class="page">
   <header class="site-nav">
@@ -446,15 +433,9 @@ permalink: /experiments/tangle/index.html
   var coarse = window.matchMedia('(pointer: coarse)').matches;
   var reduced = prefersReduced.matches || params.get('reduced') === '1';
 
-  /* ================= DOM: reveals, accordions, motion toggle ================= */
-  var motionToggle = document.getElementById('motion-toggle');
-
+  /* ================= DOM: reveals, accordions ================= */
   function setMotionUI() {
     document.documentElement.classList.toggle('rm', reduced);
-    if (motionToggle) {
-      motionToggle.setAttribute('aria-pressed', reduced ? 'true' : 'false');
-      motionToggle.textContent = reduced ? 'Restore motion' : 'Reduce motion';
-    }
     if (reduced) {
       document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
     }
@@ -607,7 +588,7 @@ permalink: /experiments/tangle/index.html
       threads.push({
         kind: kind, di: di, jit: jit, weftX: weftX,
         cx: cxs, cy: cys, M: M,
-        start: rng() * 0.52,
+        start: rng() * 0.08,
         span: 0.48,
         sweep: 0.5 + rng() * 0.4,
         flip: rng() < 0.5 ? 0 : 1,
@@ -784,9 +765,10 @@ permalink: /experiments/tangle/index.html
     t += dt;
 
     var s = window.scrollY || window.pageYOffset || 0;
-    /* Smooth the scroll-to-progress mapping: the weave eases toward the
-       scroll target instead of snapping to it. Frame-rate independent. */
-    progress += (targetProgress() - progress) * (1 - Math.pow(0.002, dt));
+    /* The weave tracks scroll closely: threads begin undoing as soon as
+       scrolling starts, with only a whisper of smoothing to take the
+       jitter out. Frame-rate independent. */
+    progress += (targetProgress() - progress) * Math.min(1, dt * 18);
     var vel = dt > 0 ? (s - lastScrollY) / dt : 0;
     lastScrollY = s;
     stir += ((vel / 2600) - stir) * (1 - Math.pow(0.02, dt));
@@ -894,14 +876,6 @@ permalink: /experiments/tangle/index.html
     else if (!reduced) { startLoop(); }
   });
 
-  if (motionToggle) {
-    motionToggle.addEventListener('click', function () {
-      reduced = !reduced;
-      setMotionUI();
-      if (reduced) { stopLoop(); renderStatic(); }
-      else { makeGrain(); startLoop(); }
-    });
-  }
   if (prefersReduced.addEventListener) {
     prefersReduced.addEventListener('change', function (e) {
       if (e.matches && !reduced) {
