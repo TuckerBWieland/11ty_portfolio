@@ -463,6 +463,8 @@ permalink: /experiments/tangle/index.html
         item.classList.add('open');
         button.setAttribute('aria-expanded', 'true');
       }
+      measureLayout();
+      setTimeout(measureLayout, 600);
     });
   });
 
@@ -483,7 +485,7 @@ permalink: /experiments/tangle/index.html
   var grainPattern = null;
 
   var pointer = { x: -9999, y: -9999, tx: -9999, ty: -9999, lastMove: 0 };
-  var lastScrollY = 0, progress = 0, stir = 0;
+  var lastScrollY = 0, scrollNow = 0, progress = 0, stir = 0;
   var t = 0, lastT = 0, running = true, rafId = 0;
 
   function mulberry32(a) {
@@ -502,17 +504,18 @@ permalink: /experiments/tangle/index.html
   }
 
   /* Live content layout: the ordered lattice registers to the real card
-     rows. Dividers are the viewport Y of every project/experience row edge;
-     warp threads snap to them so lattice lines continue the card borders
-     across the full width. Weft rails frame the content column. */
+     rows. Dividers are stored in document coordinates once, and converted
+     to viewport coordinates per frame from the scroll position, so no
+     layout reads happen during the animation loop. */
   var layout = { dividers: [] };
   function measureLayout() {
     var items = document.querySelectorAll('.project-item, .company-item');
     var divs = [];
+    var sy = window.scrollY || window.pageYOffset || 0;
     for (var n = 0; n < items.length; n++) {
       var r = items[n].getBoundingClientRect();
-      divs.push(r.top);
-      if (n === items.length - 1) divs.push(r.bottom);
+      divs.push(r.top + sy);
+      if (n === items.length - 1) divs.push(r.bottom + sy);
     }
     layout.dividers = divs;
   }
@@ -635,7 +638,7 @@ permalink: /experiments/tangle/index.html
 
   function drawThreads() {
     var PR = 200, PR2 = PR * PR;
-    var stirAmp = Math.min(1.5, Math.abs(stir) * 3);
+    var stirAmp = Math.min(0.6, Math.abs(stir) * 1.5);
     var divs = layout.dividers;
     var nDiv = divs.length;
     var margin = Math.min(W, H) * 0.08;
@@ -648,7 +651,7 @@ permalink: /experiments/tangle/index.html
       var ax, ay;
       if (th.kind === 0) {
         ax = W / 2;
-        ay = nDiv ? divs[Math.round(th.di * (nDiv - 1))] + th.jit : H * th.di;
+        ay = nDiv ? divs[Math.round(th.di * (nDiv - 1))] + th.jit - scrollNow : H * th.di;
       } else {
         ax = th.weftX;
         ay = H / 2;
@@ -741,7 +744,6 @@ permalink: /experiments/tangle/index.html
   }
 
   function draw(dt) {
-    measureLayout();
     ctx.fillStyle = '#0b0c11';
     ctx.fillRect(0, 0, W, H);
     drawHalo();
@@ -765,14 +767,14 @@ permalink: /experiments/tangle/index.html
     t += dt;
 
     var s = window.scrollY || window.pageYOffset || 0;
-    /* The weave tracks scroll closely: threads begin undoing as soon as
-       scrolling starts, with only a whisper of smoothing to take the
-       jitter out. Frame-rate independent. */
-    progress += (targetProgress() - progress) * Math.min(1, dt * 18);
+    scrollNow = s;
+    /* Smooth exponential tracking: the undo begins with the first pixel of
+       scroll and glides rather than stepping. Frame-rate independent. */
+    progress += (targetProgress() - progress) * (1 - Math.exp(-dt * 12));
     var vel = dt > 0 ? (s - lastScrollY) / dt : 0;
     lastScrollY = s;
     stir += ((vel / 2600) - stir) * (1 - Math.pow(0.02, dt));
-    stir = clamp(stir, -1.5, 1.5);
+    stir = clamp(stir, -1, 1);
     if (Math.abs(stir) < 0.0005) stir = 0;
 
     /* An idle pointer drifts on its own slow orbit, dimpling the weave */
@@ -808,6 +810,7 @@ permalink: /experiments/tangle/index.html
      transformation, but only re rendered once the page settles. */
   function renderStatic() {
     progress = targetProgress();
+    scrollNow = window.scrollY || window.pageYOffset || 0;
     t = 4.2;
     pointer.x = -9999; pointer.y = -9999;
     pointer.tx = -9999; pointer.ty = -9999;
@@ -827,6 +830,7 @@ permalink: /experiments/tangle/index.html
     canvas.style.height = H + 'px';
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     buildThreads();
+    measureLayout();
   }
 
   /* Pointer and touch share one path; pointer events cover touchmove natively */
