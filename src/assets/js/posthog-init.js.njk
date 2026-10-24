@@ -20,7 +20,7 @@ eleventyExcludeFromCollections: true
     s.type = "text/javascript";
     s.async = true;
     s.crossOrigin = "anonymous";
-    s.src = "https://logs.tuckerwieland.com/static/array.js";
+    s.src = "https://us-assets.i.posthog.com/static/array.js";
     var x = doc.getElementsByTagName("script")[0];
     x.parentNode.insertBefore(s, x);
 
@@ -28,7 +28,7 @@ eleventyExcludeFromCollections: true
   };
 
   ph.init("{{ PH_TOKEN }}", {
-    api_host: "https://logs.tuckerwieland.com",
+    api_host: "https://us.i.posthog.com",
     ui_host: "https://us.posthog.com",
     capture_pageview: true,
     person_profiles: "identified_only"
