@@ -1161,20 +1161,64 @@
      layout reads happen during the animation loop. */
                 var layout = { dividers: [] };
                 var dispDivs = [];
+                /* Document top from the offset chain, NOT getBoundingClientRect:
+                   rows carry the reveal treatment (translateY(14px) until they
+                   scroll into view), and a rect read includes that transform.
+                   Rect based dividers were captured with rows sitting 14px low,
+                   so every lattice line landed 14px under its border once the
+                   row revealed. Offsets ignore transforms: the divider holds
+                   the position the row settles into. */
+                function docTopOf(el) {
+                    var y = 0;
+                    var node = el;
+                    while (node) {
+                        y += node.offsetTop;
+                        node = node.offsetParent;
+                    }
+                    return y;
+                }
                 function measureLayout() {
                     var items = document.querySelectorAll('.project-item, .company-item');
                     var divs = [];
-                    var sy = window.scrollY || window.pageYOffset || 0;
                     for (var n = 0; n < items.length; n++) {
-                        var r = items[n].getBoundingClientRect();
-                        divs.push(r.top + sy);
-                        if (n === items.length - 1) divs.push(r.bottom + sy);
+                        var top = docTopOf(items[n]);
+                        divs.push(top);
+                        if (n === items.length - 1) divs.push(top + items[n].offsetHeight);
                     }
                     layout.dividers = divs;
                     /* Display dividers ease toward the measured ones each frame;
                        they snap only when there is nothing to ease from. */
                     if (dispDivs.length !== divs.length) dispDivs = divs.slice();
                 }
+                /* Registration: measured dividers go stale the moment anything
+     shifts the rows after load. The big one is the webfont swap: when
+     IBM Plex Mono arrives, every row height moves a few pixels and the
+     lattice keeps pointing at the pre swap positions until something
+     forces a remeasure. Re measure on font readiness and on any row
+     resize, so the lines track the dividers as they actually are. */
+                if (document.fonts && document.fonts.ready) {
+                    document.fonts.ready.then(function () {
+                        measureLayout();
+                        dispDivs = layout.dividers.slice();
+                    });
+                }
+                if (window.ResizeObserver) {
+                    var rowObserver = new ResizeObserver(function () {
+                        measureLayout();
+                    });
+                    /* Observe the page shell and every section as well as the
+                       rows: a size change ABOVE the lists (the hero settling
+                       when the webfont swaps in) moves every row without
+                       resizing any of them, and row only observation stayed
+                       silent while the dividers went stale by that height. */
+                    document.querySelectorAll('.page, section, .project-item, .company-item').forEach(function (el) {
+                        rowObserver.observe(el);
+                    });
+                }
+                window.addEventListener('load', function () {
+                    measureLayout();
+                    dispDivs = layout.dividers.slice();
+                });
                 function edgeFade(v, max) {
                     var m = 160;
                     var d = v < 0 ? -v : v > max ? v - max : 0;
@@ -1264,7 +1308,7 @@
                             cy: cys,
                             M: M,
                             start: rng() * 0.08,
-                            span: 0.48,
+                            span: 0.3,
                             sweep: 0.5 + rng() * 0.4,
                             flip: rng() < 0.5 ? 0 : 1,
                             phase: rng() * Math.PI * 2,
@@ -1341,7 +1385,7 @@
                         /* Stray fade: a thread belongs to the scene at its two ends,
          the knot and the finished weave. Mid journey it is a floater
          crossing the page on its own, so it dims until it lands. */
-                        var strayDim = 1 - 0.6 * Math.sin(Math.PI * tp);
+                        var strayDim = 1 - 0.78 * Math.sin(Math.PI * tp);
                         var a = lerp(th.alpha, 0.55, tp) * midDim * strayDim;
                         a *= 0.25 + 0.75 * Math.min(edgeFade(ax, W), edgeFade(ay, H));
                         var threadColor = th.bright ? '240,228,202' : '214,196,164';
@@ -1368,7 +1412,7 @@
            points the last of the way onto the ordered line, so nearly
            finished threads read as straight rules on the row borders
            instead of gentle waves still traveling. */
-                            var settle = smootherstep((tp - 0.7) / 0.3);
+                            var settle = smootherstep((tp - 0.55) / 0.45);
                             if (settle > 0) {
                                 x = lerp(x, exx, settle);
                                 y = lerp(y, eyy, settle);
@@ -1568,6 +1612,9 @@
        registered to the content; a slow clock reads as sliding and
        jitter against text that moves with the raw scroll. */
                     smoothScroll += (s - smoothScroll) * (1 - Math.exp(-dt * 24));
+                    /* Snap the last half pixel so a resting page is registered
+       exactly, not asymptotically close. */
+                    if (Math.abs(s - smoothScroll) < 0.5) smoothScroll = s;
                     scrollNow = smoothScroll;
                     progress += (targetProgress() - progress) * (1 - Math.exp(-dt * 16));
                     /* Ease the displayed row dividers toward the measured ones, so
@@ -1635,7 +1682,11 @@
                 function resize() {
                     var prevW = W,
                         prevH = H;
-                    DPR = Math.min(window.devicePixelRatio || 1, 1.5);
+                    /* Phones render the canvas at up to 2x so lattice lines stay
+       as crisp as the DOM borders they sit on; large screens keep the
+       cheaper 1.5 cap. A soft upscaled line reads as misaligned. */
+                    var dprCap = Math.min(window.innerWidth, window.innerHeight) < 700 ? 2 : 1.5;
+                    DPR = Math.min(window.devicePixelRatio || 1, dprCap);
                     W = window.innerWidth;
                     H = window.innerHeight;
                     coarseMode = Math.min(W, H) < 700 || coarse;
