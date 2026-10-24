@@ -1338,7 +1338,11 @@
                             ax = th.weftX;
                             ay = H / 2;
                         }
-                        var a = lerp(th.alpha, 0.55, tp) * midDim;
+                        /* Stray fade: a thread belongs to the scene at its two ends,
+         the knot and the finished weave. Mid journey it is a floater
+         crossing the page on its own, so it dims until it lands. */
+                        var strayDim = 1 - 0.6 * Math.sin(Math.PI * tp);
+                        var a = lerp(th.alpha, 0.55, tp) * midDim * strayDim;
                         a *= 0.25 + 0.75 * Math.min(edgeFade(ax, W), edgeFade(ay, H));
                         ctx.strokeStyle = th.bright
                             ? 'rgba(240,228,202,' + a.toFixed(3) + ')'
