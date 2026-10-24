@@ -129,7 +129,7 @@
                 inset: 0;
                 z-index: 0;
                 pointer-events: none;
-                background: radial-gradient(68% 56% at 50% 46%, rgb(11 12 17 / 50%), transparent 72%);
+                background: radial-gradient(68% 56% at 50% 46%, rgb(11 12 17 / 34%), transparent 72%);
             }
 
             .page {
@@ -1308,7 +1308,7 @@
                             cy: cys,
                             M: M,
                             start: rng() * 0.08,
-                            span: 0.3,
+                            span: 0.48,
                             sweep: 0.5 + rng() * 0.4,
                             flip: rng() < 0.5 ? 0 : 1,
                             phase: rng() * Math.PI * 2,
@@ -1362,11 +1362,6 @@
                     var stirAmp = Math.min(0.4, Math.abs(stir) * 1.5);
                     var divs = dispDivs.length ? dispDivs : layout.dividers;
                     var nDiv = divs.length;
-                    /* Mid journey dim: while the knot is passing behind the text
-                       sections, threads sit quieter so the copy stays clean. Full
-                       strength at the hero knot and at the finished weave. */
-                    var midDim =
-                        1 - 0.22 * smootherstep((progress - 0.03) / 0.09) * (1 - smootherstep((progress - 0.5) / 0.22));
                     var margin = Math.min(W, H) * 0.08;
                     for (var i = 0; i < threads.length; i++) {
                         var th = threads[i];
@@ -1386,7 +1381,7 @@
          the knot and the finished weave. Mid journey it is a floater
          crossing the page on its own, so it dims until it lands. */
                         var strayDim = 1 - 0.55 * Math.sin(Math.PI * tp);
-                        var a = lerp(th.alpha, 0.55, tp) * midDim * strayDim;
+                        var a = lerp(th.alpha, 0.55, tp) * strayDim;
                         a *= 0.25 + 0.75 * Math.min(edgeFade(ax, W), edgeFade(ay, H));
                         var threadColor = th.bright ? '240,228,202' : '214,196,164';
                         ctx.strokeStyle = 'rgba(' + threadColor + ',' + a.toFixed(3) + ')';
