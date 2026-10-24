@@ -542,7 +542,7 @@
                         </p>
                         <p>
                             Earlier chapters: growth and marketing operations at Justworks, Shopify, and General
-                            Assembly. I like small teams that ship, and writing that says what it means.
+                            Assembly.
                         </p>
                     </div>
                 </section>
@@ -589,6 +589,13 @@
                                         rel="noopener noreferrer"
                                         class="project-link"
                                         >Read the New York Times coverage &#8594;</a
+                                    >
+                                    <a
+                                        href="https://techcrunch.com/2026/10/21/meta-says-muse-has-over-10m-users-with-shopping-a-top-activity/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="project-link"
+                                        >Read the TechCrunch coverage &#8594;</a
                                     >
                                 </div>
                             </div>
@@ -827,11 +834,11 @@
                                         <li>San Francisco, CA. Mar 2026 to Present</li>
                                     </ul>
                                     <a
-                                        href="https://www.meta.com"
+                                        href="https://muse.ai"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         class="company-link"
-                                        >meta.com &#8594;</a
+                                        >muse.ai &#8594;</a
                                     >
                                 </div>
                             </div>
@@ -1231,7 +1238,7 @@
                             weftX = 0;
                         if (kind === 0) {
                             di = horiz <= 1 ? 0 : i / (horiz - 1);
-                            jit = (rng() - 0.5) * 6;
+                            jit = (rng() - 0.5) * 2.4;
                         } else {
                             var vi = i - horiz;
                             if (vi === 0) {
@@ -1354,6 +1361,15 @@
                             }
                             var x = lerp(th.cx[j], exx, wj);
                             var y = lerp(th.cy[j], eyy, wj);
+                            /* Settle boost: as a thread nears full order, pull its
+           points the last of the way onto the ordered line, so nearly
+           finished threads read as straight rules on the row borders
+           instead of gentle waves still traveling. */
+                            var settle = smootherstep((tp - 0.7) / 0.3);
+                            if (settle > 0) {
+                                x = lerp(x, exx, settle);
+                                y = lerp(y, eyy, settle);
+                            }
                             /* Quiver: strong while tangled, settles to still as the thread
            orders, so finished lines sit straight and calm */
                             var qa = (1 - wj) * (3.4 * th.wob + stirAmp) + 0.05;
@@ -1470,12 +1486,15 @@
                     scrollNow = smoothScroll;
                     progress += (targetProgress() - progress) * (1 - Math.exp(-dt * 16));
                     /* Ease the displayed row dividers toward the measured ones, so
-       accordion expansions and other layout shifts glide instead of snap. */
-                    var divEase = 1 - Math.exp(-dt * 16);
+       accordion expansions and other layout shifts glide instead of snap.
+       Snap the last fraction of a pixel so resting lines sit exactly on
+       their borders. */
+                    var divEase = 1 - Math.exp(-dt * 22);
                     var targetDivs = layout.dividers;
                     if (dispDivs.length === targetDivs.length) {
                         for (var di = 0; di < dispDivs.length; di++) {
-                            dispDivs[di] += (targetDivs[di] - dispDivs[di]) * divEase;
+                            var dd = targetDivs[di] - dispDivs[di];
+                            dispDivs[di] = Math.abs(dd) < 0.4 ? targetDivs[di] : dispDivs[di] + dd * divEase;
                         }
                     }
                     var vel = dt > 0 ? (s - lastScrollY) / dt : 0;
