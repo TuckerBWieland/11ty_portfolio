@@ -1,533 +1,1622 @@
----
-layout: layouts/base.njk
-title: Tucker Wieland
-description: Product Marketing, Meta. GTM strategy and operations for Muse, Meta's personal AI agent.
----
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Tucker Wieland - Product Marketing, Meta</title>
+        <meta name="description" content="GTM strategy and operations for Muse, Meta's personal AI agent." />
+        <link rel="canonical" href="https://tuckerwieland.com/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://tuckerwieland.com/" />
+        <meta property="og:title" content="Tucker Wieland - Product Marketing, Meta" />
+        <meta property="og:description" content="GTM strategy and operations for Muse, Meta's personal AI agent." />
+        <meta property="og:image" content="https://tuckerwieland.com/assets/images/meta/meta1.webp" />
+        <meta property="og:image:alt" content="Tucker Wieland - Product Marketing, Meta portfolio preview" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="Tucker Wieland" />
+        <meta property="og:locale" content="en" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://tuckerwieland.com/" />
+        <meta name="twitter:title" content="Tucker Wieland - Product Marketing, Meta" />
+        <meta name="twitter:description" content="GTM strategy and operations for Muse, Meta's personal AI agent." />
+        <meta name="twitter:image" content="https://tuckerwieland.com/assets/images/meta/meta1.webp" />
+        <meta name="twitter:image:alt" content="Tucker Wieland - Product Marketing, Meta portfolio preview" />
+        <meta name="twitter:creator" content="@tuckerwieland" />
+        <meta name="robots" content="index, follow" />
+        <meta name="theme-color" content="#0b0c11" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Person",
+                "name": "Tucker Wieland",
+                "jobTitle": "Product Marketing Manager, Meta",
+                "description": "GTM strategy and operations for Muse, Meta's personal AI agent.",
+                "url": "https://tuckerwieland.com",
+                "sameAs": ["https://linkedin.com/in/tucker-wieland", "https://github.com/TuckerBWieland"]
+            }
+        </script>
+        <link
+            rel="preload"
+            href="/fonts/ibm-plex-mono-latin-400-normal.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin
+        />
+        <link
+            rel="preload"
+            href="/fonts/ibm-plex-mono-latin-700-normal.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin
+        />
+        <style>
+            @font-face {
+                font-family: 'IBM Plex Mono';
+                font-weight: 400;
+                font-style: normal;
+                font-display: optional;
+                src: url('/fonts/ibm-plex-mono-latin-400-normal.woff2') format('woff2');
+            }
+            @font-face {
+                font-family: 'IBM Plex Mono';
+                font-weight: 700;
+                font-style: normal;
+                font-display: optional;
+                src: url('/fonts/ibm-plex-mono-latin-700-normal.woff2') format('woff2');
+            }
+            :root {
+                --bg: #0b0c11;
+                --ink: #ffffff;
+                --ink-2: rgb(255 255 255 / 55%);
+                --ink-3: rgb(255 255 255 / 32%);
+                --line: rgb(255 255 255 / 10%);
+                --warm: #f2e7d3;
+                --warm-dim: rgb(242 231 211 / 70%);
+            }
+            *,
+            *::before,
+            *::after {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            html {
+                background: var(--bg);
+            }
+            body {
+                background: var(--bg);
+                color: var(--ink);
+                font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+                line-height: 1.6;
+                -webkit-font-smoothing: antialiased;
+                overflow-x: clip;
+            }
+            ::selection {
+                background: #f2efe8;
+                color: #101218;
+            }
+            a:focus-visible,
+            button:focus-visible {
+                outline: 2px solid #f2efe8;
+                outline-offset: 3px;
+                border-radius: 2px;
+            }
 
-<!-- Site Nav -->
-<header class="site-nav">
-    <a class="site-nav-name" href="/">Tucker Wieland</a>
-    <nav class="site-nav-links" aria-label="Primary">
-        <a class="site-nav-link" href="/resume/tucker-wieland-resume.pdf" download>Resume</a>
-        <a
-            class="site-nav-link"
-            href="https://www.linkedin.com/in/tucker-wieland/"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            LinkedIn
-        </a>
-        <a class="site-nav-link" href="https://github.com/TuckerBWieland/" target="_blank" rel="noopener noreferrer">
-            GitHub
-        </a>
-    </nav>
-</header>
+            /* Fixed tangle canvas, behind everything */
+            #tangle {
+                position: fixed;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 0;
+                pointer-events: none;
+                display: block;
+            }
+            /* Legibility: edges fall off, and a soft shadow sits behind the text column */
+            .veil {
+                position: fixed;
+                inset: 0;
+                z-index: 0;
+                pointer-events: none;
+                background: radial-gradient(120% 90% at 50% 40%, transparent 52%, rgb(11 12 17 / 46%) 100%);
+            }
+            .veil-core {
+                position: fixed;
+                inset: 0;
+                z-index: 0;
+                pointer-events: none;
+                background: radial-gradient(58% 46% at 50% 46%, rgb(11 12 17 / 42%), transparent 70%);
+            }
 
-<!-- Hero Section -->
-<section class="hero">
-    <div class="hero-content">
-        <div class="hero-actions">
-            <a class="button" href="/resume/tucker-wieland-resume.pdf" download>Download Resume</a>
-            <a
-                class="button button-ghost"
-                href="https://www.linkedin.com/in/tucker-wieland/"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                LinkedIn
-            </a>
+            .page {
+                position: relative;
+                z-index: 1;
+            }
+
+            /* Nav */
+            .site-nav {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 20;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            .site-nav-name {
+                color: var(--ink);
+                text-decoration: none;
+                font-weight: 700;
+                font-size: 0.875rem;
+            }
+            .site-nav-links {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+            }
+            .site-nav-link {
+                color: var(--ink-2);
+                text-decoration: none;
+                font-size: 0.875rem;
+                transition: color 0.3s ease;
+            }
+            .site-nav-link:hover {
+                color: var(--ink);
+            }
+
+            /* Sections */
+            section {
+                padding: 0 20px;
+                max-width: 720px;
+                margin: 0 auto;
+            }
+            .hero {
+                min-height: 92svh;
+                display: flex;
+                align-items: center;
+                padding-top: 120px;
+            }
+            .about,
+            .projects,
+            .experience,
+            .contact {
+                padding-top: 18vh;
+                padding-bottom: 6vh;
+            }
+            .contact {
+                padding-bottom: 22vh;
+            }
+
+            .hero-name {
+                font-size: clamp(2.6rem, 8vw, 4.4rem);
+                font-weight: 700;
+                letter-spacing: -0.02em;
+                line-height: 1.05;
+                color: var(--ink);
+            }
+            .hero-note {
+                margin-top: 1.1rem;
+                color: var(--ink-2);
+                font-size: 0.95rem;
+                max-width: 46ch;
+            }
+            .hero-actions {
+                display: flex;
+                gap: 12px;
+                margin-top: 2rem;
+                flex-wrap: wrap;
+            }
+
+            .button {
+                display: inline-block;
+                padding: 12px 22px;
+                border-radius: 999px;
+                background: var(--warm);
+                color: #101218;
+                text-decoration: none;
+                font-family: inherit;
+                font-size: 0.875rem;
+                font-weight: 700;
+                transition:
+                    transform 0.35s ease,
+                    opacity 0.35s ease;
+            }
+            .button:hover {
+                transform: translateY(-1px);
+                opacity: 0.92;
+            }
+            .button-ghost {
+                background: transparent;
+                color: var(--ink);
+                border: 1px solid rgb(255 255 255 / 28%);
+            }
+            .button-ghost:hover {
+                border-color: rgb(255 255 255 / 55%);
+                opacity: 1;
+            }
+
+            .section-title {
+                font-size: 0.8rem;
+                font-weight: 700;
+                letter-spacing: 0.22em;
+                text-transform: uppercase;
+                color: var(--ink-3);
+                margin-bottom: 1.6rem;
+            }
+            .about-body {
+                color: var(--ink-2);
+                font-size: 0.95rem;
+                max-width: 62ch;
+            }
+            .about-body p {
+                margin-bottom: 1rem;
+            }
+
+            /* Scroll reveals: slow settle, disabled under reduced motion */
+            .reveal {
+                opacity: 0;
+                transform: translateY(14px);
+                filter: blur(6px);
+                transition:
+                    opacity 0.9s ease,
+                    transform 0.9s ease,
+                    filter 0.9s ease;
+            }
+            .reveal.in {
+                opacity: 1;
+                transform: none;
+                filter: none;
+            }
+
+            /* Accordions */
+            .project-list,
+            .company-list {
+                list-style: none;
+            }
+            .project-item,
+            .company-item {
+                position: relative;
+                overflow: hidden;
+                border-top: 1px solid rgb(214 196 164 / 26%);
+            }
+            .project-item:last-child,
+            .company-item:last-child {
+                border-bottom: 1px solid rgb(214 196 164 / 26%);
+            }
+            .project-header,
+            .company-header {
+                width: 100%;
+                display: flex;
+                align-items: baseline;
+                justify-content: space-between;
+                gap: 16px;
+                padding: 20px 4px;
+                background: none;
+                border: 0;
+                cursor: pointer;
+                font-family: inherit;
+                color: inherit;
+                text-align: left;
+            }
+            .project-name,
+            .company-name {
+                font-size: 1.02rem;
+                font-weight: 700;
+                color: var(--ink);
+            }
+            .project-meta,
+            .company-meta {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                flex-shrink: 0;
+            }
+            .project-company,
+            .company-role {
+                font-size: 0.78rem;
+                color: var(--ink-3);
+            }
+            .toggle-icon {
+                width: 16px;
+                height: 16px;
+                color: var(--ink-2);
+                transition: transform 0.45s ease;
+            }
+            .open .toggle-icon {
+                transform: rotate(180deg);
+            }
+
+            .project-details,
+            .company-details {
+                display: grid;
+                grid-template-rows: 0fr;
+                transition: grid-template-rows 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+            }
+            .open .project-details,
+            .open .company-details {
+                grid-template-rows: 1fr;
+            }
+            .details-inner {
+                overflow: hidden;
+            }
+            .project-bullets,
+            .company-bullets {
+                list-style: none;
+                padding: 0 4px 8px;
+                color: var(--ink-2);
+                font-size: 0.92rem;
+            }
+            .project-bullets li,
+            .company-bullets li {
+                margin-bottom: 0.55rem;
+                max-width: 62ch;
+            }
+            .project-link,
+            .company-link {
+                display: inline-block;
+                margin: 0 18px 22px 4px;
+                color: var(--warm-dim);
+                text-decoration: none;
+                font-size: 0.85rem;
+                border-bottom: 1px solid rgb(242 231 211 / 30%);
+                padding-bottom: 2px;
+                transition:
+                    color 0.3s ease,
+                    border-color 0.3s ease;
+            }
+            .project-link:hover,
+            .company-link:hover {
+                color: var(--warm);
+                border-color: var(--warm);
+            }
+
+            /* Contact */
+            .contact-links {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+            .contact-link {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 18px 4px;
+                color: var(--ink);
+                text-decoration: none;
+                border-top: 1px solid rgb(214 196 164 / 26%);
+                font-size: 1rem;
+                transition:
+                    padding 0.35s ease,
+                    color 0.35s ease;
+            }
+            .contact-link:last-child {
+                border-bottom: 1px solid rgb(214 196 164 / 26%);
+            }
+            .contact-link:hover {
+                color: var(--warm);
+                padding-left: 10px;
+            }
+            .arrow {
+                width: 18px;
+                height: 18px;
+                color: var(--ink-3);
+            }
+
+            .site-footer {
+                position: relative;
+                z-index: 1;
+                text-align: center;
+                padding: 40px 20px 56px;
+                color: var(--ink-3);
+                font-size: 0.78rem;
+            }
+            .site-footer a {
+                color: var(--ink-2);
+                text-decoration: none;
+            }
+            .site-footer a:hover {
+                color: var(--ink);
+            }
+
+            @media (width >= 640px) {
+                section {
+                    padding-left: 40px;
+                    padding-right: 40px;
+                }
+                .site-nav {
+                    padding: 24px 40px;
+                }
+            }
+            @media (width >= 1024px) {
+                section {
+                    max-width: 800px;
+                    padding-left: 24px;
+                    padding-right: 24px;
+                }
+            }
+            @media (width <= 640px) {
+                .site-nav {
+                    padding: 16px 20px;
+                }
+                .site-nav-links {
+                    gap: 14px;
+                }
+                .site-nav-link {
+                    font-size: 0.75rem;
+                }
+                .project-company,
+                .company-role {
+                    display: none;
+                }
+            }
+
+            /* Reduced motion: everything still, everything visible */
+            .rm .reveal,
+            .rm .project-details,
+            .rm .company-details {
+                transition: none;
+            }
+            .rm .reveal {
+                opacity: 1;
+                transform: none;
+                filter: none;
+            }
+            .rm .button,
+            .rm .button:hover {
+                transition: none;
+                transform: none;
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .reveal {
+                    opacity: 1;
+                    transform: none;
+                    filter: none;
+                    transition: none;
+                }
+                .project-details,
+                .company-details {
+                    transition: none;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="tangle" aria-hidden="true"></canvas>
+        <div class="veil" aria-hidden="true"></div>
+        <div class="veil-core" aria-hidden="true"></div>
+
+        <div class="page">
+            <header class="site-nav">
+                <a class="site-nav-name" href="/">Tucker Wieland</a>
+                <nav class="site-nav-links" aria-label="Primary">
+                    <a class="site-nav-link" href="/resume/tucker-wieland-resume.pdf" download>Resume</a>
+                    <a
+                        class="site-nav-link"
+                        href="https://www.linkedin.com/in/tucker-wieland/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >LinkedIn</a
+                    >
+                    <a
+                        class="site-nav-link"
+                        href="https://github.com/TuckerBWieland/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >GitHub</a
+                    >
+                </nav>
+            </header>
+
+            <main>
+                <section class="hero">
+                    <div class="hero-content">
+                        <h1 class="hero-name reveal">Tucker Wieland</h1>
+                        <div class="hero-actions reveal">
+                            <a class="button" href="/resume/tucker-wieland-resume.pdf" download>Download Resume</a>
+                            <a
+                                class="button button-ghost"
+                                href="https://www.linkedin.com/in/tucker-wieland/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                >LinkedIn</a
+                            >
+                        </div>
+                    </div>
+                </section>
+
+                <section class="about">
+                    <h2 class="section-title reveal">About</h2>
+                    <div class="about-body reveal">
+                        <p>
+                            I work on go to market for AI products: positioning, launch strategy, and the measurement
+                            that keeps both honest. Most recently the Muse launch at Meta, and the Dreamer public beta
+                            before it.
+                        </p>
+                        <p>
+                            Earlier chapters: growth and marketing operations at Justworks, Shopify, and General
+                            Assembly. I like small teams that ship, and writing that says what it means.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="projects">
+                    <h2 class="section-title reveal">Projects</h2>
+                    <ul class="project-list">
+                        <li class="project-item reveal">
+                            <button class="project-header" aria-expanded="false">
+                                <span class="project-name">Muse Launch</span>
+                                <span class="project-meta"
+                                    ><span class="project-company">Meta</span>
+                                    <svg
+                                        class="toggle-icon"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path d="M6 9l6 6 6-6" />
+                                    </svg>
+                                </span>
+                            </button>
+                            <div class="project-details">
+                                <div class="details-inner">
+                                    <ul class="project-bullets">
+                                        <li>
+                                            GTM operations and strategy for Meta's personal AI agent, from early access
+                                            through public launch
+                                        </li>
+                                        <li>Positioning and use case development for launch audiences</li>
+                                        <li>Reached No. 1 on the U.S. App Store within 10 days of launch</li>
+                                    </ul>
+                                    <a
+                                        href="https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="project-link"
+                                        >Read the announcement &#8594;</a
+                                    >
+                                    <a
+                                        href="https://www.nytimes.com/2026/09/08/technology/meta-muse-ai-agent.html"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="project-link"
+                                        >Read the New York Times coverage &#8594;</a
+                                    >
+                                </div>
+                            </div>
+                        </li>
+                        <li class="project-item reveal">
+                            <button class="project-header" aria-expanded="false">
+                                <span class="project-name">Dreamer Joins Meta</span>
+                                <span class="project-meta"
+                                    ><span class="project-company">Meta Superintelligence Lab</span>
+                                    <svg
+                                        class="toggle-icon"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path d="M6 9l6 6 6-6" />
+                                    </svg>
+                                </span>
+                            </button>
+                            <div class="project-details">
+                                <div class="details-inner">
+                                    <ul class="project-bullets">
+                                        <li>The Dreamer team joined Meta's Superintelligence Lab in March 2026</li>
+                                        <li>Meta licensed Dreamer's agentic AI technology as part of the move</li>
+                                    </ul>
+                                    <a
+                                        href="https://siliconangle.com/2026/03/23/meta-acqui-hires-co-founders-agentic-ai-startup-dreamer/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="project-link"
+                                        >Read the coverage &#8594;</a
+                                    >
+                                </div>
+                            </div>
+                        </li>
+                        <li class="project-item reveal">
+                            <button class="project-header" aria-expanded="false">
+                                <span class="project-name">Books MCP Server</span>
+                                <span class="project-meta"
+                                    ><span class="project-company">Dreamer</span>
+                                    <svg
+                                        class="toggle-icon"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path d="M6 9l6 6 6-6" />
+                                    </svg>
+                                </span>
+                            </button>
+                            <div class="project-details">
+                                <div class="details-inner">
+                                    <ul class="project-bullets">
+                                        <li>
+                                            MCP server wrapping the Open Library API, a book agent in the style of
+                                            Goodreads
+                                        </li>
+                                        <li>Search, discover, and get details on books, authors, and subjects</li>
+                                    </ul>
+                                    <a
+                                        href="https://github.com/TuckerBWieland/OpenLibraryMCP"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="project-link"
+                                        >View on GitHub &#8594;</a
+                                    >
+                                </div>
+                            </div>
+                        </li>
+                        <li class="project-item reveal">
+                            <button class="project-header" aria-expanded="false">
+                                <span class="project-name">Water Quality Data Viz</span>
+                                <span class="project-meta">
+                                    <span class="project-company">Billion Oyster Project</span>
+                                    <svg
+                                        class="toggle-icon"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path d="M6 9l6 6 6-6" />
+                                    </svg>
+                                </span>
+                            </button>
+                            <div class="project-details">
+                                <div class="details-inner">
+                                    <ul class="project-bullets">
+                                        <li>Volunteer project to make water quality data accessible</li>
+                                        <li>Built web app mapping data via GeoJSON for geographic context</li>
+                                        <li>Helped volunteers understand harbor health trends</li>
+                                    </ul>
+                                    <a
+                                        href="https://tuckerbwieland.github.io/nyc-water-app/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="project-link"
+                                    >
+                                        View the app →
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="project-item reveal">
+                            <button class="project-header" aria-expanded="false">
+                                <span class="project-name">Project Tracking Tool</span>
+                                <span class="project-meta">
+                                    <span class="project-company">Justworks</span>
+                                    <svg
+                                        class="toggle-icon"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path d="M6 9l6 6 6-6" />
+                                    </svg>
+                                </span>
+                            </button>
+                            <div class="project-details">
+                                <div class="details-inner">
+                                    <ul class="project-bullets">
+                                        <li>Built a lightweight project tracker on Slack with a GCP backend</li>
+                                        <li>Workflows aware of the org chart with automated reminders</li>
+                                        <li>
+                                            Sustained 80%+ project update rate within 14 days, adopted across the
+                                            company
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="project-item reveal">
+                            <button class="project-header" aria-expanded="false">
+                                <span class="project-name">Brand Awareness Campaign</span>
+                                <span class="project-meta"
+                                    ><span class="project-company">Justworks</span>
+                                    <svg
+                                        class="toggle-icon"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path d="M6 9l6 6 6-6" />
+                                    </svg>
+                                </span>
+                            </button>
+                            <div class="project-details">
+                                <div class="details-inner">
+                                    <ul class="project-bullets">
+                                        <li>Drove an awareness campaign across TV, digital, and out of home</li>
+                                        <li>
+                                            Achieved a lift in the double digits in brand awareness and ICP targeting
+                                        </li>
+                                    </ul>
+                                    <a
+                                        href="https://adage.com/creativity/work/aa-justworks-for-your-people/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="project-link"
+                                        >Read in Ad Age &#8594;</a
+                                    >
+                                </div>
+                            </div>
+                        </li>
+                        <li class="project-item reveal">
+                            <button class="project-header" aria-expanded="false">
+                                <span class="project-name">Dev Degree Program</span>
+                                <span class="project-meta"
+                                    ><span class="project-company">Shopify</span>
+                                    <svg
+                                        class="toggle-icon"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path d="M6 9l6 6 6-6" />
+                                    </svg>
+                                </span>
+                            </button>
+                            <div class="project-details">
+                                <div class="details-inner">
+                                    <ul class="project-bullets">
+                                        <li>
+                                            Designed and built full marketing operations system from acquisition to
+                                            nurture
+                                        </li>
+                                        <li>
+                                            Scaled email, events, and community programs to record application volume
+                                        </li>
+                                    </ul>
+                                    <a
+                                        href="https://devdegree.ca/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="project-link"
+                                        >Visit Dev Degree &#8594;</a
+                                    >
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="experience">
+                    <h2 class="section-title reveal">Experience</h2>
+                    <ul class="company-list">
+                        <li class="company-item reveal">
+                            <button class="company-header" aria-expanded="false">
+                                <span class="company-name">Meta</span>
+                                <span class="company-meta"
+                                    ><span class="company-role">Product Marketing Manager, Muse</span>
+                                    <svg
+                                        class="toggle-icon"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path d="M6 9l6 6 6-6" />
+                                    </svg>
+                                </span>
+                            </button>
+                            <div class="company-details">
+                                <div class="details-inner">
+                                    <ul class="company-bullets">
+                                        <li>
+                                            GTM operations and strategy for Muse, Meta's personal AI agent, from early
+                                            access through public launch in September 2026
+                                        </li>
+                                        <li>Leading competitive positioning and GTM use case development for launch</li>
+                                        <li>San Francisco, CA. Mar 2026 to Present</li>
+                                    </ul>
+                                    <a
+                                        href="https://www.meta.com"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="company-link"
+                                        >meta.com &#8594;</a
+                                    >
+                                </div>
+                            </div>
+                        </li>
+                        <li class="company-item reveal">
+                            <button class="company-header" aria-expanded="false">
+                                <span class="company-name">Dreamer</span>
+                                <span class="company-meta"
+                                    ><span class="company-role">Growth and Marketing Operations</span>
+                                    <svg
+                                        class="toggle-icon"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path d="M6 9l6 6 6-6" />
+                                    </svg>
+                                </span>
+                            </button>
+                            <div class="company-details">
+                                <div class="details-inner">
+                                    <ul class="company-bullets">
+                                        <li>
+                                            Led growth and marketing operations for the Dreamer AI agent platform
+                                            through its public beta launch in February 2026
+                                        </li>
+                                        <li>
+                                            Team joined Meta's Superintelligence Lab in March 2026. Nov 2025 to Mar 2026
+                                        </li>
+                                    </ul>
+                                    <a
+                                        href="https://dreamer.com"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="company-link"
+                                        >dreamer.com &#8594;</a
+                                    >
+                                </div>
+                            </div>
+                        </li>
+                        <li class="company-item reveal">
+                            <button class="company-header" aria-expanded="false">
+                                <span class="company-name">Justworks</span>
+                                <span class="company-meta"
+                                    ><span class="company-role">Director, GTM Strategy and Ops</span>
+                                    <svg
+                                        class="toggle-icon"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path d="M6 9l6 6 6-6" />
+                                    </svg>
+                                </span>
+                            </button>
+                            <div class="company-details">
+                                <div class="details-inner">
+                                    <ul class="company-bullets">
+                                        <li>Owned $40M marketing budget, achieving 26% YoY growth</li>
+                                        <li>Aligned full marketing team on roadmap, driving MQL and revenue growth</li>
+                                    </ul>
+                                    <a
+                                        href="https://justworks.com"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="company-link"
+                                        >justworks.com &#8594;</a
+                                    >
+                                </div>
+                            </div>
+                        </li>
+                        <li class="company-item reveal">
+                            <button class="company-header" aria-expanded="false">
+                                <span class="company-name">Shopify</span>
+                                <span class="company-meta"
+                                    ><span class="company-role">Marketing Lead, Developer Marketing</span>
+                                    <svg
+                                        class="toggle-icon"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path d="M6 9l6 6 6-6" />
+                                    </svg>
+                                </span>
+                            </button>
+                            <div class="company-details">
+                                <div class="details-inner">
+                                    <ul class="company-bullets">
+                                        <li>Directed global developer campaigns across growth and brand</li>
+                                        <li>
+                                            Grew Dev Degree applications to record application volume while cutting
+                                            costs
+                                        </li>
+                                    </ul>
+                                    <a
+                                        href="https://shopify.com"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="company-link"
+                                        >shopify.com &#8594;</a
+                                    >
+                                </div>
+                            </div>
+                        </li>
+                        <li class="company-item reveal">
+                            <button class="company-header" aria-expanded="false">
+                                <span class="company-name">General Assembly</span>
+                                <span class="company-meta"
+                                    ><span class="company-role">Senior Product Manager</span>
+                                    <svg
+                                        class="toggle-icon"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path d="M6 9l6 6 6-6" />
+                                    </svg>
+                                </span>
+                            </button>
+                            <div class="company-details">
+                                <div class="details-inner">
+                                    <ul class="company-bullets">
+                                        <li>Managed $5M product portfolio, driving 16% YoY revenue growth</li>
+                                        <li>Launched four new courses, adding $700K in revenue in the first year</li>
+                                    </ul>
+                                    <a
+                                        href="https://generalassemb.ly"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="company-link"
+                                        >generalassemb.ly &#8594;</a
+                                    >
+                                </div>
+                            </div>
+                        </li>
+                        <li class="company-item reveal">
+                            <button class="company-header" aria-expanded="false">
+                                <span class="company-name">INTO</span>
+                                <span class="company-meta">
+                                    <span class="company-role">Cofounder and GM</span>
+                                    <svg
+                                        class="toggle-icon"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path d="M6 9l6 6 6-6" />
+                                    </svg>
+                                </span>
+                            </button>
+                            <div class="company-details">
+                                <div class="details-inner">
+                                    <ul class="company-bullets">
+                                        <li>Cofounded and scaled a digital marketing agency</li>
+                                        <li>Managed $35M in client spend across B2B and B2C campaigns</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="contact" id="contact">
+                    <h2 class="section-title reveal">Get in Touch</h2>
+                    <div class="contact-links reveal">
+                        <a href="/resume/tucker-wieland-resume.pdf" download class="contact-link">
+                            Resume
+                            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 4v12m0 0l-5-5m5 5l5-5M5 20h14" />
+                            </svg>
+                        </a>
+                        <a
+                            href="https://www.linkedin.com/in/tucker-wieland/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="contact-link"
+                        >
+                            LinkedIn
+                            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17" />
+                            </svg>
+                        </a>
+                        <a
+                            href="https://github.com/TuckerBWieland/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="contact-link"
+                        >
+                            GitHub
+                            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7V17" />
+                            </svg>
+                        </a>
+                    </div>
+                </section>
+            </main>
+
+            <footer class="site-footer">
+                <p>&copy; 2026 Tucker Wieland.</p>
+            </footer>
         </div>
-    </div>
-</section>
+        <script>
+            (function () {
+                'use strict';
 
-<!-- Projects Section -->
-<section class="projects">
-    <h2 class="section-title">Projects</h2>
+                var params = new URLSearchParams(location.search);
+                var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+                var coarse = window.matchMedia('(pointer: coarse)').matches;
+                var reduced = prefersReduced.matches || params.get('reduced') === '1';
 
-    <ul class="project-list">
-        <li class="project-item">
-            <button class="project-header" aria-expanded="false">
-                <span class="project-name">Muse Launch</span>
-                <span class="project-meta">
-                    <span class="project-company">Meta</span>
-                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 9l6 6 6-6" />
-                    </svg>
-                </span>
-            </button>
-            <div class="project-details">
-                <ul class="project-bullets">
-                    <li>
-                        GTM operations and strategy for Meta's personal AI agent, from early access through public
-                        launch
-                    </li>
-                    <li>Positioning and use case development for launch audiences</li>
-                    <li>Reached No. 1 on the U.S. App Store within 10 days of launch</li>
-                </ul>
-                <a
-                    href="https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="project-link"
-                >
-                    Read the announcement →
-                </a>
-                <a
-                    href="https://www.nytimes.com/2026/09/08/technology/meta-muse-ai-agent.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="project-link"
-                >
-                    Read the New York Times coverage →
-                </a>
-                <a
-                    href="https://techcrunch.com/2026/09/25/meta-is-putting-its-muscle-behind-muse-as-the-ai-app-takes-off/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="project-link"
-                >
-                    Read about the No. 1 App Store launch in TechCrunch →
-                </a>
-            </div>
-        </li>
+                /* ================= DOM: reveals, accordions ================= */
+                function setMotionUI() {
+                    document.documentElement.classList.toggle('rm', reduced);
+                    if (reduced) {
+                        document.querySelectorAll('.reveal').forEach(function (el) {
+                            el.classList.add('in');
+                        });
+                    }
+                }
 
-        <li class="project-item">
-            <button class="project-header" aria-expanded="false">
-                <span class="project-name">Dreamer Joins Meta</span>
-                <span class="project-meta">
-                    <span class="project-company">Meta Superintelligence Lab</span>
-                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 9l6 6 6-6" />
-                    </svg>
-                </span>
-            </button>
-            <div class="project-details">
-                <ul class="project-bullets">
-                    <li>The Dreamer team joined Meta's Superintelligence Lab in March 2026</li>
-                    <li>Meta licensed Dreamer's agentic AI technology as part of the move</li>
-                </ul>
-                <a
-                    href="https://siliconangle.com/2026/03/23/meta-acqui-hires-co-founders-agentic-ai-startup-dreamer/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="project-link"
-                >
-                    Read the coverage →
-                </a>
-            </div>
-        </li>
+                if (!reduced && 'IntersectionObserver' in window) {
+                    var io = new IntersectionObserver(
+                        function (entries) {
+                            entries.forEach(function (e) {
+                                if (e.isIntersecting) {
+                                    e.target.classList.add('in');
+                                    io.unobserve(e.target);
+                                }
+                            });
+                        },
+                        { rootMargin: '0px 0px -8% 0px', threshold: 0.05 }
+                    );
+                    document.querySelectorAll('.reveal').forEach(function (el) {
+                        io.observe(el);
+                    });
+                }
 
-        <li class="project-item">
-            <button class="project-header" aria-expanded="false">
-                <span class="project-name">Dreamer Beta Launch</span>
-                <span class="project-meta">
-                    <span class="project-company">Dreamer</span>
-                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 9l6 6 6-6" />
-                    </svg>
-                </span>
-            </button>
-            <div class="project-details">
-                <ul class="project-bullets">
-                    <li>Public beta of the Dreamer AI agent platform in February 2026</li>
-                    <li>Built so anyone can create agentic AI apps</li>
-                </ul>
-                <a
-                    href="https://www.techmeme.com/260218/p6"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="project-link"
-                >
-                    Read the coverage →
-                </a>
-            </div>
-        </li>
+                document.querySelectorAll('.project-header, .company-header').forEach(function (button) {
+                    button.addEventListener('click', function () {
+                        var item = button.parentElement;
+                        var list = item.parentElement;
+                        var isOpen = item.classList.contains('open');
+                        list.querySelectorAll('.open').forEach(function (openItem) {
+                            openItem.classList.remove('open');
+                            openItem.querySelector('button').setAttribute('aria-expanded', 'false');
+                        });
+                        if (!isOpen) {
+                            item.classList.add('open');
+                            button.setAttribute('aria-expanded', 'true');
+                        }
+                        measureLayout();
+                        setTimeout(measureLayout, 600);
+                    });
+                });
 
-        <li class="project-item">
-            <button class="project-header" aria-expanded="false">
-                <span class="project-name">Books MCP Server</span>
-                <span class="project-meta">
-                    <span class="project-company">Dreamer</span>
-                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 9l6 6 6-6" />
-                    </svg>
-                </span>
-            </button>
-            <div class="project-details">
-                <ul class="project-bullets">
-                    <li>MCP server wrapping the Open Library API, a book agent in the style of Goodreads</li>
-                    <li>Search, discover, and get details on books, authors, and subjects</li>
-                    <li>Built on Cloudflare Workers with smart caching and Google Books fallback</li>
-                </ul>
-                <a
-                    href="https://github.com/TuckerBWieland/OpenLibraryMCP"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="project-link"
-                >
-                    View on GitHub →
-                </a>
-            </div>
-        </li>
+                /* ================= Tangle canvas: knot to weave =================
+     N threads, each with two states: a chaotic knot (a seeded ball of yarn
+     in the hero) and an ordered state (a woven warp and weft lattice that
+     registers to the real card rows: warp threads sit on row dividers, weft
+     threads frame the content column). Scroll progress, smoothed, drives
+     per-thread interpolation, staggered so threads resolve one after
+     another. The order travels along each thread like a hand pulling it
+     taut. Pointer and taps gently disturb the field. */
+                var canvas = document.getElementById('tangle');
+                var ctx = canvas.getContext('2d');
+                var W = 0,
+                    H = 0,
+                    DPR = 1;
+                var coarseMode = false;
+                var threads = [];
+                var ripples = [];
+                var grainPattern = null;
 
-        <li class="project-item">
-            <button class="project-header" aria-expanded="false">
-                <span class="project-name">Water Quality Data Viz</span>
-                <span class="project-meta">
-                    <span class="project-company">Billion Oyster Project</span>
-                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 9l6 6 6-6" />
-                    </svg>
-                </span>
-            </button>
-            <div class="project-details">
-                <ul class="project-bullets">
-                    <li>Volunteer project to make water quality data accessible</li>
-                    <li>Built web app mapping data via GeoJSON for geographic context</li>
-                    <li>Helped volunteers understand harbor health trends</li>
-                </ul>
-                <a
-                    href="https://tuckerbwieland.github.io/nyc-water-app/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="project-link"
-                >
-                    View the app →
-                </a>
-            </div>
-        </li>
+                var pointer = { x: -9999, y: -9999, tx: -9999, ty: -9999, lastMove: 0 };
+                var lastScrollY = 0,
+                    scrollNow = 0,
+                    smoothScroll = 0,
+                    progress = 0,
+                    stir = 0;
+                var t = 0,
+                    lastT = 0,
+                    running = true,
+                    rafId = 0;
 
-        <li class="project-item">
-            <button class="project-header" aria-expanded="false">
-                <span class="project-name">Brand Awareness Campaign</span>
-                <span class="project-meta">
-                    <span class="project-company">Justworks</span>
-                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 9l6 6 6-6" />
-                    </svg>
-                </span>
-            </button>
-            <div class="project-details">
-                <ul class="project-bullets">
-                    <li>Drove an awareness campaign across TV, digital, and out of home</li>
-                    <li>Managed budget, timelines, and execution across functions</li>
-                    <li>Achieved a lift in the double digits in brand awareness and ICP targeting</li>
-                </ul>
-                <a
-                    href="https://adage.com/creativity/work/aa-justworks-for-your-people/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="project-link"
-                >
-                    Read in Ad Age →
-                </a>
-            </div>
-        </li>
+                function mulberry32(a) {
+                    return function () {
+                        a |= 0;
+                        a = (a + 0x6d2b79f5) | 0;
+                        var b = Math.imul(a ^ (a >>> 15), 1 | a);
+                        b = (b + Math.imul(b ^ (b >>> 7), 61 | b)) ^ b;
+                        return ((b ^ (b >>> 14)) >>> 0) / 4294967296;
+                    };
+                }
+                function clamp(v, a, b) {
+                    return v < a ? a : v > b ? b : v;
+                }
+                function lerp(a, b, k) {
+                    return a + (b - a) * k;
+                }
+                function smootherstep(x) {
+                    x = clamp(x, 0, 1);
+                    return x * x * x * (x * (x * 6 - 15) + 10);
+                }
 
-        <li class="project-item">
-            <button class="project-header" aria-expanded="false">
-                <span class="project-name">Marketing ROI Measurement</span>
-                <span class="project-meta">
-                    <span class="project-company">Justworks</span>
-                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 9l6 6 6-6" />
-                    </svg>
-                </span>
-            </button>
-            <div class="project-details">
-                <ul class="project-bullets">
-                    <li>Rebuilt measurement systems across revenue enablement, BI, and marketing ops</li>
-                    <li>Created transparent reporting tying marketing spend to revenue impact</li>
-                    <li>New visibility and reporting led to doubling of marketing investment</li>
-                </ul>
-            </div>
-        </li>
+                /* Live content layout: the ordered lattice registers to the real card
+     rows. Dividers are stored in document coordinates once, and converted
+     to viewport coordinates per frame from the scroll position, so no
+     layout reads happen during the animation loop. */
+                var layout = { dividers: [] };
+                function measureLayout() {
+                    var items = document.querySelectorAll('.project-item, .company-item');
+                    var divs = [];
+                    var sy = window.scrollY || window.pageYOffset || 0;
+                    for (var n = 0; n < items.length; n++) {
+                        var r = items[n].getBoundingClientRect();
+                        divs.push(r.top + sy);
+                        if (n === items.length - 1) divs.push(r.bottom + sy);
+                    }
+                    layout.dividers = divs;
+                }
+                function edgeFade(v, max) {
+                    var m = 160;
+                    var d = v < 0 ? -v : v > max ? v - max : 0;
+                    return clamp(1 - d / m, 0, 1);
+                }
 
-        <li class="project-item">
-            <button class="project-header" aria-expanded="false">
-                <span class="project-name">Project Tracking Tool</span>
-                <span class="project-meta">
-                    <span class="project-company">Justworks</span>
-                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 9l6 6 6-6" />
-                    </svg>
-                </span>
-            </button>
-            <div class="project-details">
-                <ul class="project-bullets">
-                    <li>Built a lightweight project tracker on Slack with a GCP backend</li>
-                    <li>Workflows aware of the org chart with automated reminders</li>
-                    <li>Sustained 80%+ project update rate within 14 days, adopted across the company</li>
-                </ul>
-            </div>
-        </li>
+                function buildThreads() {
+                    threads = [];
+                    var count = coarseMode ? 30 : 54;
+                    var M = coarseMode ? 46 : 64;
+                    var s = Math.min(W, H);
+                    var cx = W / 2,
+                        cy = H * 0.5;
+                    var ballR = s * 0.36;
+                    var horiz = Math.ceil(count / 2);
+                    var vert = count - horiz;
+                    var margin = s * 0.08;
+                    /* Content column: weft rails will frame it, warp threads will snap to
+       its row dividers, so the finished weave and the cards read as one. */
+                    var colRect = document.querySelector('.projects').getBoundingClientRect();
+                    var colL = colRect.left,
+                        colR = colRect.right;
 
-        <li class="project-item">
-            <button class="project-header" aria-expanded="false">
-                <span class="project-name">Dev Degree Program</span>
-                <span class="project-meta">
-                    <span class="project-company">Shopify</span>
-                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 9l6 6 6-6" />
-                    </svg>
-                </span>
-            </button>
-            <div class="project-details">
-                <ul class="project-bullets">
-                    <li>Designed and built full marketing operations system from acquisition to nurture</li>
-                    <li>Scaled email, events, and community programs to record application volume</li>
-                    <li>Thousands of applicants, strong PR, and developer community engagement</li>
-                </ul>
-                <a href="https://devdegree.ca/" target="_blank" rel="noopener noreferrer" class="project-link">
-                    Visit Dev Degree →
-                </a>
-            </div>
-        </li>
+                    for (var i = 0; i < count; i++) {
+                        var rng = mulberry32(1000 + i * 7919);
 
-        <li class="project-item">
-            <button class="project-header" aria-expanded="false">
-                <span class="project-name">Product Roadmap Validation</span>
-                <span class="project-meta">
-                    <span class="project-company">General Assembly</span>
-                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 9l6 6 6-6" />
-                    </svg>
-                </span>
-            </button>
-            <div class="project-details">
-                <ul class="project-bullets">
-                    <li>Founding member of GA's first growth team to validate course demand</li>
-                    <li>Shared the roadmap openly to gather community input before building</li>
-                    <li>Courses launched to an audience already waiting, increased successful launch rate</li>
-                </ul>
-            </div>
-        </li>
-    </ul>
-</section>
+                        /* Chaotic state: a ball of yarn, constrained random walk with swirl */
+                        var cxs = new Float32Array(M),
+                            cys = new Float32Array(M);
+                        var x = cx + (rng() - 0.5) * ballR;
+                        var y = cy + (rng() - 0.5) * ballR;
+                        var ang = rng() * Math.PI * 2;
+                        var swirl = (rng() - 0.5) * 2;
+                        var step = ballR * 0.085;
+                        for (var j = 0; j < M; j++) {
+                            cxs[j] = x;
+                            cys[j] = y;
+                            ang += (rng() - 0.5) * 1.9 + swirl * 0.35;
+                            var nx = x + Math.cos(ang) * step;
+                            var ny = y + Math.sin(ang) * step * 0.9;
+                            var dx = nx - cx,
+                                dy = ny - cy;
+                            var d = Math.sqrt(dx * dx + dy * dy);
+                            if (d > ballR) {
+                                var ux = dx / d,
+                                    uy = dy / d;
+                                nx = cx + ux * (ballR - step * 0.5);
+                                ny = cy + uy * (ballR - step * 0.5);
+                                ang = Math.atan2(-uy, -ux) + (rng() - 0.5) * 1.2;
+                            }
+                            x = nx;
+                            y = ny;
+                        }
 
-<!-- Work Experience Section -->
-<section class="experience">
-    <h2 class="section-title">Experience</h2>
+                        /* Ordered state: warp threads register to card-row dividers (their
+         exact Y is resolved live per frame); weft threads become rails,
+         two pinned to the content column edges, the rest routed around it. */
+                        var kind = i < horiz ? 0 : 1;
+                        var di = 0,
+                            jit = 0,
+                            weftX = 0;
+                        if (kind === 0) {
+                            di = horiz <= 1 ? 0 : i / (horiz - 1);
+                            jit = (rng() - 0.5) * 6;
+                        } else {
+                            var vi = i - horiz;
+                            if (vi === 0) {
+                                weftX = colL;
+                            } else if (vi === 1) {
+                                weftX = colR;
+                            } else {
+                                var slots = vert - 2;
+                                var si = vi - 2;
+                                weftX = lerp(-margin, W + margin, slots <= 1 ? 0.5 : si / (slots - 1));
+                                if (weftX > colL - 34 && weftX < colR + 34) {
+                                    weftX = weftX < (colL + colR) / 2 ? colL - 34 : colR + 34;
+                                }
+                            }
+                        }
 
-    <ul class="company-list">
-        <li class="company-item">
-            <button class="company-header" aria-expanded="false">
-                <span class="company-name">Meta</span>
-                <span class="company-meta">
-                    <span class="company-role">Product Marketing Manager, Muse</span>
-                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 9l6 6 6-6" />
-                    </svg>
-                </span>
-            </button>
-            <div class="company-details">
-                <ul class="company-bullets">
-                    <li>
-                        GTM operations and strategy for Muse, Meta's personal AI agent, from early access through public
-                        launch in September 2026
-                    </li>
-                    <li>Leading competitive positioning and GTM use case development for launch</li>
-                    <li>San Francisco, CA. Mar 2026 to Present</li>
-                </ul>
-                <a href="https://www.meta.com" target="_blank" rel="noopener noreferrer" class="company-link">
-                    meta.com →
-                </a>
-            </div>
-        </li>
+                        threads.push({
+                            kind: kind,
+                            di: di,
+                            jit: jit,
+                            weftX: weftX,
+                            cx: cxs,
+                            cy: cys,
+                            M: M,
+                            start: rng() * 0.08,
+                            span: 0.48,
+                            sweep: 0.5 + rng() * 0.4,
+                            flip: rng() < 0.5 ? 0 : 1,
+                            phase: rng() * Math.PI * 2,
+                            wob: 0.6 + rng() * 0.8,
+                            alpha: 0.2 + rng() * 0.08,
+                            bright: rng() < 0.18
+                        });
+                    }
+                }
 
-        <li class="company-item">
-            <button class="company-header" aria-expanded="false">
-                <span class="company-name">Dreamer</span>
-                <span class="company-meta">
-                    <span class="company-role">Growth and Marketing Operations</span>
-                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 9l6 6 6-6" />
-                    </svg>
-                </span>
-            </button>
-            <div class="company-details">
-                <ul class="company-bullets">
-                    <li>
-                        Led growth and marketing operations for the Dreamer AI agent platform through its public beta
-                        launch in February 2026
-                    </li>
-                    <li>Built agent marketing workflows and an early user community</li>
-                    <li>Team joined Meta's Superintelligence Lab in March 2026. Nov 2025 to Mar 2026</li>
-                </ul>
-                <a href="https://dreamer.com" target="_blank" rel="noopener noreferrer" class="company-link">
-                    dreamer.com →
-                </a>
-            </div>
-        </li>
+                function spawnRipple(x, y) {
+                    if (ripples.length > 6) ripples.shift();
+                    ripples.push({ x: x, y: y, r: 0, age: 0, life: 2.6, maxR: Math.max(W, H) * 0.5, strength: 1 });
+                }
 
-        <li class="company-item">
-            <button class="company-header" aria-expanded="false">
-                <span class="company-name">Justworks</span>
-                <span class="company-meta">
-                    <span class="company-role">Director, GTM Strategy and Ops</span>
-                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 9l6 6 6-6" />
-                    </svg>
-                </span>
-            </button>
-            <div class="company-details">
-                <ul class="company-bullets">
-                    <li>Owned $40M marketing budget, achieving 26% YoY growth</li>
-                    <li>Aligned full marketing team on roadmap, driving MQL and revenue growth</li>
-                </ul>
-                <a href="https://justworks.com" target="_blank" rel="noopener noreferrer" class="company-link">
-                    justworks.com →
-                </a>
-            </div>
-        </li>
+                function makeGrain() {
+                    var s = 128;
+                    var tile = document.createElement('canvas');
+                    tile.width = s;
+                    tile.height = s;
+                    var c = tile.getContext('2d');
+                    var img = c.createImageData(s, s);
+                    var dd = img.data;
+                    for (var i = 0; i < dd.length; i += 4) {
+                        var v = 108 + Math.random() * 40;
+                        dd[i] = v;
+                        dd[i + 1] = v;
+                        dd[i + 2] = v;
+                        dd[i + 3] = 255;
+                    }
+                    c.putImageData(img, 0, 0);
+                    grainPattern = ctx.createPattern(tile, 'repeat');
+                }
 
-        <li class="company-item">
-            <button class="company-header" aria-expanded="false">
-                <span class="company-name">Shopify</span>
-                <span class="company-meta">
-                    <span class="company-role">Marketing Lead, Developer Marketing</span>
-                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 9l6 6 6-6" />
-                    </svg>
-                </span>
-            </button>
-            <div class="company-details">
-                <ul class="company-bullets">
-                    <li>Directed global developer campaigns across growth and brand</li>
-                    <li>Grew Dev Degree applications to record application volume while cutting costs</li>
-                </ul>
-                <a href="https://shopify.com" target="_blank" rel="noopener noreferrer" class="company-link">
-                    shopify.com →
-                </a>
-            </div>
-        </li>
+                function drawHalo() {
+                    var s = Math.min(W, H);
+                    var a = (1 - progress) * 0.055;
+                    if (a <= 0.001) return;
+                    ctx.globalCompositeOperation = 'lighter';
+                    var g = ctx.createRadialGradient(W / 2, H * 0.5, 0, W / 2, H * 0.5, s * 0.55);
+                    g.addColorStop(0, 'rgba(216,198,172,' + a.toFixed(3) + ')');
+                    g.addColorStop(1, 'rgba(216,198,172,0)');
+                    ctx.fillStyle = g;
+                    ctx.fillRect(0, 0, W, H);
+                    ctx.globalCompositeOperation = 'source-over';
+                }
 
-        <li class="company-item">
-            <button class="company-header" aria-expanded="false">
-                <span class="company-name">General Assembly</span>
-                <span class="company-meta">
-                    <span class="company-role">Senior Product Manager</span>
-                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 9l6 6 6-6" />
-                    </svg>
-                </span>
-            </button>
-            <div class="company-details">
-                <ul class="company-bullets">
-                    <li>Managed $5M product portfolio, driving 16% YoY revenue growth</li>
-                    <li>Launched four new courses, adding $700K in revenue in the first year</li>
-                </ul>
-                <a href="https://generalassemb.ly" target="_blank" rel="noopener noreferrer" class="company-link">
-                    generalassemb.ly →
-                </a>
-            </div>
-        </li>
+                function drawThreads() {
+                    var PR = 150,
+                        PR2 = PR * PR;
+                    var stirAmp = Math.min(0.6, Math.abs(stir) * 1.5);
+                    var divs = layout.dividers;
+                    var nDiv = divs.length;
+                    var margin = Math.min(W, H) * 0.08;
+                    for (var i = 0; i < threads.length; i++) {
+                        var th = threads[i];
+                        var tp = smootherstep((progress - th.start) / th.span);
+                        /* Ordered anchor, resolved live: warp threads sit on card-row
+         dividers so lattice lines continue the card borders; weft threads
+         sit on the column rails. */
+                        var ax, ay;
+                        if (th.kind === 0) {
+                            ax = W / 2;
+                            ay = nDiv ? divs[Math.round(th.di * (nDiv - 1))] + th.jit - scrollNow : H * th.di;
+                        } else {
+                            ax = th.weftX;
+                            ay = H / 2;
+                        }
+                        var a = lerp(th.alpha, 0.55, tp);
+                        a *= 0.25 + 0.75 * Math.min(edgeFade(ax, W), edgeFade(ay, H));
+                        ctx.strokeStyle = th.bright
+                            ? 'rgba(240,228,202,' + a.toFixed(3) + ')'
+                            : 'rgba(214,196,164,' + a.toFixed(3) + ')';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        var M = th.M;
+                        for (var j = 0; j < M; j++) {
+                            var u = j / (M - 1);
+                            var su = th.flip ? 1 - u : u;
+                            /* Order travels along the thread, like pulling it taut */
+                            var wj = smootherstep(tp * (1 + th.sweep) - th.sweep * su);
+                            var exx, eyy;
+                            if (th.kind === 0) {
+                                exx = lerp(-margin, W + margin, u);
+                                eyy = ay;
+                            } else {
+                                exx = ax;
+                                eyy = lerp(-margin, H + margin, u);
+                            }
+                            var x = lerp(th.cx[j], exx, wj);
+                            var y = lerp(th.cy[j], eyy, wj);
+                            /* Quiver: strong while tangled, settles to still as the thread
+           orders, so finished lines sit straight and calm */
+                            var qa = (1 - wj) * (5 * th.wob + stirAmp) + 0.05;
+                            x += Math.sin(t * 1.3 + th.phase + j * 0.55) * qa;
+                            y += Math.cos(t * 1.1 + th.phase * 1.3 + j * 0.42) * qa;
+                            /* Pointer gently pushes nearby thread */
+                            var pdx = x - pointer.x,
+                                pdy = y - pointer.y;
+                            var pd = pdx * pdx + pdy * pdy;
+                            if (pd < PR2 && pd > 4) {
+                                var pdd = Math.sqrt(pd);
+                                var push = 1 - pdd / PR;
+                                push = push * push * 12;
+                                x += (pdx / pdd) * push;
+                                y += (pdy / pdd) * push;
+                            }
+                            /* Tap ripples shove the weave as they pass */
+                            for (var r = 0; r < ripples.length; r++) {
+                                var rp = ripples[r];
+                                var rdx = x - rp.x,
+                                    rdy = y - rp.y;
+                                var rdd = Math.sqrt(rdx * rdx + rdy * rdy) || 1;
+                                var band = Math.abs(rdd - rp.r);
+                                if (band < 110) {
+                                    var imp = (1 - band / 110) * rp.strength * 9;
+                                    x += (rdx / rdd) * imp;
+                                    y += (rdy / rdd) * imp;
+                                }
+                            }
+                            if (j === 0) ctx.moveTo(x, y);
+                            else ctx.lineTo(x, y);
+                        }
+                        ctx.stroke();
+                    }
+                }
 
-        <li class="company-item">
-            <button class="company-header" aria-expanded="false">
-                <span class="company-name">INTO</span>
-                <span class="company-meta">
-                    <span class="company-role">Cofounder and GM</span>
-                    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 9l6 6 6-6" />
-                    </svg>
-                </span>
-            </button>
-            <div class="company-details">
-                <ul class="company-bullets">
-                    <li>Cofounded and scaled a digital marketing agency</li>
-                    <li>Managed $35M in client spend across B2B and B2C campaigns</li>
-                </ul>
-            </div>
-        </li>
-    </ul>
-</section>
+                function drawRipples(dt) {
+                    for (var i = ripples.length - 1; i >= 0; i--) {
+                        var r = ripples[i];
+                        r.age += dt;
+                        var k = r.age / r.life;
+                        if (k >= 1) {
+                            ripples.splice(i, 1);
+                            continue;
+                        }
+                        r.r = r.maxR * (1 - Math.pow(1 - k, 3));
+                        r.strength = 1 - k;
+                        ctx.strokeStyle = 'rgba(242,231,211,' + (0.06 * (1 - k)).toFixed(3) + ')';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.arc(r.x, r.y, Math.max(1, r.r), 0, 6.2832);
+                        ctx.stroke();
+                    }
+                }
 
-<!-- Contact Section -->
-<section class="contact" id="contact">
-    <h2 class="section-title">Get in Touch</h2>
+                function drawGrain() {
+                    if (!grainPattern) return;
+                    ctx.save();
+                    ctx.globalCompositeOperation = 'overlay';
+                    ctx.globalAlpha = 0.04;
+                    ctx.translate((t * 37) % 128, (t * 23) % 128);
+                    ctx.fillStyle = grainPattern;
+                    ctx.fillRect(-128, -128, W + 256, H + 256);
+                    ctx.restore();
+                    ctx.globalAlpha = 1;
+                }
 
-    <div class="contact-links">
-        <a href="/resume/tucker-wieland-resume.pdf" download class="contact-link">
-            Resume
-            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 4v12m0 0l-5-5m5 5l5-5M5 20h14" />
-            </svg>
-        </a>
-        <a
-            href="https://www.linkedin.com/in/tucker-wieland/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="contact-link"
-        >
-            LinkedIn
-            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M7 17L17 7M17 7H7M17 7V17" />
-            </svg>
-        </a>
-        <a href="https://github.com/TuckerBWieland/" target="_blank" rel="noopener noreferrer" class="contact-link">
-            GitHub
-            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M7 17L17 7M17 7H7M17 7V17" />
-            </svg>
-        </a>
-    </div>
-</section>
+                function drawVignette() {
+                    var vig = clamp(0.3 + 0.32 * progress + Math.min(0.16, Math.abs(stir) * 0.5), 0, 0.62);
+                    var g = ctx.createRadialGradient(
+                        W / 2,
+                        H / 2,
+                        Math.min(W, H) * 0.3,
+                        W / 2,
+                        H / 2,
+                        Math.max(W, H) * 0.74
+                    );
+                    g.addColorStop(0, 'rgba(11,12,17,0)');
+                    g.addColorStop(1, 'rgba(11,12,17,' + vig.toFixed(3) + ')');
+                    ctx.fillStyle = g;
+                    ctx.fillRect(0, 0, W, H);
+                }
 
-<footer class="site-footer">
-    <p>© 2026 Tucker Wieland. Built with Eleventy.</p>
-</footer>
+                function draw(dt) {
+                    ctx.fillStyle = '#0b0c11';
+                    ctx.fillRect(0, 0, W, H);
+                    drawHalo();
+                    drawThreads();
+                    drawRipples(dt);
+                    drawGrain();
+                    drawVignette();
+                }
 
-<script>
-    // Accordion toggles for projects and companies
-    document.querySelectorAll('.project-header, .company-header').forEach(button => {
-        button.addEventListener('click', () => {
-            const item = button.parentElement;
-            const list = item.parentElement;
-            const isOpen = item.classList.contains('open');
+                function targetProgress() {
+                    var maxScroll = Math.max(1, document.documentElement.scrollHeight - H);
+                    return clamp(smoothScroll / maxScroll, 0, 1);
+                }
 
-            list.querySelectorAll('.open').forEach(openItem => {
-                openItem.classList.remove('open');
-                openItem.querySelector('button').setAttribute('aria-expanded', 'false');
-            });
+                function frame(now) {
+                    if (!running) return;
+                    if (!lastT) lastT = now;
+                    var dt = Math.min((now - lastT) / 1000, 0.1);
+                    lastT = now;
+                    t += dt;
 
-            if (!isOpen) {
-                item.classList.add('open');
-                button.setAttribute('aria-expanded', 'true');
-            }
-        });
-    });
+                    var s = window.scrollY || window.pageYOffset || 0;
+                    /* Smooth the scroll position itself first, then derive everything
+       (progress and the row positions) from that smoothed value, so the
+       whole weave glides on one clock instead of stepping with raw
+       scroll events. Frame-rate independent. */
+                    smoothScroll += (s - smoothScroll) * (1 - Math.exp(-dt * 10));
+                    scrollNow = smoothScroll;
+                    progress += (targetProgress() - progress) * (1 - Math.exp(-dt * 12));
+                    var vel = dt > 0 ? (s - lastScrollY) / dt : 0;
+                    lastScrollY = s;
+                    stir += (vel / 2600 - stir) * (1 - Math.pow(0.02, dt));
+                    stir = clamp(stir, -1, 1);
+                    if (Math.abs(stir) < 0.0005) stir = 0;
 
-    // Scroll driven calm: the scrim behind each dense list fades in
-    // as its section arrives on screen, and holds while you read.
-    (function () {
-        var sections = Array.prototype.slice.call(document.querySelectorAll('.projects, .experience'));
-        if (!sections.length) return;
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            sections.forEach(function (el) { el.style.setProperty('--calm', 1); });
-            return;
-        }
-        var ticking = false;
-        function update() {
-            ticking = false;
-            var vh = window.innerHeight;
-            sections.forEach(function (el) {
-                var top = el.getBoundingClientRect().top;
-                // 0 when the section top sits at the viewport bottom,
-                // 1 once it reaches 55% of the viewport height.
-                var t = (vh - top) / (vh * 0.45);
-                t = Math.max(0, Math.min(1, t));
-                el.style.setProperty('--calm', t.toFixed(3));
-            });
-        }
-        function onScroll() {
-            if (!ticking) {
-                ticking = true;
-                requestAnimationFrame(update);
-            }
-        }
-        window.addEventListener('scroll', onScroll, { passive: true });
-        window.addEventListener('resize', onScroll);
-        update();
-    })();
-</script>
+                    /* The pointer only affects the weave while it is actually moving;
+       at rest it drifts offscreen so the lines sit still. */
+                    var ease = 1 - Math.pow(0.08, dt);
+                    pointer.x += (pointer.tx - pointer.x) * ease;
+                    pointer.y += (pointer.ty - pointer.y) * ease;
+
+                    draw(dt);
+                }
+
+                function loop(now) {
+                    frame(now);
+                    if (running && !reduced) rafId = requestAnimationFrame(loop);
+                }
+
+                function startLoop() {
+                    running = true;
+                    lastT = 0;
+                    cancelAnimationFrame(rafId);
+                    rafId = requestAnimationFrame(loop);
+                }
+
+                function stopLoop() {
+                    running = false;
+                    cancelAnimationFrame(rafId);
+                }
+
+                /* One frozen composition for reduced motion. Scroll still drives the
+     transformation, but only re rendered once the page settles. */
+                function renderStatic() {
+                    smoothScroll = window.scrollY || window.pageYOffset || 0;
+                    scrollNow = smoothScroll;
+                    progress = targetProgress();
+                    t = 4.2;
+                    pointer.x = -9999;
+                    pointer.y = -9999;
+                    pointer.tx = -9999;
+                    pointer.ty = -9999;
+                    ripples = [];
+                    stir = 0;
+                    draw(0);
+                }
+
+                function resize() {
+                    DPR = Math.min(window.devicePixelRatio || 1, 1.5);
+                    W = window.innerWidth;
+                    H = window.innerHeight;
+                    coarseMode = Math.min(W, H) < 700 || coarse;
+                    canvas.width = Math.max(1, Math.round(W * DPR));
+                    canvas.height = Math.max(1, Math.round(H * DPR));
+                    canvas.style.width = W + 'px';
+                    canvas.style.height = H + 'px';
+                    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+                    buildThreads();
+                    measureLayout();
+                }
+
+                /* Pointer and touch share one path; pointer events cover touchmove natively */
+                window.addEventListener(
+                    'pointermove',
+                    function (e) {
+                        if (reduced) return;
+                        pointer.tx = e.clientX;
+                        pointer.ty = e.clientY;
+                        pointer.lastMove = performance.now();
+                    },
+                    { passive: true }
+                );
+
+                /* Taps send a slow ripple through the weave */
+                var downX = 0,
+                    downY = 0,
+                    downTime = 0,
+                    hasDown = false;
+                window.addEventListener(
+                    'pointerdown',
+                    function (e) {
+                        downX = e.clientX;
+                        downY = e.clientY;
+                        downTime = performance.now();
+                        hasDown = true;
+                    },
+                    { passive: true }
+                );
+                window.addEventListener(
+                    'pointerup',
+                    function (e) {
+                        if (reduced || !hasDown) return;
+                        hasDown = false;
+                        var moved = Math.sqrt(Math.pow(e.clientX - downX, 2) + Math.pow(e.clientY - downY, 2));
+                        if (performance.now() - downTime < 350 && moved < 14) spawnRipple(e.clientX, e.clientY);
+                    },
+                    { passive: true }
+                );
+
+                document.documentElement.addEventListener('mouseleave', function () {
+                    pointer.tx = -9999;
+                    pointer.ty = -9999;
+                });
+
+                var resizeTimer = 0;
+                window.addEventListener('resize', function () {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(function () {
+                        resize();
+                        if (reduced) renderStatic();
+                    }, 150);
+                });
+
+                var scrollTimer = 0;
+                window.addEventListener(
+                    'scroll',
+                    function () {
+                        if (!reduced) return;
+                        clearTimeout(scrollTimer);
+                        scrollTimer = setTimeout(renderStatic, 250);
+                    },
+                    { passive: true }
+                );
+
+                document.addEventListener('visibilitychange', function () {
+                    if (document.hidden) {
+                        stopLoop();
+                    } else if (!reduced) {
+                        startLoop();
+                    }
+                });
+
+                if (prefersReduced.addEventListener) {
+                    prefersReduced.addEventListener('change', function (e) {
+                        if (e.matches && !reduced) {
+                            reduced = true;
+                            setMotionUI();
+                            stopLoop();
+                            renderStatic();
+                        }
+                    });
+                }
+
+                makeGrain();
+                resize();
+                setMotionUI();
+
+                if (reduced) {
+                    renderStatic();
+                } else {
+                    pointer.x = -9999;
+                    pointer.y = -9999;
+                    pointer.tx = -9999;
+                    pointer.ty = -9999;
+                    pointer.lastMove = performance.now();
+                    startLoop();
+                }
+
+                /* Screenshot helper: ?shot=mid lands on Projects */
+                if (params.get('shot') === 'mid') {
+                    var target = document.querySelector('.projects');
+                    if (target) window.scrollTo(0, Math.max(0, target.offsetTop - 60));
+                }
+            })();
+        </script>
+    </body>
+</html>

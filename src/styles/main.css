@@ -691,6 +691,20 @@ main {
   flex-shrink: 0;
 }
 
+@media (width <= 640px) {
+  .company-header {
+    flex-wrap: wrap;
+    row-gap: 2px;
+  }
+
+  .company-meta {
+    flex-shrink: 1;
+    min-width: 0;
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
 .company-role {
   font-size: 0.8125rem;
   font-weight: 400;
