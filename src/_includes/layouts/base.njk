@@ -49,7 +49,7 @@
                 "@context": "https://schema.org",
                 "@type": "Person",
                 "name": "{{ metadata.site.author }}",
-                "jobTitle": "Growth Strategy & Operations Leader",
+                "jobTitle": "Product Marketing Manager, Meta",
                 "description": "{{ metadata.site.description }}",
                 "url": "{{ metadata.site.url }}",
                 "sameAs": ["https://linkedin.com/in/tucker-wieland", "https://github.com/TuckerBWieland"]
@@ -73,14 +73,18 @@
         />
 
         <!-- Styles -->
-        <link rel="preload" href="/styles/main.css?v=3" as="style" />
-        <link rel="stylesheet" href="/styles/main.css?v=3" />
+        <link rel="preload" href="/styles/main.css?v=5" as="style" />
+        <link rel="stylesheet" href="/styles/main.css?v=5" />
     </head>
     <body>
+        <canvas class="strata" id="strata" aria-hidden="true"></canvas>
+        <div class="page-scrim" aria-hidden="true"></div>
+
         <!-- Main content -->
         <main>{{ content | safe }}</main>
 
         <!-- PostHog Analytics (optional) -->
         <script src="/assets/js/posthog-init.js" defer></script>
+        <script src="/assets/js/strata.js" defer></script>
     </body>
 </html>
