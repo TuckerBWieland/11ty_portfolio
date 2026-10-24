@@ -537,8 +537,8 @@
                     <div class="about-body reveal">
                         <p>
                             I work on go to market for AI products: positioning, launch strategy, and the measurement
-                            that keeps both honest. Most recently the Muse launch at Meta, and the Dreamer public beta
-                            before it.
+                            that keeps both honest. Most recently the Muse launch at Meta, which passed 10 million users
+                            in the six weeks after launch, and the Dreamer public beta before it.
                         </p>
                         <p>
                             Earlier chapters: growth and marketing operations at Justworks, Shopify, and General
@@ -1344,9 +1344,8 @@
                         var strayDim = 1 - 0.6 * Math.sin(Math.PI * tp);
                         var a = lerp(th.alpha, 0.55, tp) * midDim * strayDim;
                         a *= 0.25 + 0.75 * Math.min(edgeFade(ax, W), edgeFade(ay, H));
-                        ctx.strokeStyle = th.bright
-                            ? 'rgba(240,228,202,' + a.toFixed(3) + ')'
-                            : 'rgba(214,196,164,' + a.toFixed(3) + ')';
+                        var threadColor = th.bright ? '240,228,202' : '214,196,164';
+                        ctx.strokeStyle = 'rgba(' + threadColor + ',' + a.toFixed(3) + ')';
                         ctx.lineWidth = 1;
                         ctx.beginPath();
                         var M = th.M;
@@ -1406,6 +1405,18 @@
                             if (j === 0) ctx.moveTo(x, y);
                             else ctx.lineTo(x, y);
                         }
+                        if (glowMode) {
+                            /* Glow pass: the same path stroked wide and faint under
+           the crisp line, additive so overlaps bloom slightly. */
+                            ctx.save();
+                            ctx.globalCompositeOperation = 'lighter';
+                            ctx.strokeStyle = 'rgba(' + threadColor + ',' + (a * 0.33).toFixed(3) + ')';
+                            ctx.lineWidth = 3.5;
+                            ctx.stroke();
+                            ctx.restore();
+                            ctx.strokeStyle = 'rgba(' + threadColor + ',' + a.toFixed(3) + ')';
+                            ctx.lineWidth = 1;
+                        }
                         ctx.stroke();
                     }
                 }
@@ -1457,11 +1468,81 @@
                     ctx.fillRect(0, 0, W, H);
                 }
 
+                /* Lighting experiment, opt in with ?glow=1: threads carry a soft
+     glow, and the knot gets a cast shadow and spherical shading so the
+     ball sits in the scene with depth instead of floating flat. */
+                var glowMode = params.get('glow') === '1';
+                function drawBallDepth() {
+                    if (!glowMode) return;
+                    var s = Math.min(W, H);
+                    var cx = W / 2,
+                        cy = H * 0.5;
+                    var ballR = s * 0.36;
+                    var fade = 1 - progress;
+                    if (fade <= 0.01) return;
+                    /* Cast shadow, offset down and right of the knot */
+                    var sh = ctx.createRadialGradient(
+                        cx + s * 0.07,
+                        cy + s * 0.11,
+                        ballR * 0.2,
+                        cx + s * 0.07,
+                        cy + s * 0.11,
+                        ballR * 1.35
+                    );
+                    sh.addColorStop(0, 'rgba(0,0,0,' + (0.42 * fade).toFixed(3) + ')');
+                    sh.addColorStop(1, 'rgba(0,0,0,0)');
+                    ctx.fillStyle = sh;
+                    ctx.fillRect(0, 0, W, H);
+                    /* Cool light wash from the upper left */
+                    var li = ctx.createRadialGradient(
+                        cx - s * 0.14,
+                        cy - s * 0.16,
+                        0,
+                        cx - s * 0.14,
+                        cy - s * 0.16,
+                        ballR * 1.5
+                    );
+                    li.addColorStop(0, 'rgba(240,228,202,' + (0.07 * fade).toFixed(3) + ')');
+                    li.addColorStop(1, 'rgba(240,228,202,0)');
+                    ctx.fillStyle = li;
+                    ctx.fillRect(0, 0, W, H);
+                }
+
+                function drawBallShading() {
+                    if (!glowMode) return;
+                    var s = Math.min(W, H);
+                    var cx = W / 2,
+                        cy = H * 0.5;
+                    var ballR = s * 0.36;
+                    var fade = 1 - progress;
+                    if (fade <= 0.01) return;
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, ballR * 1.02, 0, 6.2832);
+                    ctx.clip();
+                    var g = ctx.createRadialGradient(
+                        cx - ballR * 0.45,
+                        cy - ballR * 0.5,
+                        ballR * 0.2,
+                        cx,
+                        cy,
+                        ballR * 1.25
+                    );
+                    g.addColorStop(0, 'rgba(0,0,0,0)');
+                    g.addColorStop(0.72, 'rgba(0,0,0,0)');
+                    g.addColorStop(1, 'rgba(0,0,0,' + (0.34 * fade).toFixed(3) + ')');
+                    ctx.fillStyle = g;
+                    ctx.fillRect(cx - ballR * 1.1, cy - ballR * 1.1, ballR * 2.2, ballR * 2.2);
+                    ctx.restore();
+                }
+
                 function draw(dt) {
                     ctx.fillStyle = '#0b0c11';
                     ctx.fillRect(0, 0, W, H);
                     drawHalo();
+                    drawBallDepth();
                     drawThreads();
+                    drawBallShading();
                     drawRipples(dt);
                     drawGrain();
                     drawVignette();
