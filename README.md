@@ -1,1 +1,36 @@
-IyBUdWNrZXIgV2llbGFuZAoKUGVyc29uYWwgc2l0ZSBvZiBUdWNrZXIgV2llbGFuZCwgbGl2ZSBhdCBbdHVja2Vyd2llbGFuZC5jb21dKGh0dHBzOi8vdHVja2Vyd2llbGFuZC5jb20pLiBCdWlsdCB3aXRoIEVsZXZlbnR5LCBkZXBsb3llZCBvbiBDbG91ZGZsYXJlIFBhZ2VzLgoKIyMgRGV2ZWxvcAoKYGBgYmFzaApucG0gaW5zdGFsbApucG0gcnVuIGRldgpgYGAKClRoZW4gb3BlbiBodHRwOi8vbG9jYWxob3N0OjgwODAuCgojIyBDb21tYW5kcwoKYGBgYmFzaApucG0gcnVuIGRldiAgICAgICAgICMgTG9jYWwgc2VydmVyIHdpdGggd2F0Y2gKbnBtIHJ1biBidWlsZCAgICAgICAjIFByb2R1Y3Rpb24gYnVpbGQgaW50byBfc2l0ZQpucG0gcnVuIGxpbnQgICAgICAgICMgU3R5bGVsaW50IHBsdXMgUHJldHRpZXIgY2hlY2sKbnBtIHJ1biBsaW50OmZpeCAgICAjIEF1dG8gZml4IGxpbnQgaXNzdWVzCmBgYAoKIyMgSG93IGl0IGlzIHB1dCB0b2dldGhlcgoKLSBgc3JjL2luZGV4Lm5qa2AgaXMgdGhlIGhvbWVwYWdlLiBBIGNhbnZhcyBhbmltYXRpb24gcnVucyB0aGUgbGVuZ3RoIG9mIHRoZSBwYWdlOiBsb29zZSB0aHJlYWRzIGF0IHRoZSB0b3AsIGEgd292ZW4gYmFuZCB0aHJvdWdoIHRoZSBtaWRkbGUsIGFuZCBjbGVhbiBsaW5lcyBieSB0aGUgY29udGFjdCBzZWN0aW9uLiBQcm9qZWN0cyBhbmQgRXhwZXJpZW5jZSBhcmUgZXhwYW5kYWJsZSByb3dzLgotIGBzcmMvZXhwZXJpbWVudHMvYCBob2xkcyBlYXJsaWVyIGRlc2lnbiBzdHVkaWVzIChTdHJhdGEsIEF0bW9zcGhlcmUsIERlc2NlbnQsIERyaWZ0LCBGbHl0aHJvdWdoLCBXaXJlZnJhbWUpLCBrZXB0IGZvciByZWZlcmVuY2UuCi0gYHNyYy9zdHlsZXMvbWFpbi5jc3NgIGlzIHRoZSBUYWlsd2luZCBlbnRyeSBwb2ludCwgYnVpbHQgd2l0aCBQb3N0Q1NTLgotIFR5cG9ncmFwaHkgaXMgSUJNIFBsZXggTW9ubywgc2VydmVkIGZyb20gdGhlIGBAZm9udHNvdXJjZS9pYm0tcGxleC1tb25vYCBwYWNrYWdlIGF0IGJ1aWxkIHRpbWUuCi0gYHNyYy9fZGF0YS9tZXRhZGF0YS5qc29uYCBob2xkcyB0aGUgc2l0ZSB0aXRsZSwgZGVzY3JpcHRpb24gYW5kIHNvY2lhbCBtZXRhZGF0YS4gVGhlIHNoYXJlIGNhcmQgaXMgYHNyYy9hc3NldHMvaW1hZ2VzL21ldGEvbWV0YTEucG5nYCAoMTIwMCBieSA2MzApLgotIFRoZSByZXN1bWUgbGl2ZXMgYXQgYHNyYy9yZXN1bWUvdHVja2VyLXdpZWxhbmQtcmVzdW1lLnBkZmAgYW5kIGlzIHNlcnZlZCBhdCBgL3Jlc3VtZS90dWNrZXItd2llbGFuZC1yZXN1bWUucGRmYC4KLSBgc3JjL2Fzc2V0cy9qcy9wb3N0aG9nLWluaXQuanMubmprYCBhZGRzIFBvc3RIb2cgYW5hbHl0aWNzIG9ubHkgd2hlbiB0aGUgYFBPU1RIT0dfS0VZYCBlbnZpcm9ubWVudCB2YXJpYWJsZSBpcyBzZXQgYXQgYnVpbGQgdGltZS4gQ2xvdWRmbGFyZSBQYWdlcyBzZXRzIGl0IGZvciBwcm9kdWN0aW9uIGJ1aWxkcyBvbmx5LgotIGBzcmMvX2NvbmZpZy9gIGhvbGRzIHRoZSBDbG91ZGZsYXJlIGhlYWRlcnMsIHJlZGlyZWN0cyBhbmQgcm9ib3RzLnR4dC4gU2VlIGBDT0RJTkdfR1VJREUubWRgIGZvciBjb252ZW50aW9ucy4KCiMjIERlcGxveQoKUHVzaGluZyB0byBgbWFpbmAgdHJpZ2dlcnMgYSBDbG91ZGZsYXJlIFBhZ2VzIGJ1aWxkIChgbnBtIHJ1biBidWlsZDpwcm9kdWN0aW9uYCkgYW5kIGRlcGxveXMgdG8gdHVja2Vyd2llbGFuZC5jb20uCg==
+# Tucker Wieland
+
+Personal site of Tucker Wieland, live at [tuckerwieland.com](https://tuckerwieland.com). Built with Eleventy, deployed on Cloudflare Pages.
+
+## Develop
+
+```bash
+npm install
+npm run dev
+```
+
+Then open http://localhost:8080.
+
+## Commands
+
+```bash
+npm run dev         # Local server with watch
+npm run build       # Production build into _site
+npm run lint        # Stylelint plus Prettier check
+npm run lint:fix    # Auto fix lint issues
+```
+
+## How it is put together
+
+- `src/index.njk` is the homepage. A canvas animation runs the length of the page: loose threads at the top, a woven band through the middle, and clean lines by the contact section. Projects and Experience are expandable rows.
+- `src/experiments/` holds earlier design studies (Strata, Atmosphere, Descent, Drift, Flythrough, Wireframe), kept for reference.
+- `src/styles/main.css` is the Tailwind entry point, built with PostCSS.
+- Typography is IBM Plex Mono, served from the `@fontsource/ibm-plex-mono` package at build time.
+- `src/_data/metadata.json` holds the site title, description and social metadata. The share card is `src/assets/images/meta/meta1.png` (1200 by 630).
+- The resume lives at `src/resume/tucker-wieland-resume.pdf` and is served at `/resume/tucker-wieland-resume.pdf`.
+- `src/assets/js/posthog-init.js.njk` adds PostHog analytics only when the `POSTHOG_KEY` environment variable is set at build time. Cloudflare Pages sets it for production builds only.
+- `src/_config/` holds the Cloudflare headers, redirects and robots.txt. See `CODING_GUIDE.md` for conventions.
+
+## Deploy
+
+Pushing to `main` triggers a Cloudflare Pages build (`npm run build:production`) and deploys to tuckerwieland.com.
