@@ -15,7 +15,8 @@ eleventyExcludeFromCollections: true
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
-        <meta name="theme-color" content="#0b0c11" />
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0c11" />
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f2efe8" />
         <style>
             @font-face {
                 font-family: 'IBM Plex Mono';
@@ -36,6 +37,7 @@ eleventyExcludeFromCollections: true
                     url('/fonts/ibm-plex-mono-latin-700-normal.woff') format('woff');
             }
             :root {
+                color-scheme: dark;
                 --bg: #0b0c11;
                 --ink: #f2efe8;
                 --ink-2: rgb(242 239 232 / 62%);
@@ -138,6 +140,17 @@ eleventyExcludeFromCollections: true
                 letter-spacing: 0.16em;
                 text-transform: uppercase;
                 color: var(--ink-3);
+            }
+            @media (prefers-color-scheme: light) {
+                :root {
+                    color-scheme: light;
+                    --bg: #f2efe8;
+                    --ink: #101218;
+                    --ink-2: rgb(16 18 24 / 64%);
+                    --ink-3: rgb(16 18 24 / 42%);
+                    --line: rgb(16 18 24 / 18%);
+                    --gold: #8a6d1f;
+                }
             }
             @media (prefers-reduced-motion: reduce) {
                 .code .cursor {

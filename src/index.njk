@@ -3,28 +3,29 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Tucker Wieland - Product Marketing, Meta</title>
+        <title>Tucker Wieland</title>
         <meta name="description" content="GTM strategy and operations for Muse, Meta's personal AI agent." />
         <link rel="canonical" href="https://tuckerwieland.com/" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://tuckerwieland.com/" />
-        <meta property="og:title" content="Tucker Wieland - Product Marketing, Meta" />
+        <meta property="og:title" content="Tucker Wieland" />
         <meta property="og:description" content="GTM strategy and operations for Muse, Meta's personal AI agent." />
         <meta property="og:image" content="https://tuckerwieland.com/assets/images/meta/meta1.png" />
-        <meta property="og:image:alt" content="Tucker Wieland - Product Marketing, Meta portfolio preview" />
+        <meta property="og:image:alt" content="Tucker Wieland" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:site_name" content="Tucker Wieland" />
         <meta property="og:locale" content="en" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:url" content="https://tuckerwieland.com/" />
-        <meta name="twitter:title" content="Tucker Wieland - Product Marketing, Meta" />
+        <meta name="twitter:title" content="Tucker Wieland" />
         <meta name="twitter:description" content="GTM strategy and operations for Muse, Meta's personal AI agent." />
         <meta name="twitter:image" content="https://tuckerwieland.com/assets/images/meta/meta1.png" />
-        <meta name="twitter:image:alt" content="Tucker Wieland - Product Marketing, Meta portfolio preview" />
+        <meta name="twitter:image:alt" content="Tucker Wieland" />
         <meta name="twitter:creator" content="@tuckerwieland" />
         <meta name="robots" content="index, follow" />
-        <meta name="theme-color" content="#0b0c11" />
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0c11" />
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f2efe8" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
@@ -33,7 +34,6 @@
                 "@context": "https://schema.org",
                 "@type": "Person",
                 "name": "Tucker Wieland",
-                "jobTitle": "Product Marketing Manager, Meta",
                 "description": "GTM strategy and operations for Muse, Meta's personal AI agent.",
                 "url": "https://tuckerwieland.com",
                 "sameAs": ["https://linkedin.com/in/tucker-wieland", "https://github.com/TuckerBWieland"]
@@ -69,6 +69,7 @@
                 src: url('/fonts/ibm-plex-mono-latin-700-normal.woff2') format('woff2');
             }
             :root {
+                color-scheme: dark;
                 --bg: #0b0c11;
                 --ink: #ffffff;
                 --ink-2: rgb(255 255 255 / 55%);
@@ -484,6 +485,58 @@
                 .project-details,
                 .company-details {
                     transition: none;
+                }
+            }
+
+            /* Light scheme: follows the visitor's system setting */
+            @media (prefers-color-scheme: light) {
+                :root {
+                    color-scheme: light;
+                    --bg: #f2efe8;
+                    --ink: #101218;
+                    --ink-2: rgb(16 18 24 / 64%);
+                    --ink-3: rgb(16 18 24 / 44%);
+                    --line: rgb(16 18 24 / 12%);
+                    --warm: #101218;
+                    --warm-dim: rgb(16 18 24 / 72%);
+                }
+                ::selection {
+                    background: #101218;
+                    color: #f2efe8;
+                }
+                a:focus-visible,
+                button:focus-visible {
+                    outline-color: #101218;
+                }
+                .veil {
+                    background: radial-gradient(120% 90% at 50% 40%, transparent 52%, rgb(242 239 232 / 46%) 100%);
+                }
+                .veil-core {
+                    background: radial-gradient(68% 56% at 50% 46%, rgb(242 239 232 / 34%), transparent 72%);
+                }
+                .button {
+                    color: #f2efe8;
+                }
+                .button-ghost {
+                    color: var(--ink);
+                    border-color: rgb(16 18 24 / 30%);
+                }
+                .button-ghost:hover {
+                    border-color: rgb(16 18 24 / 55%);
+                }
+                .project-item,
+                .company-item,
+                .contact-link {
+                    border-top-color: rgb(122 96 46 / 32%);
+                }
+                .project-item:last-child,
+                .company-item:last-child,
+                .contact-link:last-child {
+                    border-bottom-color: rgb(122 96 46 / 32%);
+                }
+                .project-link,
+                .company-link {
+                    border-bottom-color: rgb(16 18 24 / 30%);
                 }
             }
         </style>
@@ -1058,6 +1111,31 @@
                 var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
                 var coarse = window.matchMedia('(pointer: coarse)').matches;
                 var reduced = prefersReduced.matches || params.get('reduced') === '1';
+                var schemeMq = window.matchMedia('(prefers-color-scheme: light)');
+                var scheme = {};
+                function applyScheme() {
+                    if (schemeMq.matches) {
+                        scheme.bg = '#f2efe8';
+                        scheme.thread = '166,132,74';
+                        scheme.bright = '201,166,102';
+                        scheme.glow = '201,166,102';
+                        scheme.ripple = '166,132,74';
+                        scheme.rippleA = 0.1;
+                        scheme.vig = '242,239,232';
+                        scheme.haloOp = 'source-over';
+                    } else {
+                        scheme.bg = '#0b0c11';
+                        scheme.thread = '214,196,164';
+                        scheme.bright = '240,228,202';
+                        scheme.glow = '216,198,172';
+                        scheme.ripple = '242,231,211';
+                        scheme.rippleA = 0.06;
+                        scheme.vig = '11,12,17';
+                        scheme.haloOp = 'lighter';
+                    }
+                }
+                applyScheme();
+                if (schemeMq.addEventListener) schemeMq.addEventListener('change', applyScheme);
 
                 /* ================= DOM: reveals, accordions ================= */
                 function setMotionUI() {
@@ -1351,10 +1429,10 @@
                     var s = Math.min(W, H);
                     var a = (1 - progress) * 0.055;
                     if (a <= 0.001) return;
-                    ctx.globalCompositeOperation = 'lighter';
+                    ctx.globalCompositeOperation = scheme.haloOp;
                     var g = ctx.createRadialGradient(W / 2, H * 0.5, 0, W / 2, H * 0.5, s * 0.55);
-                    g.addColorStop(0, 'rgba(216,198,172,' + a.toFixed(3) + ')');
-                    g.addColorStop(1, 'rgba(216,198,172,0)');
+                    g.addColorStop(0, 'rgba(' + scheme.glow + ',' + a.toFixed(3) + ')');
+                    g.addColorStop(1, 'rgba(' + scheme.glow + ',0)');
                     ctx.fillStyle = g;
                     ctx.fillRect(0, 0, W, H);
                     ctx.globalCompositeOperation = 'source-over';
@@ -1387,7 +1465,7 @@
                         var strayDim = 1 - 0.55 * Math.sin(Math.PI * tp);
                         var a = lerp(th.alpha, 0.55, tp) * strayDim;
                         a *= 0.25 + 0.75 * Math.min(edgeFade(ax, W), edgeFade(ay, H));
-                        var threadColor = th.bright ? '240,228,202' : '214,196,164';
+                        var threadColor = th.bright ? scheme.bright : scheme.thread;
                         ctx.strokeStyle = 'rgba(' + threadColor + ',' + a.toFixed(3) + ')';
                         ctx.lineWidth = 1;
                         ctx.beginPath();
@@ -1463,7 +1541,7 @@
                         }
                         r.r = r.maxR * (1 - Math.pow(1 - k, 3));
                         r.strength = 1 - k;
-                        ctx.strokeStyle = 'rgba(242,231,211,' + (0.06 * (1 - k)).toFixed(3) + ')';
+                        ctx.strokeStyle = 'rgba(' + scheme.ripple + ',' + (scheme.rippleA * (1 - k)).toFixed(3) + ')';
                         ctx.lineWidth = 1;
                         ctx.beginPath();
                         ctx.arc(r.x, r.y, Math.max(1, r.r), 0, 6.2832);
@@ -1493,14 +1571,14 @@
                         H / 2,
                         Math.max(W, H) * 0.74
                     );
-                    g.addColorStop(0, 'rgba(11,12,17,0)');
-                    g.addColorStop(1, 'rgba(11,12,17,' + vig.toFixed(3) + ')');
+                    g.addColorStop(0, 'rgba(' + scheme.vig + ',0)');
+                    g.addColorStop(1, 'rgba(' + scheme.vig + ',' + vig.toFixed(3) + ')');
                     ctx.fillStyle = g;
                     ctx.fillRect(0, 0, W, H);
                 }
 
                 function draw(dt) {
-                    ctx.fillStyle = '#0b0c11';
+                    ctx.fillStyle = scheme.bg;
                     ctx.fillRect(0, 0, W, H);
                     drawHalo();
                     drawThreads();
