@@ -1,0 +1,31 @@
+# Cloudflare Pages Headers Configuration
+
+# CSS files
+/styles/*
+  Content-Type: text/css; charset=utf-8
+  Cache-Control: public, max-age=31536000
+
+# JavaScript files
+/scripts/*
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: public, max-age=31536000
+
+/assets/js/*
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: public, max-age=31536000
+
+# Font files
+/fonts/*
+  Cache-Control: public, max-age=31536000
+  Access-Control-Allow-Origin: *
+
+# Images
+/assets/*
+  Cache-Control: public, max-age=31536000
+
+# All pages - security headers
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://logs.tuckerwieland.com https://cdnjs.cloudflare.com https://static.cloudflareinsights.com 'unsafe-inline'; connect-src 'self' https://logs.tuckerwieland.com https://us.posthog.com; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'

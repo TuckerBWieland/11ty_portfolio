@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="{{ metadata.site.locale or 'en' }}">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="{{ description or metadata.site.description }}" />
+        <meta name="author" content="{{ metadata.site.author }}" />
+
+        <title>{% if title %}{{ title }}{% else %}{{ metadata.site.title }}{% endif %}</title>
+
+        <!-- Canonical URL -->
+        <link rel="canonical" href="{{ metadata.site.url }}{{ page.url or '/' }}" />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="{{ metadata.site.type }}" />
+        <meta property="og:url" content="{{ metadata.site.url }}{{ page.url or '/' }}" />
+        <meta property="og:title" content="{% if title %}{{ title }}{% else %}{{ metadata.site.title }}{% endif %}" />
+        <meta property="og:description" content="{{ description or metadata.site.description }}" />
+        <meta property="og:image" content="{{ metadata.site.url }}{{ metadata.site.image }}" />
+        <meta property="og:image:alt" content="{{ metadata.site.imageAlt }}" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="{{ metadata.site.author }}" />
+        <meta property="og:locale" content="{{ metadata.site.locale }}" />
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="{{ metadata.site.url }}{{ page.url or '/' }}" />
+        <meta name="twitter:title" content="{% if title %}{{ title }}{% else %}{{ metadata.site.title }}{% endif %}" />
+        <meta name="twitter:description" content="{{ description or metadata.site.description }}" />
+        <meta name="twitter:image" content="{{ metadata.site.url }}{{ metadata.site.image }}" />
+        <meta name="twitter:image:alt" content="{{ metadata.site.imageAlt }}" />
+        {% if metadata.site.twitterHandle %}
+        <meta name="twitter:creator" content="{{ metadata.site.twitterHandle }}" />
+        {% endif %}
+
+        <!-- Additional SEO meta tags -->
+        <meta name="robots" content="index, follow" />
+        <meta name="theme-color" content="#242128" />
+
+        <!-- Favicons -->
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+
+        <!-- Structured Data -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Person",
+                "name": "{{ metadata.site.author }}",
+                "jobTitle": "Product Marketing Manager, Meta",
+                "description": "{{ metadata.site.description }}",
+                "url": "{{ metadata.site.url }}",
+                "sameAs": ["https://linkedin.com/in/tucker-wieland", "https://github.com/TuckerBWieland"]
+            }
+        </script>
+
+        <!-- Preload critical fonts -->
+        <link
+            rel="preload"
+            href="/fonts/ibm-plex-mono-latin-400-normal.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin
+        />
+        <link
+            rel="preload"
+            href="/fonts/ibm-plex-mono-latin-700-normal.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin
+        />
+
+        <!-- Styles -->
+        <link rel="preload" href="/styles/main.css?v=5" as="style" />
+        <link rel="stylesheet" href="/styles/main.css?v=5" />
+    </head>
+    <body>
+        <canvas class="strata" id="strata" aria-hidden="true"></canvas>
+        <div class="page-scrim" aria-hidden="true"></div>
+
+        <!-- Main content -->
+        <main>{{ content | safe }}</main>
+
+        <!-- PostHog Analytics (optional) -->
+        <script src="/assets/js/posthog-init.js" defer></script>
+        <script src="/assets/js/strata.js" defer></script>
+    </body>
+</html>
