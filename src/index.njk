@@ -180,10 +180,155 @@
                 margin: 0 auto;
             }
             .hero {
+                max-width: 1240px;
                 min-height: 92svh;
+                display: grid;
+                grid-template-columns: minmax(320px, 5fr) 7fr;
+                gap: 12px;
+                align-items: stretch;
+                padding-top: 120px;
+            }
+            .hero-content {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 24px 12px 24px 0;
+            }
+
+            /* Logo heap (hero right column; JS in /assets/js/heap.min.js) */
+            .heap-hint {
+                margin-top: 2.2rem;
+                color: var(--ink-3);
+                font-size: 0.78rem;
+                letter-spacing: 0.04em;
+            }
+            .heap-stage {
+                position: relative;
+                min-height: 520px;
+            }
+            .heap-stage canvas {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+            .heap-vignette {
+                position: absolute;
+                inset: 0;
+                pointer-events: none;
+                background: radial-gradient(95% 85% at 50% 42%, transparent 62%, rgb(0 0 0 / 50%) 135%);
+            }
+            .heap-loading {
+                position: absolute;
+                inset: 0;
                 display: flex;
                 align-items: center;
-                padding-top: 120px;
+                justify-content: center;
+                color: var(--ink-3);
+                font-size: 0.8rem;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+            }
+            .heap-story {
+                position: absolute;
+                top: 50%;
+                right: 4%;
+                transform: translateY(-50%) translateX(14px);
+                width: min(350px, 86%);
+                background: rgb(16 18 24 / 82%);
+                border: 1px solid rgb(255 255 255 / 14%);
+                border-radius: 14px;
+                padding: 20px 22px 18px;
+                backdrop-filter: blur(10px);
+                opacity: 0;
+                pointer-events: none;
+                transition:
+                    opacity 0.45s ease,
+                    transform 0.45s ease;
+                z-index: 5;
+            }
+            .heap-story.open {
+                opacity: 1;
+                transform: translateY(-50%) translateX(0);
+                pointer-events: auto;
+            }
+            .heap-logo {
+                height: 44px;
+                max-width: 170px;
+                object-fit: contain;
+                object-position: left center;
+                display: block;
+            }
+            .heap-sname {
+                margin-top: 12px;
+                font-size: 1.15rem;
+                font-weight: 700;
+            }
+            .heap-srole {
+                color: var(--ink-2);
+                font-size: 0.85rem;
+                margin-top: 2px;
+            }
+            .heap-sdates {
+                color: var(--ink-3);
+                font-size: 0.75rem;
+                letter-spacing: 0.06em;
+                margin-top: 2px;
+                text-transform: uppercase;
+            }
+            .heap-sbody {
+                margin-top: 12px;
+                color: var(--ink-2);
+                font-size: 0.88rem;
+            }
+            .heap-sbody p {
+                margin-bottom: 0.6rem;
+            }
+            .heap-close {
+                position: absolute;
+                top: 10px;
+                right: 12px;
+                background: none;
+                border: 0;
+                color: var(--ink-3);
+                font: inherit;
+                font-size: 1.05rem;
+                cursor: pointer;
+                padding: 4px 6px;
+            }
+            .heap-close:hover {
+                color: var(--ink);
+            }
+            @media (prefers-color-scheme: light) {
+                .heap-vignette {
+                    background: radial-gradient(95% 85% at 50% 42%, transparent 62%, rgb(84 62 26 / 16%) 135%);
+                }
+                .heap-story {
+                    background: rgb(255 253 247 / 88%);
+                    border-color: rgb(16 18 24 / 16%);
+                }
+            }
+            @media (width <= 820px) {
+                .hero {
+                    grid-template-columns: 1fr;
+                    min-height: 0;
+                    padding-top: 100px;
+                }
+                .hero-content {
+                    padding: 18px 0 4px;
+                }
+                .heap-stage {
+                    min-height: 64svh;
+                }
+                .heap-story {
+                    top: auto;
+                    bottom: 3%;
+                    right: 50%;
+                    transform: translateX(50%) translateY(10px);
+                    width: min(430px, 94%);
+                }
+                .heap-story.open {
+                    transform: translateX(50%) translateY(0);
+                }
             }
             .about,
             .projects,
@@ -572,6 +717,15 @@
                 <section class="hero">
                     <div class="hero-content">
                         <h1 class="hero-name reveal">Tucker Wieland</h1>
+                        <p class="hero-note reveal">
+                            I work on go to market for AI products: positioning, launch strategy, and the measurement
+                            that keeps both honest. Most recently the Muse launch at Meta, which passed 10 million
+                            users in the six weeks after launch, and the Dreamer public beta before it.
+                        </p>
+                        <p class="hero-note reveal">
+                            The stack on the right is the road here, oldest at the bottom. Click a block for the
+                            story.
+                        </p>
                         <div class="hero-actions reveal">
                             <a class="button" href="/resume/tucker-wieland-resume.pdf" download>Download Resume</a>
                             <a
@@ -582,6 +736,21 @@
                                 >LinkedIn</a
                             >
                         </div>
+                        <div class="heap-hint reveal">
+                            UPS · General Assembly · Shopify · Justworks · Dreamer · Meta
+                        </div>
+                    </div>
+                    <div class="heap-stage" id="heap-stage">
+                        <div class="heap-loading" id="heap-loading">Stacking the blocks</div>
+                        <div class="heap-vignette"></div>
+                        <aside class="heap-story" id="heap-story" aria-hidden="true">
+                            <button class="heap-close" id="heap-close" aria-label="Close">×</button>
+                            <img class="heap-logo" id="heap-logo" alt="" />
+                            <div class="heap-sname" id="heap-name"></div>
+                            <div class="heap-srole" id="heap-role"></div>
+                            <div class="heap-sdates" id="heap-dates"></div>
+                            <div class="heap-sbody" id="heap-body"></div>
+                        </aside>
                     </div>
                 </section>
 
@@ -1103,6 +1272,7 @@
                 <p>&copy; 2026 Tucker Wieland.</p>
             </footer>
         </div>
+        <script type="module" src="/assets/js/heap.min.js"></script>
         <script>
             (function () {
                 'use strict';
