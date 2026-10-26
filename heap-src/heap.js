@@ -36,14 +36,18 @@ if (stage) {
       body: `<p>GTM operations and strategy for Muse, Meta's personal AI agent, from early access through public launch in September 2026.</p><p>Muse reached No. 1 on the US App Store and passed 10 million users in the six weeks after launch.</p>` },
   };
   // Hand stacked imperfection, per block (same order as ORDER): x/z offset, yaw, pitch, roll (deg).
-  // The two wordmark blocks (justworks, dreamer) keep the straightened yaw from the v2 fix.
+  // Facings alternate down the stack (Tucker, Oct 26): yaw signs run -, +, -, +, -, +
+  // with magnitudes 9 to 15 degrees, so no two neighbours face the same way. The
+  // wordmark blocks (justworks, dreamer) take the gentlest angles that still
+  // alternate (11 and 9 degrees): at the 58 percent art width both wordmarks
+  // still read in full at rest (verified in qa/pr2-home-dark.png).
   const FLAWS = [
-    { x: 0.03, z: -0.02, yaw: -4, pitch: 2.0, roll: -0.5 },
-    { x: 0.00, z: 0.00, yaw: 5, pitch: 1.0, roll: -1.5 },
-    { x: 0.05, z: -0.03, yaw: -7, pitch: -1.5, roll: 1.0 },
-    { x: -0.04, z: 0.04, yaw: 1, pitch: 0.5, roll: 1.0 },
-    { x: -0.05, z: 0.03, yaw: 1, pitch: -1.0, roll: 1.0 },
-    { x: 0.02, z: -0.01, yaw: -5, pitch: 1.5, roll: -1.0 },
+    { x: 0.03, z: -0.02, yaw: -12, pitch: 2.0, roll: -0.5 },
+    { x: 0.00, z: 0.00, yaw: 14, pitch: 1.0, roll: -1.5 },
+    { x: 0.05, z: -0.03, yaw: -10, pitch: -1.5, roll: 1.0 },
+    { x: -0.04, z: 0.04, yaw: 11, pitch: 0.5, roll: 1.0 },
+    { x: -0.05, z: 0.03, yaw: -9, pitch: -1.0, roll: 1.0 },
+    { x: 0.02, z: -0.01, yaw: 15, pitch: 1.5, roll: -1.0 },
   ];
   const DEG = Math.PI / 180;
 
@@ -86,6 +90,31 @@ if (stage) {
   floor.receiveShadow = true;
   scene.add(floor);
 
+  // Grounding shadow (Tucker, Oct 26): the directional shadow alone falls off
+  // to one side and the tower read as floating. A feathered radial blob sits
+  // directly under the stack, darkest beneath the base block and fading out,
+  // so the pile visibly rests on the page. It is a plain alpha texture over
+  // the transparent canvas, so it works over the tangle backdrop in both
+  // themes (lighter touch on light).
+  const blobTexture = (() => {
+    const c = document.createElement('canvas'); c.width = c.height = 256;
+    const ctx = c.getContext('2d');
+    const grad = ctx.createRadialGradient(128, 128, 0, 128, 128, 128);
+    grad.addColorStop(0, 'rgba(0,0,0,0.88)');
+    grad.addColorStop(0.45, 'rgba(0,0,0,0.45)');
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = grad; ctx.fillRect(0, 0, 256, 256);
+    const t = new THREE.CanvasTexture(c);
+    return t;
+  })();
+  const groundBlob = new THREE.Mesh(new THREE.PlaneGeometry(4.8, 3.7),
+    new THREE.MeshBasicMaterial({ map: blobTexture, transparent: true,
+      opacity: lightScheme ? 0.30 : 0.55, depthWrite: false }));
+  groundBlob.rotation.x = -Math.PI / 2;
+  groundBlob.position.y = 0.01;
+  groundBlob.renderOrder = 1;
+  scene.add(groundBlob);
+
   const camera = new THREE.PerspectiveCamera(33, 1, 0.1, 100);
   const CAM_POS = new THREE.Vector3(4.7, 5.3, 9.1);
   const CAM_TGT = new THREE.Vector3(0, 2.72, 0);
@@ -100,10 +129,11 @@ if (stage) {
   }
   frameCamera();
 
-  // ---------- ambient glow (v3): ONE soft general wash behind the whole stack ----------
-  // A single large, very soft radial sprite in a faint warm neutral. It reads as
-  // atmosphere, not as light sources: no per block color pooling. Nearly
-  // invisible on the light theme.
+  // ---------- neon glow (v4): ONE soft general glow behind and under the stack ----------
+  // Replaces the v3 warm neutral wash. A single large, heavily feathered
+  // radial sprite in an electric violet blue (#6657ff): general atmosphere
+  // with a neon character, not per block color pooling and not a light show.
+  // Nearly invisible on the light theme.
   const glowTexture = (() => {
     const c = document.createElement('canvas'); c.width = c.height = 256;
     const ctx = c.getContext('2d');
@@ -116,12 +146,12 @@ if (stage) {
     return t;
   })();
   const ambientGlow = new THREE.Sprite(new THREE.SpriteMaterial({
-    map: glowTexture, color: new THREE.Color('#cfc4b0'),
-    transparent: true, opacity: lightScheme ? 0.05 : 0.16, depthWrite: false,
+    map: glowTexture, color: new THREE.Color('#6657ff'),
+    transparent: true, opacity: lightScheme ? 0.05 : 0.14, depthWrite: false,
     blending: lightScheme ? THREE.NormalBlending : THREE.AdditiveBlending,
   }));
-  ambientGlow.position.set(0, 2.9, -2.4);
-  ambientGlow.scale.set(11.5, 10.0, 1);
+  ambientGlow.position.set(0, 2.7, -2.4);
+  ambientGlow.scale.set(12.0, 10.5, 1);
   scene.add(ambientGlow);
 
   // ---------- physics ----------
@@ -150,6 +180,16 @@ if (stage) {
         for (const m of ms) {
           if (m.map) m.map.anisotropy = maxAniso;
           if (m.normalMap) m.normalMap.anisotropy = maxAniso;
+          // Matte finish (Tucker, Oct 26): the Blender export's clearcoat and
+          // 0.44 roughness read as wet plastic on screen. Kill the clearcoat,
+          // push roughness up, and soften speculars and env response so the
+          // blocks are soft diffuse pillows; the inset lips and the fresnel
+          // edge still catch light, just without hard specular streaks.
+          m.roughness = 0.72;
+          if ('clearcoat' in m) { m.clearcoat = 0; m.clearcoatRoughness = 1; }
+          if ('specularIntensity' in m) m.specularIntensity = 0.45;
+          m.envMapIntensity = 0.6;
+          m.needsUpdate = true;
         }
       }
     });

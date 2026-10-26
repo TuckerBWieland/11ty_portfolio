@@ -92,6 +92,54 @@ the compressed highlight range does not show.
 - As with the prototype, screenshots are software GL; the final visual
   verdict is a real browser on a real GPU (the Cloudflare preview).
 
+## Refinement round (Oct 26, 2026, Tucker's review of the PR build)
+
+Four art direction changes, all in `heap-src/heap.js` (bundle regenerated,
+one commit on top of the port). QA in `qa/pr2-home-*.png`.
+
+- **Matte, not glossy.** The Blender materials read as wet plastic
+  (clearcoat 0.28, roughness 0.44). At runtime, right after each GLB loads,
+  the block materials are overridden: roughness **0.72**, clearcoat **0**
+  (clearcoatRoughness 1), specularIntensity **0.45**, envMapIntensity
+  **0.6**. Result in `qa/pr2-home-dark.png`: soft diffuse falloff, no hard
+  white specular streaks, and the inset lips plus the edge fresnel still
+  catch light. The GLBs themselves are untouched, so this is reversible in
+  one place.
+- **Alternating facings.** Rest yaws no longer cluster near square. The
+  FLAWS table now alternates sign down the stack with magnitudes of 9 to
+  15 degrees. Spawn yaws and the measured rest yaws from the QA run
+  (identical within a degree across runs):
+
+  | Block (bottom to top) | Spawn yaw | Measured rest yaw |
+  |---|---|---|
+  | UPS | −12° | −11.9° |
+  | General Assembly | +14° | +14.0° |
+  | Shopify | −10° | −9.9° |
+  | Justworks | +11° | +11.2° |
+  | Dreamer | −9° | −8.9° |
+  | Meta | +15° | +15.1° |
+
+  The wordmark blocks took the gentlest alternating angles (Justworks
+  +11°, Dreamer −9°, at the 58 percent art width from the v2 fix), and
+  both wordmarks verified reading **completely** at rest in
+  `qa/pr2-home-dark.png` and `qa/pr2-home-light.png`, first and last
+  letters clear of the bevel curve.
+- **Shadow under the stack.** On top of the existing directional
+  ShadowMaterial shadow, a feathered radial blob (canvas gradient,
+  0.88 → 0.45 → 0 alpha, on a 4.8 × 3.7 plane at y = 0.01, opacity 0.55
+  dark / 0.30 light) sits directly under the tower, darkest beneath the
+  base block. The stack now visibly rests on the page in both themes;
+  clearest in `qa/pr2-home-light.png`.
+- **Slight neon glow.** The v3 warm neutral wash (#cfc4b0, 0.16) is now an
+  electric violet blue (**#6657ff**) at **0.14** additive on dark, still
+  0.05 normal blending on light (nearly invisible). One general sprite,
+  slightly larger and lower (12.0 × 10.5 at y = 2.7), behind and under the
+  stack; no per block colors. It reads as a faint neon ambience around the
+  tower in `qa/pr2-home-dark.png`, not a light show.
+- **Weight:** unchanged in practice. heap.min.js 682,749 raw / 179,103
+  gzip; homepage initial load total **1,860,606 raw / 1,182,493 gzip**
+  (was 1,859,924 / 1,182,344). GLBs and environment untouched.
+
 ## Known open items
 
 - **Dreamer favicon does not exist publicly.** dreamer.com serves no
